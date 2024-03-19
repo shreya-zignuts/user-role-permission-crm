@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\authentications;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginBasic extends Controller
 {
@@ -11,5 +14,18 @@ class LoginBasic extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
     return view('content.authentications.auth-login-basic', ['pageConfigs' => $pageConfigs]);
+  }
+
+  public function login(Request $request)
+  {
+    $credentials = $request->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+      return redirect()->intended('/');
+    }
+
+    return redirect()
+      ->back()
+      ->withErrors(['email' => 'Invalid credentials']);
   }
 }

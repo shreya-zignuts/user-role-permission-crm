@@ -24,4 +24,8 @@ Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->na
 
 // authentication
 Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
-Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
+Route::post('/auth/login-basic', $controller_path . '\authentications\LoginBasic@login')->name('login');
+
+Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name(
+  'auth-register-basic'
+);
