@@ -7,6 +7,18 @@
       "slug": "pages-home"
     },
     {
+      "url": "modules",
+      "icon": "menu-icon tf-icons ti ti-file",
+      "name": "Modules",
+      "slug": "pages-modules"
+    },
+    {
+      "url": "permissions",
+      "icon": "menu-icon tf-icons ti ti-file",
+      "name": "Permissions",
+      "slug": "pages-permissions"
+    },
+    {
       "url": "page-2",
       "icon": "menu-icon tf-icons ti ti-file",
       "name": "Page 2",
