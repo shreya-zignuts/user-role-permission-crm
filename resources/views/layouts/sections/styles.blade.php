@@ -87,12 +87,12 @@ body {
   display: grid;
   grid-template-rows: 20px 50px 1fr 50px;
   border-radius: 10px;
-  box-shadow: 0px 6px 10px rgba(125, 64, 247, 0.954);
+  box-shadow: 0px 6px 10px rgba(245, 241, 252, 0.954);
   transition: all 0.2s;
 }
 
 .card:hover {
-  box-shadow: 0px 6px 10px rgba(116, 68, 206, 0.764);
+  box-shadow: 0px 6px 10px rgba(224, 207, 255, 0.764);
   transform: scale(1.01);
 }
 

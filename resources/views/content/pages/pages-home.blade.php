@@ -1,54 +1,89 @@
-@php
-$configData = Helper::appClasses();
-@endphp
-
 @extends('layouts/layoutMaster')
 
-@section('title', 'Home')
+@section('title', 'Cards basic - UI elements')
+
+@section('vendor-script')
+<script src="{{asset('assets/vendor/libs/masonry/masonry.js')}}"></script>
+@endsection
 
 @section('content')
-<!--
-
-GRADIENT BANNER DESIGN BY SIMON LURWER ON DRIBBBLE:
-https://dribbble.com/shots/14101951-Banners
-
--->
-<div class="main-container">
-  <div class="heading">
-    <h1 class="heading__title">COUNTS</h1>
+<h5 class="pb-1 mb-4">Horizontal</h5>
+<div class="row mb-5">
+  <div class="col-md">
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img class="card-img card-img-left" src="https://media.istockphoto.com/id/899347890/vector/online-graphical-report-icon.jpg?s=612x612&w=0&k=20&c=hmd7aTt5jfYbKHXizrqwyq1Gz0VN4Fj-hjvz4_w24qU=" alt="Card image" />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+              This is a wider card with supporting text below as a natural lead-in to additional content. This content
+              is a
+              little bit longer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="cards">
-    <div class="card card-1">
-      <div class="card__icon"><i class="fas fa-bolt"></i></div>
-      <p class="card__exit"><i class="fas fa-times"></i></p>
-      <h2 class="card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
-      <p class="card__apply">
-        <a class="card__link" href="#">Apply Now <i class="fas fa-arrow-right"></i></a>
-      </p>
+  <div class="col-md">
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+              This is a wider card with supporting text below as a natural lead-in to additional content. This content
+              is a
+              little bit longer.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img class="card-img card-img-right" src="https://media.istockphoto.com/id/899347890/vector/online-graphical-report-icon.jpg?s=612x612&w=0&k=20&c=hmd7aTt5jfYbKHXizrqwyq1Gz0VN4Fj-hjvz4_w24qU=" alt="Card image" />
+        </div>
+      </div>
     </div>
-    <div class="card card-2">
-      <div class="card__icon"><i class="fas fa-bolt"></i></div>
-      <p class="card__exit"><i class="fas fa-times"></i></p>
-      <h2 class="card__title">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h2>
-      <p class="card__apply">
-        <a class="card__link" href="#">Apply Now <i class="fas fa-arrow-right"></i></a>
-      </p>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md">
+      <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img class="card-img card-img-left" src="https://media.istockphoto.com/id/899347890/vector/online-graphical-report-icon.jpg?s=612x612&w=0&k=20&c=hmd7aTt5jfYbKHXizrqwyq1Gz0VN4Fj-hjvz4_w24qU=" alt="Card image" />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">
+                This is a wider card with supporting text below as a natural lead-in to additional content. This content
+                is a
+                little bit longer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card card-3">
-      <div class="card__icon"><i class="fas fa-bolt"></i></div>
-      <p class="card__exit"><i class="fas fa-times"></i></p>
-      <h2 class="card__title">Ut enim ad minim veniam.</h2>
-      <p class="card__apply">
-        <a class="card__link" href="#">Apply Now <i class="fas fa-arrow-right"></i></a>
-      </p>
-    </div>
-    <div class="card card-4">
-      <div class="card__icon"><i class="fas fa-bolt"></i></div>
-      <p class="card__exit"><i class="fas fa-times"></i></p>
-      <h2 class="card__title">Quis nostrud exercitation ullamco laboris nisi.</h2>
-      <p class="card__apply">
-        <a class="card__link" href="#">Apply Now <i class="fas fa-arrow-right"></i></a>
-      </p>
+  <div class="col-md">
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+              This is a wider card with supporting text below as a natural lead-in to additional content. This content
+              is a
+              little bit longer.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img class="card-img card-img-right" src="https://media.istockphoto.com/id/899347890/vector/online-graphical-report-icon.jpg?s=612x612&w=0&k=20&c=hmd7aTt5jfYbKHXizrqwyq1Gz0VN4Fj-hjvz4_w24qU=" alt="Card image" />
+        </div>
+      </div>
     </div>
   </div>
 </div>
