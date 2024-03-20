@@ -34,5 +34,8 @@ Route::middleware('api')->group(function () use ($controller_path) {
 
   Route::get('/modules', $controller_path . '\ModuleController@index')->name('pages-modules');
 
+  Route::get('/edit/{moduleId}', $controller_path . '\ModuleController@edit')->name('edit-module');
+  Route::post('/update/{moduleId}', $controller_path . '\ModuleController@update')->name('update-module');
+
   Route::get('/permissions', $controller_path . '\PermissionController@index')->name('pages-permissions');
 });

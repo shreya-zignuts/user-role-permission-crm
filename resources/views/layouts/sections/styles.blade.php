@@ -21,10 +21,10 @@
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+{{-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
 
 <style>
 * {
@@ -69,26 +69,30 @@ body {
 
 /* CARDS */
 
+.container{
+  margin: 0;
+}
 .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: 0;
 }
 
 .card {
   margin: 20px;
   padding: 20px;
   width: 500px;
-  min-height: 200px;
+  min-height: 100px;
   display: grid;
   grid-template-rows: 20px 50px 1fr 50px;
   border-radius: 10px;
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 6px 10px rgba(125, 64, 247, 0.954);
   transition: all 0.2s;
 }
 
 .card:hover {
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 6px 10px rgba(116, 68, 206, 0.764);
   transform: scale(1.01);
 }
 
@@ -158,7 +162,6 @@ body {
   width: 45%;
 }
 
-
 /* RESPONSIVE */
 
 @media (max-width: 1600px) {
@@ -167,19 +170,6 @@ body {
   }
 }
 
-</style>
-
-<style>
-  .submodules {
-      display: none;
-  }
-  .module-checkbox:checked + .submodules {
-      display: table-row-group;
-  }
-
-  .hiddenRow {
-    padding: 0 !important;
-}
 </style>
 
 <!-- Vendor Styles -->
