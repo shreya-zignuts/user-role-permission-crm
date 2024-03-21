@@ -11,54 +11,45 @@ class ModuleController extends Controller
   {
     $query = Module::query()->whereNull('parent_code');
 
-    $searchQuery = $request->search;
+    // Filter by search query if provided
+    if ($request->filled('search')) {
+      $searchQuery = $request->search;
 
-    if ($request->has('search')) {
       // Search for submodules with the given name
       $query->whereHas('submodules', function ($subquery) use ($searchQuery) {
         $subquery->where('name', 'like', '%' . $searchQuery . '%');
       });
 
       // Include parent modules of the matching submodules
-      $query->orWhereHas('module', function ($parentQuery) use ($searchQuery) {
-        $parentQuery->where('name', 'like', '%' . $searchQuery . '%');
-      });
+      $query->orWhere('name', 'like', '%' . $searchQuery . '%');
     }
 
-    if ($request->has('filter')) {
+    // Apply filter if provided
+    if ($request->filled('filter')) {
       $filter = $request->filter;
-      if ($filter === 'active') {
-        $query->where('is_active', true);
-      } elseif ($filter === 'inactive') {
-        $query->where('is_active', false);
-      }
+      $query->where('is_active', $filter === 'active');
     }
 
+    // Retrieve modules with their submodules
     $modules = $query->with('submodules')->get();
 
+    // Handle toggle action
     if ($request->filled('toggle')) {
       $moduleCode = $request->module_code;
       $module = Module::where('code', $moduleCode)->firstOrFail();
       $module->is_active = !$module->is_active;
 
+      // If module is deactivated, deactivate its submodules as well
       if (!$module->is_active) {
         $module->subModules()->update(['is_active' => false]);
       }
 
       $module->save();
+
       return redirect()->route('pages-modules');
     }
 
-    // if (!$modules->is_active) {
-    //   $modules->subModules()->update(['is_active' => false]);
-    // }
-
     return view('content.modules.modules', compact('modules'));
-    // $modules = Module::with('submodules')
-    //   ->whereNull('parent_code')
-    //   ->get();
-
-    // return view('content.modules.modules', compact('modules'));
   }
 
   public function edit($moduleId)
