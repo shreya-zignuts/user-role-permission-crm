@@ -27,7 +27,7 @@ $customizerHidden = 'customizer-hide';
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container d-flex justify-content-center align-items-center mt-5">
     <div class="authentication-inner py-4" style="padding-top: 0; padding-bottom: 0;">
       <div class="card">
         <div class="card-body">
@@ -47,6 +47,7 @@ $customizerHidden = 'customizer-hide';
             </div>
             <div class="text-center mb-4 mt-0">
               <button type="submit" id="update" name="update" class="btn btn-primary">Update</button>
+              <a href="{{ route('pages-modules') }}" class="btn btn-dark">Cancel</a>
           </div>
           </form>
       </div>

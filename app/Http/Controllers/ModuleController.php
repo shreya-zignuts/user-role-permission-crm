@@ -44,7 +44,7 @@ class ModuleController extends Controller
       return redirect()->route('pages-modules');
     }
 
-    return view('content.modules.modules', compact('modules', 'moduleCount'));
+    return view('content.modules.index', compact('modules', 'moduleCount'));
   }
 
   public function edit($moduleId)

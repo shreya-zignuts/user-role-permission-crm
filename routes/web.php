@@ -22,19 +22,19 @@ Route::post('/auth/login-basic', $controller_path . '\authentications\LoginBasic
 Route::middleware('auth')->group(function () use ($controller_path) {
   Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
 
-  Route::get('/page-2', $controller_path . '\pages\Page2@index')->name('pages-page-2');
+  // Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name(
+  //   'auth-register-basic'
+  // );
 
-  // pages
-  Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->name('pages-misc-error');
+  Route::prefix('modules')->group(function () use ($controller_path) {
+    Route::get('/', $controller_path . '\ModuleController@index')->name('pages-modules');
+    Route::get('/edit/{moduleId}', $controller_path . '\ModuleController@edit')->name('edit-module');
+    Route::post('/update/{moduleId}', $controller_path . '\ModuleController@update')->name('update-module');
+  });
 
-  Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name(
-    'auth-register-basic'
-  );
-
-  Route::get('/modules', $controller_path . '\ModuleController@index')->name('pages-modules');
-
-  Route::get('/edit/{moduleId}', $controller_path . '\ModuleController@edit')->name('edit-module');
-  Route::post('/update/{moduleId}', $controller_path . '\ModuleController@update')->name('update-module');
-
-  Route::get('/permissions', $controller_path . '\PermissionController@index')->name('pages-permissions');
+  Route::prefix('permissions')->group(function () use ($controller_path) {
+    Route::get('/', $controller_path . '\PermissionController@index')->name('pages-permissions');
+    Route::get('/create', $controller_path . '\PermissionController@create')->name('create-permission');
+    Route::post('/store', $controller_path . '\PermissionController@store')->name('store-permission');
+  });
 });
