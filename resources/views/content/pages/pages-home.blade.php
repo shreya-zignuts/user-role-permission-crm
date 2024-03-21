@@ -7,7 +7,6 @@
 @endsection
 
 @section('content')
-<h5 class="pb-1 mb-4">Horizontal</h5>
 <div class="row mb-5">
   <div class="col-md">
     <div class="card mb-3">
@@ -17,12 +16,12 @@
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural lead-in to additional content. This content
-              is a
-              little bit longer.
-            </p>
+            <h5 class="card-title">Modules Count</h5>
+            <div class="module-count-container">
+              <div class="module-count">
+                  <span class="count">{{ $activeModuleCount }}</span>
+              </div>
+          </div>
           </div>
         </div>
       </div>

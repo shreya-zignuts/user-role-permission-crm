@@ -5,33 +5,38 @@
 @section('content')
     <!-- Search form -->
     <div class="row justify-content-center mt-3">
-        <div class="col-md-4">
-            <form method="GET" action="{{ route('pages-modules') }}">
-                @csrf
-                <div class="input-group">
-                    <input type="text" class="form-control" name="search" placeholder="Search...">
+      <div class="col-md-4">
+          <form method="GET" action="{{ route('pages-modules') }}">
+              @csrf
+              <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                <div class="input-wrapper mb-3 input-group input-group-md input-group-merge" >
+                    <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search" aria-describedby="basic-addon1" />
                     <button type="submit" class="btn btn-primary">Search</button>
                 </div>
-            </form>
-        </div>
-        <div class="col-md-1">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Filter
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                    <li><a class="dropdown-item" href="{{ route('pages-modules') }}">All</a></li>
-                    <li><a class="dropdown-item" href="{{ route('pages-modules', ['filter' => 'active']) }}">Active</a></li>
-                    <li><a class="dropdown-item" href="{{ route('pages-modules', ['filter' => 'inactive']) }}">Inactive</a>
-                    </li>
-                </ul>
             </div>
-        </div>
-        <div class="col-md-2">
-            <a href="{{ route('pages-modules') }}" class="btn btn-dark">Reset</a>
-        </div>
-    </div>
+
+          </form>
+      </div>
+      <div class="col-md-1">
+          <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Filter
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                  <li><a class="dropdown-item" href="{{ route('pages-modules') }}">All</a></li>
+                  <li><a class="dropdown-item" href="{{ route('pages-modules', ['filter' => 'active']) }}">Active</a></li>
+                  <li><a class="dropdown-item" href="{{ route('pages-modules', ['filter' => 'inactive']) }}">Inactive</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <div class="col-md-2">
+          <a href="{{ route('pages-modules') }}" class="btn btn-dark">Reset</a>
+      </div>
+  </div>
+
 
     <div class="card w-100 mt-5">
         <h5 class="card-header">Modules</h5>

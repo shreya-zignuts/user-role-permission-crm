@@ -170,6 +170,48 @@ body {
   }
 }
 
+.module-count-container {
+    position: relative;
+}
+
+.module-count {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #7b00ffef;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: pulse 1s ease-in-out forwards;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.count {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 </style>
 
 <!-- Vendor Styles -->

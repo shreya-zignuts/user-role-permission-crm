@@ -11,37 +11,32 @@ class ModuleController extends Controller
   {
     $query = Module::query()->whereNull('parent_code');
 
-    // Filter by search query if provided
     if ($request->filled('search')) {
       $searchQuery = $request->search;
 
-      // Search for submodules with the given name
       $query->whereHas('submodules', function ($subquery) use ($searchQuery) {
         $subquery->where('name', 'like', '%' . $searchQuery . '%');
       });
 
-      // Include parent modules of the matching submodules
       $query->orWhere('name', 'like', '%' . $searchQuery . '%');
     }
 
-    // Apply filter if provided
     if ($request->filled('filter')) {
       $filter = $request->filter;
       $query->where('is_active', $filter === 'active');
     }
 
-    // Retrieve modules with their submodules
     $modules = $query->with('submodules')->get();
 
-    // Handle toggle action
+    $moduleCount = $modules->count();
+
     if ($request->filled('toggle')) {
       $moduleCode = $request->module_code;
       $module = Module::where('code', $moduleCode)->firstOrFail();
       $module->is_active = !$module->is_active;
 
-      // If module is deactivated, deactivate its submodules as well
       if (!$module->is_active) {
-        $module->subModules()->update(['is_active' => false]);
+        $module->submodules()->update(['is_active' => false]);
       }
 
       $module->save();
@@ -49,7 +44,7 @@ class ModuleController extends Controller
       return redirect()->route('pages-modules');
     }
 
-    return view('content.modules.modules', compact('modules'));
+    return view('content.modules.modules', compact('modules', 'moduleCount'));
   }
 
   public function edit($moduleId)
