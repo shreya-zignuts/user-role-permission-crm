@@ -10,22 +10,49 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
 @endsection
 
 @section('vendor-script')
+    <script src="{{ asset('assets/vendor/libs/masonry/masonry.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
 
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/app-access-roles.js') }}"></script>
     <script src="{{ asset('assets/js/modal-add-role.js') }}"></script>
+    <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
 @endsection
 
 @section('content')
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.alert.alert-danger').remove();
+            }, 2000); // Remove after 2 seconds
+        </script>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-primary">
+            {{ session('success') }}
+        </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.alert.alert-primary').remove();
+            }, 2000); // Remove after 2 seconds
+        </script>
+    @endif
 
     <div class="row justify-content-center mt-3">
         <div class="col-md-4">
@@ -39,7 +66,6 @@
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
-
             </form>
         </div>
         <div class="col-md-1">
@@ -57,7 +83,6 @@
                 </ul>
             </div>
         </div>
-
         <div class="col-md-2">
             <a href="{{ route('pages-permissions') }}" class="btn btn-dark">Reset</a>
         </div>
@@ -67,7 +92,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="card-header">Permissions</h5>
             <div class="card-body text-end mt-4">
-                <a href="{{ route('create-permission') }}" class="btn btn-primary">Add New Role</a>
+                <a href="{{ route('create-permission') }}" class="btn btn-primary">Add New Permission</a>
             </div>
         </div>
         <table class="table" style="text-align: center">
@@ -82,10 +107,11 @@
             </thead>
 
             @if ($permissions->isEmpty())
-                <td colspan="5" class="text-center font-weight-bold">No permissions found..</td>
+                <td colspan="5" class="text-center font-weight-bold">No permission found..</td>
             @else
+            <tbody>
                 @foreach ($permissions as $permission)
-                    <tbody>
+
                         <tr>
                             <td></td>
                             <td>{{ $permission->name }}</td>
@@ -104,23 +130,31 @@
                                         </span>
                                     </label>
                                 </form>
-                            </td><td>
-                            <div class="dropdown">
-                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical"></i></button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ route('edit-permission', ['id' => $permission->id]) }}"><i class="ti ti-pencil me-1"></i> Edit</a>
-                                <form method="POST" action="{{ route('delete-permission', ['id' => $permission->id]) }}"
-                                onsubmit="return confirm('Are you sure you want to delete this permission?')">
-                                @csrf
-                                <a class="dropdown-item btn btn-submit"><i class="ti ti-trash me-1"></i> Delete</a>
-                            </form>
                             </td>
-                              </div>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown"><i class="ti ti-dots-vertical"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item"
+                                            href="{{ route('edit-permission', ['id' => $permission->id]) }}"><i
+                                                class="ti ti-pencil me-1"></i> Edit</a>
+                                        <form id="deletePermissionForm{{ $permission->id }}" method="POST"
+                                            action="{{ route('delete-permission', ['id' => $permission->id]) }}">
+                                            @csrf
+                                            <!-- Delete button trigger modal -->
+                                            <button href="#" class="dropdown-item btn btn-submit"
+                                                onclick="return confirm('Are you sure you want to delete this permission?')">
+                                                <i class="ti ti-trash me-1"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
-                    </tbody>
                 @endforeach
-        </table>
-        @endif
-    </div>
-
-@endsection
+              </tbody>
+            @endif
+          </div>
+        </div>
+  @endsection

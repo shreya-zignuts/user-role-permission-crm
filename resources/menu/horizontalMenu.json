@@ -19,10 +19,10 @@
       "slug": "pages-permissions"
     },
     {
-      "url": "page-2",
+      "url": "roles",
       "icon": "menu-icon tf-icons ti ti-file",
-      "name": "Page 2",
-      "slug": "pages-page-2"
+      "name": "Roles",
+      "slug": "pages-roles"
     },
     {
       "url": "pages/misc-error",

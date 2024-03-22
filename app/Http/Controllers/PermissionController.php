@@ -128,6 +128,10 @@ class PermissionController extends Controller
     return redirect()
       ->route('pages-permissions')
       ->with('success', 'Permission updated successfully');
+
+    return redirect()
+      ->back()
+      ->with('error', 'Your error message here');
   }
 
   public function delete($id)

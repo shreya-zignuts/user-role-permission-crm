@@ -27,6 +27,18 @@ return new class extends Migration {
       $table->tinyInteger('view_access')->default(0);
       $table->tinyInteger('edit_access')->default(0);
       $table->tinyInteger('delete_access')->default(0);
+
+      $table
+        ->foreignId('created_by')
+        ->nullable()
+        ->constrained('users')
+        ->onDelete('cascade');
+      $table
+        ->foreignId('updated_by')
+        ->nullable()
+        ->constrained('users')
+        ->onDelete('cascade');
+      $table->softDeletes();
     });
   }
 

@@ -4,6 +4,7 @@
 
 @section('content')
     <!-- Search form -->
+    
     <div class="row justify-content-center mt-3">
       <div class="col-md-4">
           <form method="GET" action="{{ route('pages-modules') }}">

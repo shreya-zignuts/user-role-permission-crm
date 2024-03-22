@@ -24,6 +24,18 @@ return new class extends Migration {
         ->references('code')
         ->on('modules')
         ->onDelete('set null');
+
+      $table
+        ->foreignId('created_by')
+        ->nullable()
+        ->constrained('users')
+        ->onDelete('cascade');
+      $table
+        ->foreignId('updated_by')
+        ->nullable()
+        ->constrained('users')
+        ->onDelete('cascade');
+      $table->softDeletes();
     });
   }
 

@@ -4,6 +4,7 @@
 @section('title', 'Create Permission')
 
 @section('content')
+
 <div class="modal-content p-3 p-md-5 w-75 align-content-center">
     <div class="modal-body">
         <!-- Form for creating permission -->
@@ -83,7 +84,7 @@
                 <!-- Permission table -->
             </div>
             <div class="col-12 text-center mt-4">
-                <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">Submit</button>
+                <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light" id="type-success">Create</button>
                 <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
             </div>
         </form>
