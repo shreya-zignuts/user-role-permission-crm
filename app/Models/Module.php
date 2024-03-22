@@ -15,9 +15,9 @@ class Module extends Model
 
   protected $fillable = ['code', 'name', 'description', 'parent_code', 'is_active'];
 
-  public function module()
+  public function permissions()
   {
-    return $this->belongsTo(Module::class, 'parent_code', 'code');
+    return $this->belongsToMany(Permission::class, 'permission_modules');
   }
 
   public function submodules()

@@ -91,10 +91,10 @@ body {
   transition: all 0.2s;
 }
 
-.card:hover {
+/* .card:hover {
   box-shadow: 0px 6px 10px rgba(224, 207, 255, 0.764);
-  transform: scale(1.01);
-}
+  transform: scale(0.01);
+} */
 
 .card__link,
 .card__exit,

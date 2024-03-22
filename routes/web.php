@@ -36,5 +36,8 @@ Route::middleware('auth')->group(function () use ($controller_path) {
     Route::get('/', $controller_path . '\PermissionController@index')->name('pages-permissions');
     Route::get('/create', $controller_path . '\PermissionController@create')->name('create-permission');
     Route::post('/store', $controller_path . '\PermissionController@store')->name('store-permission');
+    Route::get('/edit/{id}', $controller_path . '\PermissionController@edit')->name('edit-permission');
+    Route::post('/update/{id}', $controller_path . '\PermissionController@update')->name('update-permission');
+    Route::post('/delete/{id}', $controller_path . '\PermissionController@delete')->name('delete-permission');
   });
 });

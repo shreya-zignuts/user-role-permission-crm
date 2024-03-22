@@ -22,6 +22,12 @@ class PermissionController extends Controller
       })
       ->get();
 
+    if ($request->has('id')) {
+      // Get the permission with the provided ID
+      $permission = Permission::findOrFail($request->id);
+      // Redirect to the edit page for the specified permission
+      return redirect()->route('permissions.edit', ['id' => $permission->id]);
+    }
     // Toggle action
     if ($request->filled('toggle')) {
       $permissionId = $request->permission_id;
@@ -48,7 +54,6 @@ class PermissionController extends Controller
 
     return view('content.permissions.create', compact('modules'));
   }
-
   public function store(Request $request)
   {
     $request->validate([
@@ -56,13 +61,82 @@ class PermissionController extends Controller
       'description' => 'nullable|string',
     ]);
 
-    $permissions = Permission::create([
+    $permission = Permission::create([
       'name' => $request->name,
       'description' => $request->description,
     ]);
 
+    $modules = Module::all();
+
+    foreach ($modules as $module) {
+      $moduleCode = $module->code;
+      $permission->modules()->attach($moduleCode, [
+        'add_access' => $request->has('add_access_' . $moduleCode),
+        'view_access' => $request->has('view_access_' . $moduleCode),
+        'edit_access' => $request->has('edit_access_' . $moduleCode),
+        'delete_access' => $request->has('delete_access_' . $moduleCode),
+      ]);
+    }
+
     return redirect()
-      ->route('pages-permissions', compact('permissions'))
-      ->with('success', 'Permission created successfully!');
+      ->route('pages-permissions')
+      ->with('success', 'Permission created successfully');
+  }
+
+  // public function edit($id)
+  // {
+  //   $permission = Permission::findOrFail($id);
+  //   $modules = Module::all();
+  //   return view('content.permissions.edit-permission', compact('modules', 'permission'));
+  // }
+  public function edit($id)
+  {
+    $permission = Permission::findOrFail($id);
+    $modules = Module::whereNull('parent_code')
+      ->with('submodules')
+      ->get();
+
+    return view('content.permissions.edit-permission', compact('modules', 'permission'));
+  }
+
+  public function update(Request $request, $id)
+  {
+    $request->validate([
+      'name' => 'required|string',
+      'description' => 'nullable|string',
+    ]);
+
+    $permission = Permission::findOrFail($id);
+
+    $permission->name = $request->name;
+    $permission->description = $request->description;
+
+    $permission->save();
+
+    $modules = Module::all();
+
+    foreach ($modules as $module) {
+      $moduleCode = $module->code;
+      $permission->modules()->updateExistingPivot($moduleCode, [
+        'add_access' => $request->has('add_access_' . $moduleCode),
+        'view_access' => $request->has('view_access_' . $moduleCode),
+        'edit_access' => $request->has('edit_access_' . $moduleCode),
+        'delete_access' => $request->has('delete_access_' . $moduleCode),
+      ]);
+    }
+
+    return redirect()
+      ->route('pages-permissions')
+      ->with('success', 'Permission updated successfully');
+  }
+
+  public function delete($id)
+  {
+    $permission = Permission::findOrFail($id);
+    $permission->delete();
+
+    return redirect()
+      ->route('pages-permissions')
+      ->with('success', 'Permission deleted successfully');
   }
 }
