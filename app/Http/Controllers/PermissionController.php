@@ -22,6 +22,21 @@ class PermissionController extends Controller
       })
       ->get();
 
+    // Toggle action
+    if ($request->filled('toggle')) {
+      $permissionId = $request->permission_id;
+      $permission = Permission::where('id', $permissionId)->firstOrFail();
+      $permission->is_active = !$permission->is_active;
+
+      if (!$permission->is_active) {
+        $permission->update(['is_active' => false]);
+      }
+
+      $permission->save();
+
+      return redirect()->route('pages-permissions');
+    }
+
     return view('content.permissions.index', compact('permissions', 'filter'));
   }
 

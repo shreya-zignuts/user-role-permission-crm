@@ -83,19 +83,35 @@ $configData = Helper::appClasses();
             <td>{{ $permission->name }}</td>
             <td>{{ $permission->description }}</td>
             <td>
-              <form method="GET" action="{{ route('pages-permissions') }}">
+              {{-- <form method="GET" action="{{ route('pages-permissions') }}">
                 @csrf
                 <input type="hidden" name="permission_id" value="{{ $permission->id }}">
                 <input type="hidden" name="toggle" value="{{ $permission->is_active ? 'false' : 'true' }}">
                 <label class="switch">
-                    <input type="checkbox" class="switch-input" name="toggle"
-                        {{ $permission->is_active ? 'checked' : '' }} onchange="this.form.submit()">
+                    <input type="checkbox" class="switch-input" name="toggle" {{ $permission->is_active ? 'checked' : '' }} onchange="this.form.submit()">
                     <span class="switch-toggle-slider">
                         <span class="switch-on"></span>
                         <span class="switch-off"></span>
                     </span>
                 </label>
-            </form>
+            </form> --}}
+
+            <form method="GET" action="{{ route('pages-permissions') }}">
+              @csrf
+              <input type="hidden" name="permission_id" value="{{ $permission->id }}">
+              <input type="hidden" name="toggle" value="true">
+              <label class="switch">
+                  <input type="checkbox" class="switch-input" name="toggle"
+                      {{ $permission->is_active ? 'checked' : '' }} onchange="submit()">
+                  <span class="switch-toggle-slider">
+                      <span class="switch-on"></span>
+                      <span class="switch-off"></span>
+                  </span>
+              </label>
+          </form>
+
+
+
             </td>
             <td>edit</td>
             <td>delete</td>
