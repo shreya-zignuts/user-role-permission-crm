@@ -1,33 +1,26 @@
-@php
-    $configData = Helper::appClasses();
-@endphp
-
 @extends('layouts/layoutMaster')
 
-@section('title', 'Roles - Apps')
+@section('title', 'Selects and tags - Forms')
 
 @section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/tagify/tagify.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/typeahead-js/typeahead.css')}}" />
 @endsection
 
 @section('vendor-script')
-    <script src="{{ asset('assets/vendor/libs/masonry/masonry.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-
-    <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/tagify/tagify.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/typeahead-js/typeahead.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/bloodhound/bloodhound.js')}}"></script>
 @endsection
 
 @section('page-script')
-    <script src="{{ asset('assets/js/app-access-roles.js') }}"></script>
-    <script src="{{ asset('assets/js/modal-add-role.js') }}"></script>
-    <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
+<script src="{{asset('assets/js/forms-selects.js')}}"></script>
+<script src="{{asset('assets/js/forms-tagify.js')}}"></script>
+<script src="{{asset('assets/js/forms-typeahead.js')}}"></script>
 @endsection
 
 @section('content')
@@ -143,7 +136,7 @@
                                             action="{{ route('delete-permission', ['id' => $permission->id]) }}">
                                             @csrf
                                             <!-- Delete button trigger modal -->
-                                            <button href="#" class="dropdown-item btn btn-submit"
+                                            <button class="dropdown-item btn btn-submit"
                                                 onclick="return confirm('Are you sure you want to delete this permission?')">
                                                 <i class="ti ti-trash me-1"></i> Delete
                                             </button>

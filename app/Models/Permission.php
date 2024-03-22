@@ -18,6 +18,11 @@ class Permission extends Model
     return $this->belongsToMany(Module::class, 'permission_modules');
   }
 
+  public function roles()
+  {
+    return $this->belongsToMany(Role::class, 'role_permissions');
+  }
+
   public function createdBy()
   {
     return $this->belongsTo(User::class, 'created_by');

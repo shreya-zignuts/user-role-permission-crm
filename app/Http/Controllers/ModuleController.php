@@ -14,11 +14,11 @@ class ModuleController extends Controller
     if ($request->filled('search')) {
       $searchQuery = $request->search;
 
-      $query->whereHas('submodules', function ($subquery) use ($searchQuery) {
-        $subquery->where('name', 'like', '%' . $searchQuery . '%');
-      });
-
-      $query->orWhere('name', 'like', '%' . $searchQuery . '%');
+      $query
+        ->Where('name', 'like', '%' . $searchQuery . '%')
+        ->orwhereHas('submodules', function ($subquery) use ($searchQuery) {
+          $subquery->where('name', 'like', '%' . $searchQuery . '%');
+        });
     }
 
     if ($request->filled('filter')) {

@@ -23,9 +23,7 @@ class PermissionController extends Controller
       ->get();
 
     if ($request->has('id')) {
-      // Get the permission with the provided ID
       $permission = Permission::findOrFail($request->id);
-      // Redirect to the edit page for the specified permission
       return redirect()->route('permissions.edit', ['id' => $permission->id]);
     }
     // Toggle action

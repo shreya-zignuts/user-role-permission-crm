@@ -7,7 +7,6 @@
 
 <div class="modal-content p-3 p-md-5 w-75 align-content-center">
     <div class="modal-body">
-        <!-- Form for creating permission -->
         <form class="row g-3" method="POST" action="{{ route('store-permission') }}">
             @csrf
             <div class="col-12 mb-4">
@@ -20,7 +19,6 @@
             </div>
             <div class="col-12">
               <h5>Module Permissions</h5>
-              <!-- Module permission table -->
               <div class="table-responsive">
                   <table class="table table-striped">
                       <thead>
