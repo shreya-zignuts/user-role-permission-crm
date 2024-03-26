@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\pages;
 
+use App\Models\Role;
 use App\Models\Module;
 use App\Models\Permission;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ class HomePage extends Controller
   {
     $activeModuleCount = Module::where('is_active', true)->count();
     $activePermissionCount = Permission::where('is_active', true)->count();
-    return view('content.pages.pages-home', compact('activeModuleCount', 'activePermissionCount'));
+    $activeRolesCount = Role::where('is_active', true)->count();
+    return view('content.pages.pages-home', compact('activeModuleCount', 'activePermissionCount', 'activeRolesCount'));
   }
 }

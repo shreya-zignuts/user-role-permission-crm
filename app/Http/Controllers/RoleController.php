@@ -46,7 +46,6 @@ class RoleController extends Controller
   }
   public function store(Request $request)
   {
-    dd($request->permissions);
     $request->validate([
       'name' => 'required|string|max:255',
       'description' => 'nullable|string|max:255',
@@ -61,6 +60,61 @@ class RoleController extends Controller
 
     $role->permissions()->attach($request->permissions);
 
-    return back()->with('success', 'Role created successfully.');
+    return redirect()
+      ->route('pages-roles')
+      ->with('success', 'Role created successfully.');
+  }
+
+  public function toggleStatus(Request $request)
+  {
+    $roleId = $request->role_id;
+
+    $role = Role::findOrFail($roleId);
+
+    $role->is_active = !$role->is_active;
+
+    $role->save();
+
+    return redirect()
+      ->back()
+      ->with('success', 'Status toggled successfully.');
+  }
+
+  public function edit($id)
+  {
+    $role = Role::findOrFail($id);
+    $permissions = Permission::all();
+    return view('content.roles.edit-role', compact('role', 'permissions'));
+  }
+
+  public function update(Request $request, $id)
+  {
+    $request->validate([
+      'name' => 'required|string|max:255',
+      'description' => 'nullable|string|max:255',
+      'permissions' => 'required|array',
+      'permissions.*' => 'integer|exists:permissions,id',
+    ]);
+
+    $role = Role::create([
+      'name' => $request->name,
+      'description' => $request->description,
+    ]);
+
+    $role->permissions()->sync($request->permissions);
+
+    return redirect()
+      ->route('pages-roles')
+      ->with('success', 'Role updated successfully.');
+  }
+
+  public function delete($id)
+  {
+    $role = Role::findOrFail($id);
+    $role->delete();
+
+    return redirect()
+      ->route('pages-roles')
+      ->with('success', 'Permission deleted successfully');
   }
 }

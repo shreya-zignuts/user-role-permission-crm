@@ -96,7 +96,7 @@
           </div>
       </div>
       <table class="table" style="text-align: center">
-          <thead style="background: linear-gradient(to right, rgb(209, 191, 230), #D3CCED); color: white;">
+          <thead style="background: linear-gradient(to right, rgb(209, 191, 230), #D3CCED); color: white; text-align: center">
               <tr>
                   <th></th>
                   <th>Name</th>
@@ -105,28 +105,53 @@
                   <th colspan="2">Action</th>
               </tr>
           </thead>
-          <tbody>
+          @if ($roles->isEmpty())
+                <td colspan="5" class="text-center font-weight-bold">No roles found..</td>
+            @else
+          <tbody style="text-align: center">
               @foreach ($roles as $role)
                   <tr>
                       <td></td>
                       <td>{{ $role->name }}</td>
                       <td>{{ $role->description }}</td>
-                      <td>{{ $role->is_active ? 'Active' : 'Inactive' }}</td>
                       <td>
-                          {{-- <!-- Edit role button -->
-                          <a href="{{ route('edit-role', ['id' => $role->id]) }}" class="btn btn-sm btn-primary">Edit</a> --}}
+
+                        <form action="{{ route('toggle.status') }}" method="POST">
+                          @csrf
+                          <input type="hidden" name="role_id" value="{{ $role->id }}">
+                              <label class="switch">
+                                  <input type="checkbox" class="switch-input" name="status" onchange="this.form.submit()" {{ $role->is_active ? 'checked' : '' }}>
+                                  <span class="switch-toggle-slider">
+                                      <span class="switch-on"></span>
+                                      <span class="switch-off"></span>
+                                  </span>
+                              </label>
+                      </form>
                       </td>
-                      {{-- <td>
-                          <!-- Delete role form -->
-                          <form id="deleteRoleForm{{ $role->id }}" method="POST" action="{{ route('delete-role', ['id' => $role->id]) }}">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this role?')">Delete</button>
-                          </form> --}}
-                      </td>
+                      <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                data-bs-toggle="dropdown"><i class="ti ti-dots-vertical"></i></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item"
+                                    href="{{ route('edit-role', ['id' => $role->id]) }}"><i
+                                        class="ti ti-pencil me-1"></i> Edit</a>
+                                <form id="deleteRoleForm{{ $role->id }}" method="POST"
+                                    action="{{ route('delete-role', ['id' => $role->id]) }}">
+                                    @csrf
+                                    <!-- Delete button trigger modal -->
+                                    <button class="dropdown-item btn btn-submit"
+                                        onclick="return confirm('Are you sure you want to delete this role?')">
+                                        <i class="ti ti-trash me-1"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
                   </tr>
               @endforeach
           </tbody>
+          @endif
       </table>
   </div>
   @endsection

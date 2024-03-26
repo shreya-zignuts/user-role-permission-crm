@@ -28,6 +28,8 @@ return new class extends Migration {
       $table->tinyInteger('edit_access')->default(0);
       $table->tinyInteger('delete_access')->default(0);
 
+      $table->timestamps();
+
       $table
         ->foreignId('created_by')
         ->nullable()

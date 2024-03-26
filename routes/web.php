@@ -45,5 +45,9 @@ Route::middleware('auth')->group(function () use ($controller_path) {
     Route::get('/', $controller_path . '\RoleController@index')->name('pages-roles');
     Route::get('/create', $controller_path . '\RoleController@create')->name('create-role');
     Route::post('/store', $controller_path . '\RoleController@store')->name('store-role');
+    Route::post('/toggle-status', $controller_path . '\RoleController@toggleStatus')->name('toggle.status');
+    Route::get('/edit/{id}', $controller_path . '\RoleController@edit')->name('edit-role');
+    Route::post('/update/{id}', $controller_path . '\RoleController@update')->name('update-role');
+    Route::post('/delete/{id}', $controller_path . '\RoleController@delete')->name('delete-role');
   });
 });
