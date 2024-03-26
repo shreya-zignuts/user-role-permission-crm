@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Search form -->
-    
+
     <div class="row justify-content-center mt-3">
       <div class="col-md-4">
           <form method="GET" action="{{ route('pages-modules') }}">
@@ -65,7 +65,7 @@
                         <td>{{ $module->name }}</td>
                         <td>{{ $module->description }}</td>
                         <td>
-                            <form method="GET" action="{{ route('pages-modules') }}">
+                            {{-- <form method="GET" action="{{ route('pages-modules') }}">
                                 @csrf
                                 <input type="hidden" name="module_code" value="{{ $module->code }}">
                                 <input type="hidden" name="toggle" value="true">
@@ -77,7 +77,19 @@
                                         <span class="switch-off"></span>
                                     </span>
                                 </label>
-                            </form>
+                            </form> --}}
+
+                            <form method="POST" action="{{ route('module-status') }}">
+                              @csrf
+                              <input type="hidden" name="module_code" value="{{ $module->code }}">
+                              <label class="switch">
+                                  <input type="checkbox" class="switch-input" name="is_active" onchange="this.form.submit()" {{ $module->is_active ? 'checked' : '' }}>
+                                  <span class="switch-toggle-slider">
+                                      <span class="switch-on"></span>
+                                      <span class="switch-off"></span>
+                                  </span>
+                              </label>
+                          </form>
                         </td>
                         <td><a href="{{ route('edit-module', ['moduleId' => $module->code]) }}"><img
                                     src="https://cdn-icons-png.flaticon.com/128/10336/10336582.png" width="30px"

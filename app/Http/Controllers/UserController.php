@@ -146,4 +146,41 @@ class UserController extends Controller
       ->route('pages-users')
       ->with('success', 'User deleted successfully');
   }
+
+  public function resetPassword(Request $request, User $user)
+  {
+    // Generate a new random password
+    $newPassword = Str::random(10);
+
+    // Update the user's password in the database
+    $user->password = Hash::make($newPassword);
+    $user->save();
+
+    // Send email notification with the new password to the user
+    Mail::to($user->email)->send(new ResetPasswordInvitation($user, $newPassword));
+
+    // Redirect back with success message
+    return redirect()
+      ->back()
+      ->with('success', 'Password reset successfully. New password has been sent to the user.');
+  }
+
+  public function showresetPassword(User $user)
+  {
+    return view('content.users.reset-password', compact('user'));
+  }
+
+  public function resetPasswordForm(Request $request, User $user)
+  {
+    $request->validate([
+      'password' => 'required|string|min:8|confirmed',
+    ]);
+
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return redirect()
+      ->route('pages-users')
+      ->with('success', 'Password reset successfully.');
+  }
 }

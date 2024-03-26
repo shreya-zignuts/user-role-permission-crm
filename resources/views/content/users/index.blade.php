@@ -137,6 +137,10 @@
                                     <a class="dropdown-item"
                                         href="{{ route('edit-user', ['id' => $user->id]) }}"><i
                                             class="ti ti-pencil me-1"></i> Edit</a>
+                                            <form action="{{ route('show-reset-password', $user->id) }}" method="Get">
+                                              @csrf
+                                              <button type="submit" class="btn btn-sm btn-success">Reset Password</button>
+                                          </form>
                                     <form id="deleteRoleForm{{ $user->id }}" method="POST"
                                         action="{{ route('delete-user', ['id' => $user->id]) }}">
                                         @csrf

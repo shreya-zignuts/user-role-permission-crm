@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () use ($controller_path) {
     Route::get('/', $controller_path . '\ModuleController@index')->name('pages-modules');
     Route::get('/edit/{moduleId}', $controller_path . '\ModuleController@edit')->name('edit-module');
     Route::post('/update/{moduleId}', $controller_path . '\ModuleController@update')->name('update-module');
+    Route::post('/toggle-status', $controller_path . '\ModuleController@toggleModuleStatus')->name('module-status');
   });
 
   Route::prefix('permissions')->group(function () use ($controller_path) {
@@ -62,5 +63,10 @@ Route::middleware('auth')->group(function () use ($controller_path) {
     Route::get('/edit/{id}', $controller_path . '\UserController@edit')->name('edit-user');
     Route::post('/update/{id}', $controller_path . '\UserController@update')->name('update-user');
     Route::post('/delete/{id}', $controller_path . '\UserController@delete')->name('delete-user');
+
+    Route::get('/reset-password/{user}', $controller_path . '\UserController@showresetPassword')->name(
+      'show-reset-password'
+    );
+    Route::post('/reset-password/{user}', $controller_path . '\UserController@resetPasswordForm')->name('reset-password');
   });
 });

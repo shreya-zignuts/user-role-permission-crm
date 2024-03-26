@@ -30,20 +30,6 @@ class ModuleController extends Controller
 
     $moduleCount = $modules->count();
 
-    if ($request->filled('toggle')) {
-      $moduleCode = $request->module_code;
-      $module = Module::where('code', $moduleCode)->firstOrFail();
-      $module->is_active = !$module->is_active;
-
-      if (!$module->is_active) {
-        $module->submodules()->update(['is_active' => false]);
-      }
-
-      $module->save();
-
-      return redirect()->route('pages-modules');
-    }
-
     return view('content.modules.index', compact('modules', 'moduleCount'));
   }
 
@@ -62,5 +48,20 @@ class ModuleController extends Controller
     return redirect()
       ->route('pages-modules')
       ->with('success', 'Module updated successfully.');
+  }
+
+  public function toggleModuleStatus(Request $request)
+  {
+    $moduleId = $request->module_code;
+
+    $module = Module::findOrFail($moduleId);
+
+    $module->is_active = !$module->is_active;
+
+    $module->save();
+
+    return redirect()
+      ->back()
+      ->with('success', 'Module status toggled successfully.');
   }
 }
