@@ -26,20 +26,6 @@ class PermissionController extends Controller
       $permission = Permission::findOrFail($request->id);
       return redirect()->route('permissions.edit', ['id' => $permission->id]);
     }
-    // Toggle action
-    if ($request->filled('toggle')) {
-      $permissionId = $request->permission_id;
-      $permission = Permission::where('id', $permissionId)->firstOrFail();
-      $permission->is_active = !$permission->is_active;
-
-      if (!$permission->is_active) {
-        $permission->update(['is_active' => false]);
-      }
-
-      $permission->save();
-
-      return redirect()->route('pages-permissions');
-    }
 
     return view('content.permissions.index', compact('permissions', 'filter'));
   }
@@ -79,6 +65,21 @@ class PermissionController extends Controller
     return redirect()
       ->route('pages-permissions')
       ->with('success', 'Permission created successfully');
+  }
+
+  public function togglePermissionStatus(Request $request)
+  {
+    $permissionId = $request->permission_id;
+
+    $permission = Permission::findOrFail($permissionId);
+
+    $permission->is_active = !$permission->is_active;
+
+    $permission->save();
+
+    return redirect()
+      ->back()
+      ->with('success', 'Permission status toggled successfully.');
   }
 
   // public function edit($id)

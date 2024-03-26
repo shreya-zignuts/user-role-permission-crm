@@ -23,6 +23,12 @@
       "icon": "menu-icon tf-icons ti ti-file",
       "name": "Roles",
       "slug": "pages-roles"
+    },
+    {
+      "url": "users",
+      "icon": "menu-icon tf-icons ti ti-file",
+      "name": "Users",
+      "slug": "pages-users"
     }
   ]
 }

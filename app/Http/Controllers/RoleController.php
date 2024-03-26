@@ -22,20 +22,6 @@ class RoleController extends Controller
       })
       ->get();
 
-    if ($request->filled('toggle')) {
-      $roleId = $request->role_id;
-      $role = Role::where('id', $roleId)->firstOrFail();
-      $role->is_active = !$role->is_active;
-
-      if (!$role->is_active) {
-        $role->update(['is_active' => false]);
-      }
-
-      $role->save();
-
-      return redirect()->route('pages-roles');
-    }
-
     return view('content.roles.index', compact('roles', 'filter'));
   }
 
@@ -65,7 +51,7 @@ class RoleController extends Controller
       ->with('success', 'Role created successfully.');
   }
 
-  public function toggleStatus(Request $request)
+  public function toggleRoleStatus(Request $request)
   {
     $roleId = $request->role_id;
 
@@ -77,7 +63,7 @@ class RoleController extends Controller
 
     return redirect()
       ->back()
-      ->with('success', 'Status toggled successfully.');
+      ->with('success', 'Role status toggled successfully.');
   }
 
   public function edit($id)

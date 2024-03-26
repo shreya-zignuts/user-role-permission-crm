@@ -115,12 +115,11 @@
                       <td>{{ $role->name }}</td>
                       <td>{{ $role->description }}</td>
                       <td>
-
-                        <form action="{{ route('toggle.status') }}" method="POST">
+                        <form action="{{ route('role-status') }}" method="POST">
                           @csrf
                           <input type="hidden" name="role_id" value="{{ $role->id }}">
                               <label class="switch">
-                                  <input type="checkbox" class="switch-input" name="status" onchange="submit()" {{ $role->is_active ? 'checked' : '' }}>
+                                  <input type="checkbox" class="switch-input" name="is_active" onchange="submit()" {{ $role->is_active ? 'checked' : '' }}>
                                   <span class="switch-toggle-slider">
                                       <span class="switch-on"></span>
                                       <span class="switch-off"></span>

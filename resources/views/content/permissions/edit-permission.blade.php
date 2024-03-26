@@ -18,6 +18,7 @@
 
 
 @section('content')
+<div class="d-flex justify-content-center mt-3">
     <div class="modal-content p-3 p-md-5 w-75 align-content-center">
         <div class="modal-body">
           <h4 class="mt-1">Edit Permission <img
@@ -121,4 +122,5 @@
             <!-- End of form -->
         </div>
     </div>
+</div>
 @endsection

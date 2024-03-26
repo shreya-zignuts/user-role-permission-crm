@@ -35,6 +35,17 @@
     }
   }
 
+  .modal-content {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    box-shadow: $modal-content-box-shadow-xs;
+  }
+
+  .modal-body {
+    width: 100%; /* Ensure full width for the body */
+  }
+
   .modal-header {
     position: relative;
     .btn-close {

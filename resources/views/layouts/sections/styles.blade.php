@@ -157,6 +157,10 @@ body {
   width: 45%;
 }
 
+.main-cards{
+  box-shadow: 0px 6px 10px rgba(245, 241, 252, 0.954);
+}
+
 /* RESPONSIVE */
 
 @media (max-width: 1600px) {

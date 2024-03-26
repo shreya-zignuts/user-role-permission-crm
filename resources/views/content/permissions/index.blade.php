@@ -110,7 +110,7 @@
                             <td>{{ $permission->name }}</td>
                             <td>{{ $permission->description }}</td>
                             <td>
-                                <form method="GET" action="{{ route('pages-permissions') }}">
+                                {{-- <form method="GET" action="{{ route('pages-permissions') }}">
                                     @csrf
                                     <input type="hidden" name="permission_id" value="{{ $permission->id }}">
                                     <input type="hidden" name="toggle" value="true">
@@ -122,7 +122,18 @@
                                             <span class="switch-off"></span>
                                         </span>
                                     </label>
-                                </form>
+                                </form> --}}
+                                <form method="POST" action="{{ route('per-status') }}">
+                                  @csrf
+                                  <input type="hidden" name="permission_id" value="{{ $permission->id }}">
+                                  <label class="switch">
+                                      <input type="checkbox" class="switch-input" name="is_active" onchange="this.form.submit()" {{ $permission->is_active ? 'checked' : '' }}>
+                                      <span class="switch-toggle-slider">
+                                          <span class="switch-on"></span>
+                                          <span class="switch-off"></span>
+                                      </span>
+                                  </label>
+                              </form>
                             </td>
                             <td>
                                 <div class="dropdown">

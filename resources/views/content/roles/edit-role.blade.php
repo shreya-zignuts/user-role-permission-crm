@@ -1,7 +1,3 @@
-@php
-    $configData = Helper::appClasses();
-@endphp
-
 @extends('layouts/layoutMaster')
 
 @section('title', 'Edit Role - Forms')
@@ -21,43 +17,57 @@
 @endsection
 
 @section('content')
+    <div class="d-flex justify-content-center mt-3">
+        <div class="modal-content p-3 p-md-5 align-content-center w-50">
+            <div class="modal-body">
+                <h3 class="text-center mb-4">Edit Role</h3>
 
-    <div class="modal-content p-3 p-md-5 w-75 align-content-center">
-        <div class="modal-body">
-            <h3>Edit Role</h3>
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </div>
-            @endif
-
-            <form action="{{ route('update-role', $role->id) }}" method="POST">
-                @csrf
-                <div class="col-md-6 mb-4">
-                    <label for="name" class="form-label">Role Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ $role->name }}" required>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description">{{ $role->description }}</textarea>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <label for="selectpickerMultiple" class="form-label">Permissions</label>
-                    <select id="selectpickerMultiple" name="permissions[]" class="selectpicker w-100"
-                        data-style="btn-default" multiple data-icon-base="ti" data-tick-icon="ti-check text-white">
-                        @foreach ($permissions as $permission)
-                            <option value="{{ $permission->id }}" {{ $role->permissions->contains($permission->id) ? 'selected' : '' }}>
-                                {{ $permission->name }}
-                            </option>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
                         @endforeach
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Update Role</button>
-            </form>
+                    </div>
+                @endif
 
+                <form action="{{ route('update-role', $role->id) }}" method="POST">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="name" class="form-label">Role Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ $role->name }}"
+                            required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description">{{ $role->description }}</textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="selectpickerMultiple" class="form-label">Permissions</label>
+                        <select id="selectpickerMultiple" name="permissions[]" class="selectpicker w-100"
+                            data-style="btn-default" multiple data-icon-base="ti" data-tick-icon="ti-check text-white">
+                            @foreach ($permissions as $permission)
+                                <option value="{{ $permission->id }}"
+                                    {{ $role->permissions->contains($permission->id) ? 'selected' : '' }}>
+                                    {{ $permission->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- <div class="text-end mt-4">
+                    <div class="col-md-6 mb-4">
+                        <button type="submit" class="btn btn-primary">Update Role</button>
+                        <a href="{{ route('pages-roles') }}" class="btn btn-label-secondary waves-effect ml-3"
+                            aria-label="Cancel">Cancel</a>
+                    </div>
+                </div> --}}
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light"
+                            id="type-success">Update</button>
+                        <a href="{{ route('pages-roles') }}" class="btn btn-label-secondary waves-effect ml-3"
+                            aria-label="Cancel">Cancel</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection

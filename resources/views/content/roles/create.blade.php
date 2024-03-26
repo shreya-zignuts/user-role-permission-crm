@@ -17,12 +17,10 @@
 @endsection
 
 @section('content')
-<div class="container w-75">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card w-100">
-                <div class="card-body">
-                    <h3 class="card-title text-center">Create Role</h3>
+<div class="d-flex justify-content-center mt-3">
+  <div class="modal-content p-3 p-md-5 align-content-center w-50">
+    <div class="modal-body">
+                    <h3 class="text-center mb-4">Create Role</h3>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
