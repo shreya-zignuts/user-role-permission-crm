@@ -106,7 +106,7 @@
               </tr>
           </thead>
           @if ($roles->isEmpty())
-                <td colspan="5" class="text-center font-weight-bold">No roles found..</td>
+                <td colspan="5" class="text-center font-weight-bold" style="color: red">No roles found..</td>
             @else
           <tbody style="text-align: center">
               @foreach ($roles as $role)
@@ -120,7 +120,7 @@
                           @csrf
                           <input type="hidden" name="role_id" value="{{ $role->id }}">
                               <label class="switch">
-                                  <input type="checkbox" class="switch-input" name="status" onchange="this.form.submit()" {{ $role->is_active ? 'checked' : '' }}>
+                                  <input type="checkbox" class="switch-input" name="status" onchange="submit()" {{ $role->is_active ? 'checked' : '' }}>
                                   <span class="switch-toggle-slider">
                                       <span class="switch-on"></span>
                                       <span class="switch-off"></span>

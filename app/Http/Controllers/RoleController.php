@@ -115,6 +115,6 @@ class RoleController extends Controller
 
     return redirect()
       ->route('pages-roles')
-      ->with('success', 'Permission deleted successfully');
+      ->with('success', 'Role deleted successfully');
   }
 }

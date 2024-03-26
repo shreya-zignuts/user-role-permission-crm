@@ -100,7 +100,7 @@
             </thead>
 
             @if ($permissions->isEmpty())
-                <td colspan="5" class="text-center font-weight-bold">No permission found..</td>
+                <td colspan="5" class="text-center font-weight-bold" style="color: red">No permission found..</td>
             @else
             <tbody>
                 @foreach ($permissions as $permission)

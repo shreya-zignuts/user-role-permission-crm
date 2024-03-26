@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Role extends Model
 {
-  use HasFactory;
+  use HasFactory, SoftDeletes;
 
   /**
    * The attributes that are mass assignable.
@@ -30,5 +31,15 @@ class Role extends Model
   public function permissions()
   {
     return $this->belongsToMany(Permission::class, 'role_permissions');
+  }
+
+  public function createdBy()
+  {
+    return $this->belongsTo(User::class, 'created_by');
+  }
+
+  public function updatedBy()
+  {
+    return $this->belongsTo(User::class, 'updated_by');
   }
 }
