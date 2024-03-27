@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordInvitation;
+use App\Mail\ResetPasswordNotification;
 
 class UserController extends Controller
 {
@@ -70,9 +71,7 @@ class UserController extends Controller
       'invitation_token' => $invitationToken,
     ]);
 
-    if ($request->has('roles')) {
-      $user->roles()->attach($request->roles);
-    }
+    $user->roles()->attach($request->roles);
 
     $adminEmail = User::first()->email;
 
@@ -147,40 +146,108 @@ class UserController extends Controller
       ->with('success', 'User deleted successfully');
   }
 
-  public function resetPassword(Request $request, User $user)
+  // public function resetPassword(Request $request, User $user)
+  // {
+  //   // Generate a new random password
+  //   $newPassword = Str::random(10);
+
+  //   // Update the user's password in the database
+  //   $user->password = Hash::make($newPassword);
+  //   $user->save();
+
+  //   // Send email notification with the new password to the user
+  //   Mail::to($user->email)->send(new ResetPasswordInvitation($user, $newPassword));
+
+  //   // Redirect back with success message
+  //   return redirect()
+  //     ->back()
+  //     ->with('success', 'Password reset successfully. New password has been sent to the user.');
+  // }
+
+  public function resetPasswordForm(Request $request, $id)
   {
-    // Generate a new random password
-    $newPassword = Str::random(10);
-
-    // Update the user's password in the database
-    $user->password = Hash::make($newPassword);
-    $user->save();
-
-    // Send email notification with the new password to the user
-    Mail::to($user->email)->send(new ResetPasswordInvitation($user, $newPassword));
-
-    // Redirect back with success message
-    return redirect()
-      ->back()
-      ->with('success', 'Password reset successfully. New password has been sent to the user.');
-  }
-
-  public function showresetPassword(User $user)
-  {
-    return view('content.users.reset-password', compact('user'));
-  }
-
-  public function resetPasswordForm(Request $request, User $user)
-  {
+    dd($request->user_id, $id);
     $request->validate([
       'password' => 'required|string|min:8|confirmed',
     ]);
+
+    $user = User::findOrFail($id);
+    dd($user);
+    $password = $request->password;
+    $user->password = Hash::make($password);
+    $user->save();
+
+    $adminEmail = User::first()->email;
+
+    if ($adminEmail) {
+      Mail::to($user->email)->send(new ResetPasswordNotification($user, $adminEmail, $password));
+    }
+
+    return redirect()
+      ->route('pages-users')
+      ->with('success', 'Password reset successfully.');
+  }
+
+  // public function Reset(Request $request, User $user)
+  // {
+  //   $token = $request->get('token');
+  //   $pageConfigs = ['myLayout' => 'blank'];
+  //   return view('content.authentications.reset-password', compact('pageConfigs', 'user', 'token'));
+  // }
+
+  // public function resetPasswordUser(Request $request)
+  // {
+  //   // Validate the request
+  //   $request->validate([
+  //     'token' => 'required|string',
+  //     'password' => 'required|string|min:8|confirmed',
+  //   ]);
+
+  //   // Retrieve the user by token
+  //   $user = User::where('reset_token', $request->token)->first();
+
+  //   if ($user) {
+  //     // Update the user's password
+  //     $user->password = Hash::make($request->password);
+  //     $user->reset_token = null; // Clear the reset token
+  //     $user->save();
+
+  //     // Log the user in
+  //     Auth::login($user);
+
+  //     return redirect()
+  //       ->route('auth-login-basic')
+  //       ->with('success', 'Password reset successfully.');
+  //   }
+
+  //   return redirect()
+  //     ->route('auth-login-basic')
+  //     ->with('error', 'Invalid password reset token.');
+  // }
+
+  public function showResetForm(Request $request)
+  {
+    $pageConfigs = ['myLayout' => 'blank'];
+
+    $email = $request->query('email');
+    // Pass the token to the view
+    return view('content.authentications.reset-password', compact('email', 'pageConfigs'));
+  }
+
+  public function resetPassword(Request $request)
+  {
+    $request->validate([
+      'email' => 'required|email',
+      'password' => 'required|string|min:8|confirmed',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
 
     $user->password = Hash::make($request->password);
     $user->save();
 
     return redirect()
-      ->route('pages-users')
-      ->with('success', 'Password reset successfully.');
+      ->route('auth-login-basic')
+      ->with('success', 'Password reset successfully. You can now log in.');
   }
 }

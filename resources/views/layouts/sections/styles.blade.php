@@ -76,7 +76,6 @@ body {
 
 .card {
   margin: 20px;
-  padding: 20px;
   width: 500px;
   min-height: 100px;
   display: grid;
@@ -171,9 +170,12 @@ body {
 
 .module-count-container {
     position: relative;
+    margin-bottom: 20px;
+
 }
 
 .module-count {
+  margin: 0 auto;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -184,8 +186,6 @@ body {
     align-items: center;
     font-size: 20px;
     position: absolute;
-    top: 0;
-    left: 0;
     animation: pulse 1s ease-in-out forwards;
 }
 
@@ -199,6 +199,7 @@ body {
 }
 
 .count {
+  margin: 0 auto;
     opacity: 0;
     animation: fadeIn 0.5s ease-in-out 0.5s forwards;
 }
@@ -211,6 +212,70 @@ body {
         opacity: 1;
     }
 }
+
+.permision-count-container {
+    position: relative;
+    margin-bottom: 30px;
+
+}
+
+.permission-count {
+  margin: 0 auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #d00101ef;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    position: absolute;
+    animation: pulse 1s ease-in-out forwards;
+}
+
+.roles-count-container {
+    position: relative;
+  margin-bottom: 30px;
+
+
+}
+
+.roles-count {
+  margin: 0 auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ff9500ef;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    position: absolute;
+    animation: pulse 1s ease-in-out forwards;
+}
+
+.user-count-container {
+    position: relative;
+
+}
+
+.user-count {
+  margin: 0 auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #36aa01ef;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    position: absolute;
+    animation: pulse 1s ease-in-out forwards;
+}
+
 </style>
 
 <!-- Vendor Styles -->

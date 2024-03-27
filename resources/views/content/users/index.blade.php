@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css')}}" />
 @endsection
 
 @section('vendor-script')
@@ -15,12 +18,18 @@
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
+    <script src="{{asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js')}}"></script>
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
     <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
+    <script src="{{asset('assets/js/app-access-roles.js')}}"></script>
+    <script src="{{asset('assets/js/modal-add-role.js')}}"></script>
 @endsection
 
 @section('content')
@@ -137,19 +146,17 @@
                                     <a class="dropdown-item"
                                         href="{{ route('edit-user', ['id' => $user->id]) }}"><i
                                             class="ti ti-pencil me-1"></i> Edit</a>
-                                            <form action="{{ route('show-reset-password', $user->id) }}" method="Get">
-                                              @csrf
-                                              <button type="submit" class="btn btn-sm btn-success">Reset Password</button>
-                                          </form>
                                     <form id="deleteRoleForm{{ $user->id }}" method="POST"
                                         action="{{ route('delete-user', ['id' => $user->id]) }}">
                                         @csrf
                                         <!-- Delete button trigger modal -->
-                                        <button class="dropdown-item btn btn-submit"
+                                        <button type="submit" class="dropdown-item text-left"
                                             onclick="return confirm('Are you sure you want to delete this user?')">
                                             <i class="ti ti-trash me-1"></i> Delete
                                         </button>
                                     </form>
+                                    {{$user->id}}
+                                    <a href="{{ route('reset-password', ['user_id' => $user->id]) }}" data-bs-target="#addRoleModal" data-bs-toggle="modal" class="btn mb-2 text-nowrap dropdown-item"><img src="https://cdn-icons-png.flaticon.com/128/10480/10480728.png" width="20px" alt="">&nbsp; New Password</a>
                                 </div>
                             </div>
                             </td>
@@ -164,4 +171,121 @@
             </tbody>
         </table>
     </div>
+
+
+    {{-- <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+          <div class="modal-content p-3 p-md-5">
+              <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+              <div class="modal-body">
+                  <div class="text-center mb-4">
+                      <h3 class="role-title mb-2">Set New Password</h3>
+                      <p class="text-muted">Set role permissions</p>
+                  </div>
+                  <form method="POST" action="{{ route('reset-password', $user) }}">
+                      @csrf
+                      <div class="form-group row">
+                          <label for="password" class="col-md-4 col-form-label text-md-right">New Password</label>
+                          <div class="col-md-6">
+                              <input id="password" type="password" class="form-control" name="password" required
+                                  autocomplete="new-password">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm
+                              Password</label>
+                          <div class="col-md-6">
+                              <input id="password-confirm" type="password" class="form-control"
+                                  name="password_confirmation" required autocomplete="new-password">
+                          </div>
+                      </div>
+                      <div class="form-group row mb-0">
+                          <div class="col-md-6 offset-md-4">
+                              <button type="submit" class="btn btn-primary">Reset Password</button>
+                          </div>
+                      </div>
+                  </form>
+                  <!--/ Add role form -->
+              </div>
+          </div>
+      </div> --}}
+      {{-- <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+            <div class="modal-content p-3 p-md-5">
+                <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <h3 class="role-title mb-2">Set New Password</h3>
+                        <p class="text-muted">Set role permissions</p>
+                    </div>
+                    <form method="POST" action="{{ route('reset-password', $user) }}">
+                        @csrf
+                        <div class="mb-3 form-password-toggle">
+                          <label class="form-label" for="email">for email</label>
+                          <input type="email" name="email" value="{{ $user->email }}" class="form-control"
+                              required autofocus readonly
+                              style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 0.375rem 0.75rem; line-height: 1.5; background-color: #e9ecef; opacity: 1;">
+                      </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password</label>
+                            <input id="password" type="password" class="form-control" name="password" required
+                                autocomplete="new-password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password-confirm" class="form-label">Confirm Password</label>
+                            <input id="password-confirm" type="password" class="form-control"
+                                name="password_confirmation" required autocomplete="new-password">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Reset Password</button>
+                        </div>
+                    </form>
+                    <!--/ Add role form -->
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+    <!-- Set Password Modal for each user -->
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+      <div class="modal-content p-3 p-md-5">
+          <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-body">
+              <div class="text-center mb-4">
+                  <h3 class="role-title mb-2">Set New Password</h3>
+                  <p class="text-muted">Set role permissions</p>
+              </div>
+              <form method="POST" action="{{ route('reset-password', ['user_id' => $user->id]) }}">
+                  @csrf
+                  {{-- <input type="hidden" name="id" value="{{ $user->id }}" class="form-control">
+                  <div class="mb-3 form-password-toggle">
+                      <label class="form-label" for="email">for email</label>
+                      <input type="email" name="email" value="{{ $user->email }}" class="form-control"
+                          required autofocus readonly
+                          style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 0.375rem 0.75rem; line-height: 1.5; background-color: #e9ecef; opacity: 1;">
+                  </div> --}}
+                  <input type="hidden" name="user_id" value="{{ $user->id }}">
+                  <div class="mb-3">
+                      <label for="password" class="form-label">New Password</label>
+                      <input id="password" type="password" class="form-control" name="password" required
+                          autocomplete="new-password">
+                  </div>
+                  <div class="mb-3">
+                      <label for="password-confirm" class="form-label">Confirm Password</label>
+                      <input id="password-confirm" type="password" class="form-control"
+                          name="password_confirmation" required autocomplete="new-password">
+                  </div>
+                  <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Reset Password</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+  </div>
+
 @endsection
