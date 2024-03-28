@@ -19,8 +19,9 @@ class LoginBasic extends Controller
   public function login(Request $request)
   {
     $credentials = $request->only('email', 'password');
+    $remember = $request->filled('remember'); // Check if remember checkbox is checked
 
-    if (Auth::attempt($credentials)) {
+    if (Auth::attempt($credentials, $remember)) {
       return redirect()
         ->intended('/')
         ->with('success', 'Logged In successfully.');

@@ -140,7 +140,7 @@
                                             action="{{ route('delete-role', ['id' => $role->id]) }}">
                                             @csrf
                                             <!-- Delete button trigger modal -->
-                                            <button class="dropdown-item btn btn-submit"
+                                            <button class="dropdown-item"
                                                 onclick="return confirm('Are you sure you want to delete this role?')">
                                                 <i class="ti ti-trash me-1"></i> Delete
                                             </button>

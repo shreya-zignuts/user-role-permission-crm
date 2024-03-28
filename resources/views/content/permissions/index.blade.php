@@ -110,19 +110,6 @@
                             <td>{{ $permission->name }}</td>
                             <td>{{ $permission->description }}</td>
                             <td>
-                                {{-- <form method="GET" action="{{ route('pages-permissions') }}">
-                                    @csrf
-                                    <input type="hidden" name="permission_id" value="{{ $permission->id }}">
-                                    <input type="hidden" name="toggle" value="true">
-                                    <label class="switch">
-                                        <input type="checkbox" class="switch-input" name="toggle"
-                                            {{ $permission->is_active ? 'checked' : '' }} onchange="submit()">
-                                        <span class="switch-toggle-slider">
-                                            <span class="switch-on"></span>
-                                            <span class="switch-off"></span>
-                                        </span>
-                                    </label>
-                                </form> --}}
                                 <form method="POST" action="{{ route('per-status') }}">
                                   @csrf
                                   <input type="hidden" name="permission_id" value="{{ $permission->id }}">
@@ -147,7 +134,7 @@
                                             action="{{ route('delete-permission', ['id' => $permission->id]) }}">
                                             @csrf
                                             <!-- Delete button trigger modal -->
-                                            <button class="dropdown-item btn btn-submit"
+                                            <button class="dropdown-item"
                                                 onclick="return confirm('Are you sure you want to delete this permission?')">
                                                 <i class="ti ti-trash me-1"></i> Delete
                                             </button>

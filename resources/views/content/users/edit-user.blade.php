@@ -20,21 +20,9 @@
     <div class="d-flex justify-content-center mt-3">
         <div class="modal-content p-3 p-md-5 w-75 align-content-center">
             <div class="modal-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
                 <h5 class="mt-2">Edit User</h5>
                 <form class="mt-1" method="POST" action="{{ route('update-user', $user->id) }}">
                     @csrf
-                    @method('PUT')
-
                     {{-- User Personal Info --}}
                     <h6>User Personal Info</h6>
                     <div class="row g-3">
