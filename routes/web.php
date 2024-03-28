@@ -23,9 +23,11 @@ Route::get('/password/reset', $controller_path . '\UserController@showResetForm'
 Route::post('/password/reset', $controller_path . '\UserController@resetPassword')->name('password.update');
 
 Route::prefix('forgotpassword')->group(function () use ($controller_path) {
-  Route::get('/', $controller_path . '\ForgotPasswordController@index')->name('forgot-password-form');
-  Route::post('/update', $controller_path . '\ForgotPasswordController@sendResetLinkEmail')->name('send-mail');
-  Route::get('/reset', $controller_path . '\UserController@showResetForm')->name('password.forgot');
+  Route::get('/form', $controller_path . '\UserController@showForgotForm')->name('forgot-password-form');
+  Route::post('/update', $controller_path . '\UserController@sendResetLinkEmail')->name('send-mail');
+  // Route::get('/', $controller_path . '\ForgotPasswordController@index')->name('forgot-password-form');
+  // Route::post('/update', $controller_path . '\ForgotPasswordController@sendResetLinkEmail')->name('send-mail');
+  // Route::get('/reset', $controller_path . '\UserController@showResetForm')->name('password.forgot');
 });
 
 Route::middleware('auth')->group(function () use ($controller_path) {

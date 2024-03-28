@@ -6,15 +6,23 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\ForgotPassword;
+
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+
 use App\Mail\ResetPasswordInvitation;
 use App\Mail\ResetPasswordNotification;
+use Illuminate\Support\Facades\Session;
+use Laravel\Sanctum\HasApiTokens;
 
 class UserController extends Controller
 {
+  use HasApiTokens;
   // public function index()
   // {
   //   $users = User::all();
@@ -194,16 +202,86 @@ class UserController extends Controller
       ->with('success', 'Password reset successfully. You can now log in.');
   }
 
+  public function showForgotForm()
+  {
+    $pageConfigs = ['myLayout' => 'blank'];
+    return view('content.authentications.forgot-password', ['pageConfigs' => $pageConfigs]);
+  }
+
+  public function sendResetLinkEmail(Request $request)
+  {
+    $request->validate([
+      'email' => 'required|email',
+    ]);
+
+    $result = $this->sendResetLinkEmailToUser($request->email);
+
+    if ($result['status'] === 'success') {
+      return redirect()
+        ->route('login')
+        ->with('status', $result['message']);
+    } else {
+      return back()->withErrors(['email' => $result['message']]);
+    }
+  }
+
+  protected function sendResetLinkEmailToUser($email)
+  {
+    $user = User::where('email', $email)->first();
+
+    if (!$user) {
+      return ['status' => 'error', 'message' => 'User not found.'];
+    }
+
+    $token = Password::getRepository()->create($user);
+
+    $resetLink = url("password/reset/{$token}");
+
+    Mail::to($user->email)->send(new ForgotPassword($user, $resetLink));
+
+    return ['status' => 'success', 'message' => 'Password reset link sent successfully.'];
+  }
+
   public function forceLogoutUser(Request $request)
   {
     // $user = User::findOrFail($id)
     //   ->tokens()
     //   ->delete();
     // dd($request->id);
-    $data = DB::table('users')
+
+    // working
+    $data = DB::table('sessions')
       ->where('id', $request->id)
       ->delete();
     // dd($data);
+
+    // $user = User::findOrFail($request->id);
+    // $deleted = $user->tokens()->delete();
+    // dd($deleted);
+
+    // if ($deleted > 0) {
+    //   // Tokens were successfully deleted
+    //   echo 'Tokens deleted successfully';
+    // } else {
+    //   // No tokens were deleted
+    //   echo 'No tokens deleted';
+    // }
+
+    // dd($request->id);
+    // $user = User::findOrFail($request->id);
+
+    // // Check if the user is currently logged in
+    // if ($request->id) {
+    //   Auth::logout();
+    // }
+
+    // DB::table('users')
+    //   ->where('id', $request->id)
+    //   ->update(['remember_token' => null]);
+    // DB::table('sessions')
+    //   ->where('id', $request->id)
+    //   ->delete();
+
     return redirect()
       ->route('pages-users')
       ->with('success', 'Logged out from other devices successfully.');

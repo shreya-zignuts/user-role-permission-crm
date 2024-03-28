@@ -163,9 +163,9 @@
                                                 width="20px" alt="">
                                             &nbsp; New Password
                                         </a>
-                                        <form action="{{ route('logout.user', ['id' => $user->id]) }}"
-                                            method="POST">
-                                            @csrf
+                                        <form action="{{ route('logout.user', ['id' => $user->id]) }}" method="post">
+                                          @csrf
+
                                             <button type="submit" class="dropdown-item text-left">Force Logout</button>
                                         </form>
                                     </div>

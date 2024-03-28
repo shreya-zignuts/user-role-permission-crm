@@ -64,12 +64,17 @@ $navbarDetached = ($navbarDetached ?? '');
                     <div class="flex-grow-1">
                       <span class="fw-semibold d-block">
                         @if (Auth::check())
-                        {{ Auth::user()->name }}
+                        {{ auth()->user()->first_name }}
                         @else
                         John Doe
                         @endif
                       </span>
+                      @if (Auth::user()->id == 1)
                       <small class="text-muted">Admin</small>
+                        @else
+                        <small class="text-muted">User</small>
+                        @endif
+
                     </div>
                   </div>
                 </a>
