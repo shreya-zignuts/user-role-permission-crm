@@ -58,7 +58,7 @@
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">Password</label>
-                                    <a href="javascript:void(0);">
+                                    <a href="{{ route('forgot-password-form')}}">
                                         <small>Forgot Password?</small>
                                     </a>
                                 </div>
@@ -73,13 +73,13 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember-me" name="remember">
-                                    <label class="form-check-label" for="remember-me">
-                                        Remember Me
-                                    </label>
-                                </div>
-                            </div>
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" id="remember_me" name="remember">
+                                  <label class="form-check-label" for="remember_me">
+                                      Remember Me
+                                  </label>
+                              </div>
+                          </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
                             </div>

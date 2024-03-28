@@ -163,6 +163,11 @@
                                                 width="20px" alt="">
                                             &nbsp; New Password
                                         </a>
+                                        <form action="{{ route('logout.user', ['id' => $user->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item text-left">Force Logout</button>
+                                        </form>
                                     </div>
                                 </div>
                             </td>
@@ -216,7 +221,6 @@
     </div>
 
     <script>
-        // Function to set email and user ID in the reset password form
         function setUserDetails(userId, userEmail) {
             document.getElementById('userId').value = userId;
             document.getElementById('userEmail').value = userEmail;

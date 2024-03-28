@@ -13,15 +13,15 @@ class LoginBasic extends Controller
   public function index()
   {
     $pageConfigs = ['myLayout' => 'blank'];
+
     return view('content.authentications.auth-login-basic', ['pageConfigs' => $pageConfigs]);
   }
 
   public function login(Request $request)
   {
     $credentials = $request->only('email', 'password');
-    $remember = $request->filled('remember'); // Check if remember checkbox is checked
 
-    if (Auth::attempt($credentials, $remember)) {
+    if (Auth::attempt($credentials)) {
       return redirect()
         ->intended('/')
         ->with('success', 'Logged In successfully.');

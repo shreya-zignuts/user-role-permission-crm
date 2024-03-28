@@ -37,6 +37,10 @@ class User extends Authenticatable
    */
   protected $hidden = ['password', 'remember_token'];
 
+  public function getRememberTokenName()
+  {
+    return 'remember_token';
+  }
   /**
    * The attributes that should be cast.
    *

@@ -22,6 +22,12 @@ Route::post('/auth/login-basic', $controller_path . '\authentications\LoginBasic
 Route::get('/password/reset', $controller_path . '\UserController@showResetForm')->name('password.reset');
 Route::post('/password/reset', $controller_path . '\UserController@resetPassword')->name('password.update');
 
+Route::prefix('forgotpassword')->group(function () use ($controller_path) {
+  Route::get('/', $controller_path . '\ForgotPasswordController@index')->name('forgot-password-form');
+  Route::post('/update', $controller_path . '\ForgotPasswordController@sendResetLinkEmail')->name('send-mail');
+  Route::get('/reset', $controller_path . '\UserController@showResetForm')->name('password.forgot');
+});
+
 Route::middleware('auth')->group(function () use ($controller_path) {
   Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
 
@@ -67,8 +73,8 @@ Route::middleware('auth')->group(function () use ($controller_path) {
     Route::post('/update/{id}', $controller_path . '\UserController@update')->name('update-user');
     Route::post('/delete/{id}', $controller_path . '\UserController@delete')->name('delete-user');
 
-    Route::post('/reset-password', $controller_path . '\UserController@resetPasswordForm')->name(
-      'reset-password'
-    );
+    Route::post('/reset-password', $controller_path . '\UserController@resetPasswordForm')->name('reset-password');
+
+    Route::post('/logout-user/{id}', $controller_path . '\UserController@forceLogoutUser')->name('logout.user');
   });
 });

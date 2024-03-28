@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordInvitation;
@@ -191,5 +192,20 @@ class UserController extends Controller
     return redirect()
       ->route('auth-login-basic')
       ->with('success', 'Password reset successfully. You can now log in.');
+  }
+
+  public function forceLogoutUser(Request $request)
+  {
+    // $user = User::findOrFail($id)
+    //   ->tokens()
+    //   ->delete();
+    // dd($request->id);
+    $data = DB::table('users')
+      ->where('id', $request->id)
+      ->delete();
+    // dd($data);
+    return redirect()
+      ->route('pages-users')
+      ->with('success', 'Logged out from other devices successfully.');
   }
 }
