@@ -48,9 +48,9 @@
                         <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email or Username</label>
+                                <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email or username" autofocus>
+                                    placeholder="Enter your email or username" value="{{ Cookie::get('remember_email') }}" autofocus>
                                 @error('email')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -63,7 +63,7 @@
                                     </a>
                                 </div>
                                 <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password"
+                                    <input type="password" id="password" class="form-control" name="password" value="{{ Cookie::get('remember_password') }}"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                         aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
@@ -74,8 +74,8 @@
                             </div>
                             <div class="mb-3">
                               <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" id="remember_me" name="remember">
-                                  <label class="form-check-label" for="remember_me">
+                                  <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                  <label class="form-check-label" for="remember">
                                       Remember Me
                                   </label>
                               </div>

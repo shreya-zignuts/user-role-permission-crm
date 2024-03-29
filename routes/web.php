@@ -18,6 +18,7 @@ $controller_path = 'App\Http\Controllers';
 // Main Page Route
 Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
 Route::post('/auth/login-basic', $controller_path . '\authentications\LoginBasic@login')->name('login');
+Route::post('/logout', $controller_path . '\authentications\LoginBasic@logout')->name('logout');
 
 Route::get('/password/reset', $controller_path . '\UserController@showResetForm')->name('password.reset');
 Route::post('/password/reset', $controller_path . '\UserController@resetPassword')->name('password.update');
@@ -30,7 +31,12 @@ Route::prefix('forgotpassword')->group(function () use ($controller_path) {
   // Route::get('/reset', $controller_path . '\UserController@showResetForm')->name('password.forgot');
 });
 
-Route::middleware('auth')->group(function () use ($controller_path) {
+Route::middleware('auth', 'permission')->group(function () use ($controller_path) {
+  // Route::post('/logout-user/{id}', $controller_path . '\authentications\LoginBasic@forceLogoutUser')->name(
+  //   'logout.user'
+  // );
+
+  // dd(auth()->user());
   Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
 
   // Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name(
@@ -78,5 +84,9 @@ Route::middleware('auth')->group(function () use ($controller_path) {
     Route::post('/reset-password', $controller_path . '\UserController@resetPasswordForm')->name('reset-password');
 
     Route::post('/logout-user/{id}', $controller_path . '\UserController@forceLogoutUser')->name('logout.user');
+
+    // Route::get('/user', function (Request $request) {
+    //   return $request->user();
+    // });
   });
 });

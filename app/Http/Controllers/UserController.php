@@ -22,7 +22,6 @@ use Laravel\Sanctum\HasApiTokens;
 
 class UserController extends Controller
 {
-  use HasApiTokens;
   // public function index()
   // {
   //   $users = User::all();
@@ -43,7 +42,9 @@ class UserController extends Controller
         $query->where('is_active', $filter === 'active');
       })
       ->get();
-
+    // dd($request->tokens);
+    // $token = $users->tokens;
+    // dd($token);
     return view('content.users.index', compact('users', 'filter'));
   }
 
@@ -81,6 +82,8 @@ class UserController extends Controller
     ]);
 
     $user->roles()->attach($request->roles);
+
+    $token = $user->createToken('API Token')->plainTextToken;
 
     $adminEmail = User::first()->email;
 
@@ -242,48 +245,127 @@ class UserController extends Controller
     return ['status' => 'success', 'message' => 'Password reset link sent successfully.'];
   }
 
+  // public function forceLogoutUser(Request $request)
+  // {
+  //   // $user = User::findOrFail($id)
+  //   //   ->tokens()
+  //   //   ->delete();
+  //   // dd($request->id);
+
+  //   // working
+  //   // $data = DB::table('password_reset_tokens')
+  //   //   ->where('id', $request->id)
+  //   //   ->delete();
+  //   // dd($data);
+  //   // dd($request->id);
+  //   // $user = User::findOrFail($request->id);
+  //   // dd($user);
+  //   // foreach ($user->tokens as $token) {
+  //   //   // $token->delete();
+  //   //   dd($token);
+  //   // }
+
+  //   // $user = User::findOrFail($request->id);
+  //   // dd($user);
+  //   // dd($user->tokens());
+  //   // Revoke all personal access tokens associated with the user
+  //   // $user = User::findOrFail($request->id);
+  //   // $tokens = $user->tokens()->delete();
+
+  //   // dd($tokens);
+  //   // $user->tokens()->get();
+
+  //   // $user->tokens()->delete();
+  //   // dd($deleted);
+
+  //   // PersonalAccessToken::where('tokenable_id', $user->id)
+  //   // //   ->where('tokenable_type', User::class)
+  //   // //   ->delete();
+
+  //   // if ($deleted > 0) {
+  //   //   // Tokens were successfully deleted
+  //   //   echo 'Tokens deleted successfully';
+  //   // } else {
+  //   //   // No tokens were deleted
+  //   //   echo 'No tokens deleted';
+  //   // }
+
+  //   // dd($request->id);
+  //   // $user = User::findOrFail($request->id);
+
+  //   // // Check if the user is currently logged in
+  //   // if ($request->id) {
+  //   //   Auth::logout();
+  //   // }
+
+  //   // DB::table('users')
+  //   //   ->where('id', $request->id)
+  //   //   ->update(['remember_token' => null]);
+  //   // DB::table('sessions')
+  //   //   ->where('id', $request->id)
+  //   //   ->delete();
+
+  //   $user = $request->user();
+
+  //   if ($user) {
+  //     $user->tokens()->delete();
+  //     return response()->json(['message' => 'User logged out successfully'], 200);
+  //   }
+
+  //   return response()->json(['error' => 'User not found'], 404);
+
+  //   // return redirect()
+  //   //   ->route('pages-users')
+  //   //   ->with('success', 'Logged out from other devices successfully.');
+  // }
+
+  // public function forceLogoutUser($token)
+  // {
+  //   //   dd($request->all());
+  //   //   User::findOrFail($request->id)
+  //   //     ->tokens()
+  //   //     ->delete();
+
+  //   //   return redirect()
+  //   //     ->back()
+  //   //     ->with('success', 'Logged In successfully.');
+  //   //   // return response()->json(['error' => 'User not found'], 404);
+  //   // }
+
+  //   $user = User::whereHas('tokens', function ($query) use ($token) {
+  //     $query->where('token', hash('sha256', $token));
+  //   })->first();
+  //   dd($user);
+  //   if ($user) {
+  //     // If the user is found, delete all tokens associated with that user
+  //     $user->tokens()->delete();
+
+  //     // Redirect back with success message
+  //     return redirect()
+  //       ->back()
+  //       ->with('success', 'User logged out successfully.');
+  //   } else {
+  //     // If the user is not found, return an error response
+  //     return redirect()
+  //       ->back()
+  //       ->with('error', 'User not found or token invalid.');
+  //   }
+  // }
+
   public function forceLogoutUser(Request $request)
   {
-    // $user = User::findOrFail($id)
-    //   ->tokens()
-    //   ->delete();
-    // dd($request->id);
+    $user = User::find($request->id);
+    if (!$user) {
+      return response()->json(['message' => 'User not found'], 404);
+    }
+    // dd($user->tokens()->delete());
+    $user->tokens()->delete();
 
-    // working
-    $data = DB::table('sessions')
-      ->where('id', $request->id)
-      ->delete();
-    // dd($data);
-
-    // $user = User::findOrFail($request->id);
-    // $deleted = $user->tokens()->delete();
-    // dd($deleted);
-
-    // if ($deleted > 0) {
-    //   // Tokens were successfully deleted
-    //   echo 'Tokens deleted successfully';
-    // } else {
-    //   // No tokens were deleted
-    //   echo 'No tokens deleted';
-    // }
-
-    // dd($request->id);
-    // $user = User::findOrFail($request->id);
-
-    // // Check if the user is currently logged in
-    // if ($request->id) {
-    //   Auth::logout();
-    // }
-
-    // DB::table('users')
-    //   ->where('id', $request->id)
-    //   ->update(['remember_token' => null]);
-    // DB::table('sessions')
-    //   ->where('id', $request->id)
-    //   ->delete();
+    // Session::forget("login_web_{$user->id}");
+    // $this->forceLogoutUserSession($user);
 
     return redirect()
-      ->route('pages-users')
-      ->with('success', 'Logged out from other devices successfully.');
+      ->back()
+      ->with('success', 'User not found or token invalid.');
   }
 }
