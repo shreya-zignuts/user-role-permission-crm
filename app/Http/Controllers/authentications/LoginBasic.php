@@ -17,7 +17,6 @@ class LoginBasic extends Controller
     $email = $request->cookie('remember_token')
       ? User::where('remember_token', $request->cookie('remember_token'))->value('email')
       : null;
-      
     $pageConfigs = ['myLayout' => 'blank'];
 
     return view('content.authentications.auth-login-basic', ['pageConfigs' => $pageConfigs]);
@@ -47,16 +46,11 @@ class LoginBasic extends Controller
       $token = $user->createToken('API Token')->plainTextToken;
 
       if ($remember) {
-        // Generate a remember token
         $rememberToken = Str::random(60);
-        // Set remember token in a cookie for 30 days (you can adjust the expiration as needed)
         $cookie = cookie()->forever('remember_token', $rememberToken);
 
-        Cookie::queue('remember_email', $request->input('email'), 60 * 24 * 30); // Expires in 30 days
-        Cookie::queue('remember_password', $request->input('password'), 60 * 24 * 30); // Expires in 30 days
-
-        $cookie = cookie()->forever('remember_token', $rememberToken);
-        // Store the remember token in the database
+        Cookie::queue('remember_email', $request->input('email'), 60 * 24 * 30);
+        Cookie::queue('remember_password', $request->input('password'), 60 * 24 * 30);
         auth()
           ->user()
           ->update(['remember_token' => hash('sha256', $rememberToken)]);

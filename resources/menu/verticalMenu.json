@@ -14,7 +14,7 @@
     },
     {
       "url": "permissions",
-      "icon": "menu-icon tf-icons ti ti-file",
+      "image": "menu-icon tf-icons ti ti-file",
       "name": "Permissions",
       "slug": "pages-permissions"
     },
