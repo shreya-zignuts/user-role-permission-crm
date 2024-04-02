@@ -44,7 +44,7 @@ class LoginBasic extends Controller
         Auth::logout();
         return redirect()
           ->route('login')
-          ->withErrors(['error' =>'Your account is inactive. Please contact the administrator.']);
+          ->withErrors(['error' => 'Your account is inactive. Please contact the administrator.']);
       }
       $token = $user->createToken('API Token')->plainTextToken;
 
@@ -81,7 +81,7 @@ class LoginBasic extends Controller
   public function logout()
   {
     $user = Auth::user();
-    $user->is_active = 0;
+    // $user->is_active = 0;
     $user->update(['remember_token' => null]);
 
     return redirect()
