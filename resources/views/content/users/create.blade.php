@@ -84,7 +84,9 @@
                             <label class="form-label" for="roles">Roles</label>
                             <select id="roles" name="roles[]" class="selectpicker w-100" data-style="btn-default" multiple data-icon-base="ti" data-tick-icon="ti-check text-white">
                                 @foreach ($roles as $role)
+                                @if ($role->is_active)
                                     <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             @error('roles')

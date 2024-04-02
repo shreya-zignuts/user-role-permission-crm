@@ -77,9 +77,9 @@
 
                   <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
                       name="filter">
-                      <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All </option>
-                      <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active</option>
-                      <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive
+                      <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Roles</option>
+                      <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Roles</option>
+                      <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Roles
                       </option>
                   </select>
                   <button class="btn btn-primary" type="submit">Filter</button>

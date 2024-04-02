@@ -58,6 +58,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($modules as $module)
+                                @if ($module->is_active)
                                     <tr>
                                         <td><strong>{{ $module->name }}</strong></td>
                                         <td>
@@ -107,6 +108,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

@@ -99,6 +99,7 @@ class PermissionController extends Controller
       'name' => 'required|string',
       'description' => 'nullable|string',
     ]);
+    // dd($request->all());
 
     $permission = Permission::findOrFail($id);
 

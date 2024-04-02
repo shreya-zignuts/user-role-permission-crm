@@ -48,10 +48,12 @@
                         <select id="selectpickerMultiple" name="permissions[]" class="selectpicker w-100"
                             data-style="btn-default" multiple data-icon-base="ti" data-tick-icon="ti-check text-white">
                             @foreach ($permissions as $permission)
+                            @if ($permission->is_active)
                                 <option value="{{ $permission->id }}"
                                     {{ $role->permissions->contains($permission->id) ? 'selected' : '' }}>
                                     {{ $permission->name }}
                                 </option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
