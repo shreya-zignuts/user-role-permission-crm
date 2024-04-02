@@ -104,9 +104,8 @@
         </div>
         <table class="table" style="text-align: center">
             <thead
-                style="background: linear-gradient(to right, rgb(209, 191, 230), #D3CCED); color: white; text-align: center">
+                style="background: linear-gradient(to right, #9e96f2 22.16%, rgba(133, 123, 245, 0.7) 76.47%); text-align: center">
                 <tr>
-                    <th></th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>Is Active</th>
@@ -119,7 +118,6 @@
                 <tbody style="text-align: center">
                     @foreach ($roles as $role)
                         <tr>
-                            <td></td>
                             <td>{{ $role->name }}</td>
                             <td>{{ $role->description }}</td>
                             <td>
