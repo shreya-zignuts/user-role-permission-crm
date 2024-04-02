@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class ModuleController extends Controller
 {
+  /**
+   * Display a listing of the modules.
+   */
   public function index(Request $request)
   {
     $query = Module::query()->whereNull('parent_code');
@@ -34,12 +37,18 @@ class ModuleController extends Controller
     return view('content.modules.index', compact('filter', 'modules'));
   }
 
+  /**
+   * Show the form for editing the specified module.
+   */
   public function edit($moduleId)
   {
     $module = Module::where('code', $moduleId)->firstOrFail();
     return view('content.modules.edit-module', compact('module'));
   }
 
+  /**
+   * Update the specified module in storage.
+   */
   public function update(Request $request, $moduleId)
   {
     $module = Module::where('code', $moduleId)->firstOrFail();
@@ -51,6 +60,9 @@ class ModuleController extends Controller
       ->with('success', 'Module updated successfully.');
   }
 
+  /**
+   * Toggle the status of the specified module.
+   */
   public function toggleModuleStatus(Request $request)
   {
     $moduleId = $request->module_code;

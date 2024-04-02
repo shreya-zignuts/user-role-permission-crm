@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
+  /**
+   * Display a listing of the permissions.
+   */
   public function index(Request $request)
   {
     $search = $request->search;
@@ -25,6 +28,9 @@ class PermissionController extends Controller
     return view('content.permissions.index', compact('permissions', 'filter'));
   }
 
+  /**
+   * Show the form for creating a new permission.
+   */
   public function create()
   {
     $modules = Module::whereNull('parent_code')
@@ -33,6 +39,10 @@ class PermissionController extends Controller
 
     return view('content.permissions.create', compact('modules'));
   }
+
+  /**
+   * Store a newly created permission in storage.
+   */
   public function store(Request $request)
   {
     $request->validate([
@@ -62,6 +72,9 @@ class PermissionController extends Controller
       ->with('success', 'Permission created successfully');
   }
 
+  /**
+   * Toggle the status of the specified permission.
+   */
   public function togglePermissionStatus(Request $request)
   {
     $permissionId = $request->permission_id;
@@ -77,6 +90,9 @@ class PermissionController extends Controller
       ->with('success', 'Permission status toggled successfully.');
   }
 
+  /**
+   * Show the form for editing the specified permission.
+   */
   public function edit($id)
   {
     $permission = Permission::findOrFail($id);
@@ -87,6 +103,9 @@ class PermissionController extends Controller
     return view('content.permissions.edit-permission', compact('modules', 'permission'));
   }
 
+  /**
+   * Update the specified permission in storage.
+   */
   public function update(Request $request, $id)
   {
     $request->validate([
@@ -123,6 +142,9 @@ class PermissionController extends Controller
       ->with('error', 'Your error message here');
   }
 
+  /**
+   * Remove the specified permission from storage.
+   */
   public function delete($id)
   {
     $permission = Permission::findOrFail($id);

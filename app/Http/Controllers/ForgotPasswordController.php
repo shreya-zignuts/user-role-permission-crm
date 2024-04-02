@@ -10,12 +10,18 @@ use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
+  /**
+   * Display the forgot password form.
+   */
   public function index()
   {
     $pageConfigs = ['myLayout' => 'blank'];
     return view('content.authentications.forgot-password', ['pageConfigs' => $pageConfigs]);
   }
 
+  /**
+   * Send reset password link to the specified email.
+   */
   public function sendResetLinkEmail(Request $request)
   {
     $request->validate([
@@ -33,6 +39,9 @@ class ForgotPasswordController extends Controller
     }
   }
 
+  /**
+   * Send reset password link to the user.
+   */
   protected function sendResetLinkEmailToUser($email)
   {
     $user = User::where('email', $email)->first();
@@ -50,6 +59,9 @@ class ForgotPasswordController extends Controller
     return ['status' => 'success', 'message' => 'Password reset link sent successfully.'];
   }
 
+  /**
+   * Show the password reset form.
+   */
   public function showResetForm(Request $request)
   {
     $pageConfigs = ['myLayout' => 'blank'];
@@ -59,6 +71,9 @@ class ForgotPasswordController extends Controller
     return view('content.authentications.reset-password', compact('email', 'pageConfigs'));
   }
 
+  /**
+   * Reset user's password.
+   */
   public function resetPassword(Request $request)
   {
     $request->validate([

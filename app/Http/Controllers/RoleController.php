@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+  /**
+   * Display a listing of the roles.
+   */
   public function index(Request $request)
   {
     $search = $request->search;
@@ -25,11 +28,18 @@ class RoleController extends Controller
     return view('content.roles.index', compact('roles', 'filter'));
   }
 
+  /**
+   * Show the form for creating a new role.
+   */
   public function create()
   {
     $permissions = Permission::all();
     return view('content.roles.create', compact('permissions'));
   }
+
+  /**
+   * Store a newly created role in storage.
+   */
   public function store(Request $request)
   {
     $request->validate([
@@ -51,6 +61,9 @@ class RoleController extends Controller
       ->with('success', 'Role created successfully.');
   }
 
+  /**
+   * Toggle the status of the specified role.
+   */
   public function toggleRoleStatus(Request $request)
   {
     $roleId = $request->role_id;
@@ -66,6 +79,9 @@ class RoleController extends Controller
       ->with('success', 'Role status toggled successfully.');
   }
 
+  /**
+   * Show the form for editing the specified role.
+   */
   public function edit($id)
   {
     $role = Role::findOrFail($id);
@@ -73,6 +89,9 @@ class RoleController extends Controller
     return view('content.roles.edit-role', compact('role', 'permissions'));
   }
 
+  /**
+   * Update the specified role in storage.
+   */
   public function update(Request $request, $id)
   {
     $request->validate([
@@ -94,6 +113,9 @@ class RoleController extends Controller
       ->with('success', 'Role updated successfully.');
   }
 
+  /**
+   * Remove the specified role from storage.
+   */
   public function delete($id)
   {
     $role = Role::findOrFail($id);

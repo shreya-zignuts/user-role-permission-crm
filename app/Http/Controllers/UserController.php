@@ -22,13 +22,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class UserController extends Controller
 {
-  // public function index()
-  // {
-  //   $users = User::all();
-  //   $roles = Role::all();
-  //   return view('content.users.index', compact('users', 'roles'));
-  // }
-
+  /**
+   * Display a listing of the users.
+   */
   public function index(Request $request)
   {
     $search = $request->search;
@@ -42,18 +38,21 @@ class UserController extends Controller
         $query->where('is_active', $filter === 'active');
       })
       ->paginate(5);
-    // dd($request->tokens);
-    // $token = $users->tokens;
-    // dd($token);
     return view('content.users.index', compact('users', 'filter'));
   }
 
+  /**
+   * Show the form for creating a new user.
+   */
   public function create()
   {
     $roles = Role::all();
     return view('content.users.create', compact('roles'));
   }
 
+  /**
+   * Store a newly created user in storage.
+   */
   public function store(Request $request)
   {
     $request->validate([
@@ -96,6 +95,9 @@ class UserController extends Controller
       ->with('success', 'User created successfully.');
   }
 
+  /**
+   * Toggle the status of the specified user.
+   */
   public function toggleStatus(Request $request)
   {
     $userId = $request->user_id;
@@ -111,6 +113,9 @@ class UserController extends Controller
       ->with('success', 'Status toggled successfully.');
   }
 
+  /**
+   * Show the form for editing the specified user.
+   */
   public function edit($id)
   {
     $user = User::findOrFail($id);
@@ -118,6 +123,9 @@ class UserController extends Controller
     return view('content.users.edit-user', compact('user', 'roles'));
   }
 
+  /**
+   * Update the specified user in storage.
+   */
   public function update(Request $request, $id)
   {
     $request->validate([
@@ -144,6 +152,9 @@ class UserController extends Controller
       ->with('success', 'User updated successfully.');
   }
 
+  /**
+   * Remove the specified user from storage.
+   */
   public function delete($id)
   {
     $user = User::findOrFail($id);
@@ -154,6 +165,9 @@ class UserController extends Controller
       ->with('success', 'User deleted successfully');
   }
 
+  /**
+   * Reset password form.
+   */
   public function resetPasswordForm(Request $request)
   {
     $request->validate([
@@ -179,6 +193,9 @@ class UserController extends Controller
       ->with('success', 'Password reset successfully!');
   }
 
+  /**
+   * Show the password reset form.
+   */
   public function showResetForm(Request $request)
   {
     $pageConfigs = ['myLayout' => 'blank'];
@@ -188,6 +205,9 @@ class UserController extends Controller
     return view('content.authentications.reset-password', compact('email', 'pageConfigs'));
   }
 
+  /**
+   * Reset the user's password.
+   */
   public function resetPassword(Request $request)
   {
     $request->validate([
@@ -205,12 +225,18 @@ class UserController extends Controller
       ->with('success', 'Password reset successfully. You can now log in.');
   }
 
+  /**
+   * Show the forgot password form.
+   */
   public function showForgotForm()
   {
     $pageConfigs = ['myLayout' => 'blank'];
     return view('content.authentications.forgot-password', ['pageConfigs' => $pageConfigs]);
   }
 
+  /**
+   * Send reset password link email to the user.
+   */
   public function sendResetLinkEmail(Request $request)
   {
     $request->validate([
@@ -228,6 +254,9 @@ class UserController extends Controller
     }
   }
 
+  /**
+   * Send reset password link email to the user.
+   */
   protected function sendResetLinkEmailToUser($email)
   {
     $user = User::where('email', $email)->first();
@@ -244,6 +273,9 @@ class UserController extends Controller
     return ['status' => 'success', 'message' => 'Password reset link sent successfully.'];
   }
 
+  /**
+   * Force logout a user and deactivate their account.
+   */
   public function forceLogoutUser(Request $request)
   {
     $user = User::find($request->id);
