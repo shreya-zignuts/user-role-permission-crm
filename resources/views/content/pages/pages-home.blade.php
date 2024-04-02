@@ -59,7 +59,7 @@
 
 
                             <div class="mt-2">Modules Count</div>
-                            <h5 class="card-title module-count">{{ $activePermissionCount }}</h5>
+                            <h5 class="card-title module-count">{{ $activeModuleCount }}</h5>
                         </div>
                     </div>
                 </div>
