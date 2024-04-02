@@ -79,7 +79,7 @@
                         <th></th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Is Active</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
