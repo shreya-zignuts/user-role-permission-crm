@@ -93,8 +93,8 @@ Configure your mail connection in the .env file.
 MAIL_MAILER=smtp
 MAIL_HOST=sandbox.smtp.mailtrap.io
 MAIL_PORT=2525
-MAIL_USERNAME=11791eecc7d5d8
-MAIL_PASSWORD=82679e4f755756
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
 MAIL_FROM_ADDRESS=null
 MAIL_FROM_NAME=null
 ```
