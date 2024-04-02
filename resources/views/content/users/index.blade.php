@@ -55,6 +55,14 @@
         </script>
     @endif
 
+    @if ($errors && $errors->any())
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </div>
+    @endif
+
     <div class="row justify-content-center mt-3">
         <div class="col-md-4">
             <form method="GET" action="{{ route('pages-users') }}">
@@ -69,28 +77,36 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-1">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Filter
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                    <li><a class="dropdown-item" href="{{ route('pages-users') }}">All</a></li>
-                    <li><a class="dropdown-item" href="{{ route('pages-users', ['filter' => 'active']) }}">Active</a>
-                    </li>
-                    <li><a class="dropdown-item" href="{{ route('pages-users', ['filter' => 'inactive']) }}">Inactive</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <a href="{{ route('pages-users') }}" class="btn btn-dark">Reset</a>
-        </div>
+        <div class="col-md-1 text-center">
+          <a href="{{ route('pages-users') }}" class="btn btn-secondary">Reset</a>
+      </div>
+      <div class="col-md-4">
+          <form action="{{ route('pages-users') }}" method="GET">
+              <div class="input-group">
+
+                  <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
+                      name="filter">
+                      <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All </option>
+                      <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active</option>
+                      <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive
+                      </option>
+                  </select>
+                  <button class="btn btn-primary" type="submit">Filter</button>
+              </div>
+          </form>
+      </div>
     </div>
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-header">Users</h5>
+            <h5 class="card-header">Users <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="mb-1"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                </svg></h5>
             <div class="card-body text-end mt-4">
                 <a href="{{ route('create-user') }}" class="btn btn-primary">Add New User</a>
             </div>
@@ -132,7 +148,7 @@
                                     <label class="switch">
                                         <input type="checkbox" class="switch-input" name="is_active" onchange="submit()"
                                             {{ $user->is_active ? 'checked' : '' }}
-                                            @if (auth()->check()) @endif>
+                                            @if (auth()->check())  @endif>
 
                                         <span class="switch-toggle-slider">
                                             <span class="switch-on"></span>
@@ -168,8 +184,9 @@
                                             <form action="{{ route('logout.user', ['id' => $user->id]) }}" method="post">
                                                 @csrf
 
-                                                <button type="submit" class="dropdown-item text-left"><img src="https://cdn-icons-png.flaticon.com/128/3889/3889524.png"
-                                                  width="16px" alt="">&nbsp;  Force Logout</button>
+                                                <button type="submit" class="dropdown-item text-left"><img
+                                                        src="https://cdn-icons-png.flaticon.com/128/3889/3889524.png"
+                                                        width="16px" alt="">&nbsp; Force Logout</button>
                                             </form>
                                         @endauth
                                     </div>
@@ -186,7 +203,6 @@
             </tbody>
         </table>
     </div>
-
     <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
             <div class="modal-content p-3 p-md-5">
@@ -194,7 +210,7 @@
                 <div class="modal-body">
                     <div class="text-center mb-4">
                         <h3 class="role-title mb-2">Set New Password</h3>
-                        <p class="text-muted">set password for user</p>
+                        <p class="text-muted">Set password for user</p>
                     </div>
                     <form method="POST" action="{{ route('reset-password') }}">
                         @csrf
@@ -207,8 +223,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">New Password</label>
-                            <input id="password" type="password" class="form-control" name="password" required
+                            <input id="password" type="password"
+                                class="form-control @error('password') is-invalid @enderror" name="password" required
                                 autocomplete="new-password">
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="password-confirm" class="form-label">Confirm Password</label>
@@ -216,11 +238,19 @@
                                 name="password_confirmation" required autocomplete="new-password">
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Reset Password</button>
+                            <button type="submit" class="btn btn-primary">Reset Password Mail</button>
                         </div>
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Pagination links -->
+            {{ $users->links('pagination::bootstrap-5') }}
         </div>
     </div>
 

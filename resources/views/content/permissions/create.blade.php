@@ -87,7 +87,7 @@
                                             @endforeach
                                         @endif
                                     @endforeach
-                                    @if(!$activeModules)
+                                    @if (!$activeModules)
                                         <tr>
                                             <td colspan="5" class="text-center">No modules are active</td>
                                         </tr>
@@ -100,8 +100,8 @@
                     <div class="col-12 text-center mt-4">
                         <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light"
                             id="type-success">Create</button>
-                            <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
-                            aria-label="Close"><a href="{{ route('pages-permissions')}}">Cancel</a></button>
+                        <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
+                            aria-label="Close"><a href="{{ route('pages-permissions') }}">Cancel</a></button>
                     </div>
                 </form>
                 <!-- End of form -->

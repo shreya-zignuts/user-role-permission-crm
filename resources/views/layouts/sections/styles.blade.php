@@ -175,8 +175,8 @@ body {
 }
 
 .module-count {
-  margin: 0 auto;
-    width: 50px;
+  margin-top: 80px;
+  width: 50px;
     height: 50px;
     border-radius: 50%;
     background-color: #7b00ffef;
@@ -220,7 +220,7 @@ body {
 }
 
 .permission-count {
-  margin: 0 auto;
+  margin-top: 80px;
   width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -242,7 +242,7 @@ body {
 }
 
 .roles-count {
-  margin: 0 auto;
+  margin-top: 80px;
   width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -258,11 +258,13 @@ body {
 
 .user-count-container {
     position: relative;
+    height: 100px;
 
 }
 
 .user-count {
-  margin: 0 auto;
+  margin-top: 80px;
+  /* margin: 0 auto; */
   width: 50px;
     height: 50px;
     border-radius: 50%;

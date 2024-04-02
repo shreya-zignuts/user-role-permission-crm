@@ -20,7 +20,7 @@ class RedirectIfNotAuthenticated
     if (Auth::check()) {
       $user = Auth::user();
 
-      // Check if the user id is 1 (super admin)
+      // Check if the user id is 1 (admin)
       if (
         Auth::check() &&
         Auth::user()->id !== 1 &&
@@ -28,6 +28,7 @@ class RedirectIfNotAuthenticated
           ->tokens()
           ->count() === 0
       ) {
+        Auth::logout();
         return redirect()->route('login');
       }
     }

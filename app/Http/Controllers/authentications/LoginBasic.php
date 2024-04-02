@@ -24,14 +24,6 @@ class LoginBasic extends Controller
 
   public function login(Request $request)
   {
-    // $credentials = $request->only('email', 'password');
-
-    // if (Auth::attempt($credentials)) {
-    //   return redirect()
-    //     ->intended('/')
-    //     ->with('success', 'Logged In successfully.');
-    // }
-
     $request->validate([
       'email' => 'required|email',
       'password' => 'required',
@@ -41,8 +33,19 @@ class LoginBasic extends Controller
     $remember = $request->remember;
 
     if (Auth::attempt($credentials, $remember)) {
-      // Authentication was successful
       $user = Auth::user();
+      if ($user->id === 1 || $user->is_active == 1) {
+        $user->is_active = 1;
+        $user->save();
+        $token = $user->createToken('API Token')->plainTextToken;
+
+        // Rest of your logic
+      } else {
+        Auth::logout();
+        return redirect()
+          ->route('login')
+          ->withErrors(['error' =>'Your account is inactive. Please contact the administrator.']);
+      }
       $token = $user->createToken('API Token')->plainTextToken;
 
       if ($remember) {
@@ -59,67 +62,30 @@ class LoginBasic extends Controller
           ->with('success', 'successfully logged out')
           ->withCookie($cookie);
       }
-      return redirect()
-        ->route('pages-home')
-        ->with('success', 'successfully logged out');
+
+      if ($user->id === 1) {
+        return redirect()
+          ->route('pages-home')
+          ->with('success', 'Admin successfully logged in');
+      } else {
+        return redirect()
+          ->route('pages-userside')
+          ->with('success', 'User successfully logged in');
+      }
     }
     return redirect()
       ->route('pages-home')
       ->with('success', 'successfully logged out');
   }
 
-  // private function associateTokenWithUser(User $user, string $token)
-  // {
-  //   $accessToken = PersonalAccessToken::findToken($token);
-
-  //   if ($accessToken) {
-  //     $accessToken
-  //       ->forceFill([
-  //         'tokenable_id' => $user->getKey(),
-  //         'tokenable_type' => get_class($user),
-  //       ])
-  //       ->save();
-  //   }
-  // }
-
-  // public function forceLogoutUser(Request $request)
-  // {
-  //   User::findOrFail($request->id)
-  //     ->tokens()
-  //     ->delete();
-
-  //   return redirect()
-  //     ->back()
-  //     ->with('success', 'Logged In successfully.');
-  //   // return response()->json(['error' => 'User not found'], 404);
-  // }
-
-  // public function logout()
-  // {
-  //   auth()
-  //     ->user()
-  //     ->tokens()
-  //     ->delete();
-
-  //   $cookie = cookie()->forget('token');
-
-  //   return redirect()
-  //     ->route('login')
-  //     ->with('success', 'successfully logged out');
-  // }
   public function logout()
   {
-    auth()
-      ->user()
-      ->update(['remember_token' => null]);
-    // Forget remember token cookie
-    // Cookie::queue(Cookie::forget('remember_email'));
-    // Cookie::queue(Cookie::forget('remember_password'));
-    // $cookie = cookie()->forget('remember_token');
+    $user = Auth::user();
+    $user->is_active = 0;
+    $user->update(['remember_token' => null]);
 
-    // $cookie = cookie()->forget('remember_token');
     return redirect()
       ->route('login')
-      ->with('success', 'successfully logged out');
+      ->with('success', 'Successfully logged out');
   }
 }

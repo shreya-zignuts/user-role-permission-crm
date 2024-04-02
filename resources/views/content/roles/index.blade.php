@@ -68,29 +68,36 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-1">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Filter
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                    <li><a class="dropdown-item" href="{{ route('pages-roles') }}">All</a></li>
-                    <li><a class="dropdown-item" href="{{ route('pages-roles', ['filter' => 'active']) }}">Active</a>
-                    </li>
-                    <li><a class="dropdown-item" href="{{ route('pages-roles', ['filter' => 'inactive']) }}">Inactive</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <a href="{{ route('pages-roles') }}" class="btn btn-dark">Reset</a>
-        </div>
+        <div class="col-md-1 text-center">
+          <a href="{{ route('pages-roles') }}" class="btn btn-secondary">Reset</a>
+      </div>
+      <div class="col-md-4">
+          <form action="{{ route('pages-roles') }}" method="GET">
+              <div class="input-group">
+
+                  <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
+                      name="filter">
+                      <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All </option>
+                      <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active</option>
+                      <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive
+                      </option>
+                  </select>
+                  <button class="btn btn-primary" type="submit">Filter</button>
+              </div>
+          </form>
+      </div>
     </div>
 
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-header">Roles</h5>
+            <h5 class="card-header">Roles <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="mb-1"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                    <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                    <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                </svg></h5>
             <div class="card-body text-end mt-4">
                 <a href="{{ route('create-role') }}" class="btn btn-primary">Add New Role</a>
             </div>
@@ -153,5 +160,11 @@
                 </tbody>
             @endif
         </table>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Pagination links -->
+            {{ $roles->links('pagination::bootstrap-5') }}
+        </div>
     </div>
 @endsection

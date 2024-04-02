@@ -19,12 +19,22 @@
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.alert.alert-danger').remove();
+            }, 2000); // Remove after 2 seconds
+        </script>
     @endif
 
     @if (session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-primary">
             {{ session('success') }}
         </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.alert.alert-primary').remove();
+            }, 2000); // Remove after 2 seconds
+        </script>
     @endif
 
     @php
@@ -127,27 +137,27 @@
                 <div id="subscriberGained"></div>
             </div>
         </div> --}}
-         <div class="col-lg-6 col-sm-6 mb-4">
-          <div class="card h-100 text-center">
-              <div class="card-body pb-0 ">
-                  <div class="module-count-container d-flex flex-column align-items-center">
-                      <h5 class="card-title mt-5 module-count">12</h5>
-                      <div class="mt-2">Modules Count</div>
-                  </div>
-              </div>
-              <div id="subscriberGained"></div>
-          </div>
-      </div>
+        <div class="col-lg-6 col-sm-6 mb-4">
+            <div class="card h-100 text-center">
+                <div class="card-body pb-0 ">
+                    <div class="module-count-container d-flex flex-column align-items-center">
+                        <h5 class="card-title mt-5 module-count">23</h5>
+                        <div class="mt-2">Modules Count</div>
+                    </div>
+                </div>
+                <div id="subscriberGained"></div>
+            </div>
+        </div>
 
         <!-- Quarterly Sales -->
         <div class="col-lg-6 col-sm-6 mb-4">
-          <div class="card h-100 text-center">
+            <div class="card h-100 text-center">
                 <div class="card-body pb-0">
                     <div class="card-icon">
-                      <div class="permission-count-container d-flex flex-column align-items-center">
-                        <h5 class="card-title mt-5 permission-count">23</h5>
-                        <div class="mt-2">Permissions Count</div>
-                    </div>
+                        <div class="permission-count-container d-flex flex-column align-items-center">
+                            <h5 class="card-title mt-5 permission-count">23</h5>
+                            <div class="mt-2">Permissions Count</div>
+                        </div>
                     </div>
                 </div>
                 <div id="quarterlySales"></div>
@@ -156,13 +166,13 @@
 
         <!-- Order Received -->
         <div class="col-lg-6 col-sm-6 mb-4">
-          <div class="card h-100 text-center">
+            <div class="card h-100 text-center">
                 <div class="card-body pb-0">
                     <div class="card-icon">
-                      <div class="roles-count-container d-flex flex-column align-items-center">
-                        <h5 class="card-title mt-5 roles-count">21</h5>
-                        <div class="mt-2">Roles Count</div>
-                    </div>
+                        <div class="roles-count-container d-flex flex-column align-items-center">
+                            <h5 class="card-title mt-5 roles-count">23</h5>
+                            <div class="mt-2">Roles Count</div>
+                        </div>
                     </div>
                 </div>
                 <div id="orderReceived"></div>
@@ -171,13 +181,13 @@
 
         <!-- Revenue Generated -->
         <div class="col-lg-6 col-sm-6 mb-4">
-          <div class="card h-100 text-center">
+            <div class="card h-100 text-center">
                 <div class="card-body pb-0">
                     <div class="card-icon">
-                      <div class="user-count-container d-flex flex-column align-items-center">
-                        <h5 class="card-title mt-5 user-count">21</h5>
-                        <div class="mt-2">Users Count</div>
-                    </div>
+                        <div class="user-count-container d-flex flex-column align-items-center">
+                            <h5 class="card-title mt-5 user-count">3212121232</h5>
+                            <div class="mt-2">Users Count</div>
+                        </div>
                     </div>
                 </div>
                 <div id="revenueGenerated"></div>

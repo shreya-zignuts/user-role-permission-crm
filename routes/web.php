@@ -26,17 +26,9 @@ Route::post('/password/reset', $controller_path . '\UserController@resetPassword
 Route::prefix('forgotpassword')->group(function () use ($controller_path) {
   Route::get('/form', $controller_path . '\UserController@showForgotForm')->name('forgot-password-form');
   Route::post('/update', $controller_path . '\UserController@sendResetLinkEmail')->name('send-mail');
-  // Route::get('/', $controller_path . '\ForgotPasswordController@index')->name('forgot-password-form');
-  // Route::post('/update', $controller_path . '\ForgotPasswordController@sendResetLinkEmail')->name('send-mail');
-  // Route::get('/reset', $controller_path . '\UserController@showResetForm')->name('password.forgot');
 });
 
 Route::middleware('auth', 'permission')->group(function () use ($controller_path) {
-  // Route::post('/logout-user/{id}', $controller_path . '\authentications\LoginBasic@forceLogoutUser')->name(
-  //   'logout.user'
-  // );
-
-  // dd(auth()->user());
   Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
 
   // Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name(
@@ -84,9 +76,12 @@ Route::middleware('auth', 'permission')->group(function () use ($controller_path
     Route::post('/reset-password', $controller_path . '\UserController@resetPasswordForm')->name('reset-password');
 
     Route::post('/logout-user/{id}', $controller_path . '\UserController@forceLogoutUser')->name('logout.user');
+  });
 
-    // Route::get('/user', function (Request $request) {
-    //   return $request->user();
-    // });
+  Route::prefix('userside')->group(function () use ($controller_path) {
+    Route::get('/', $controller_path . '\UserSideController@index')->name('pages-userside');
+    // Route::get('/edit/{moduleId}', $controller_path . '\ModuleController@edit')->name('edit-module');
+    // Route::post('/update/{moduleId}', $controller_path . '\ModuleController@update')->name('update-module');
+    // Route::post('/toggle-status', $controller_path . '\ModuleController@toggleModuleStatus')->name('module-status');
   });
 });

@@ -11,7 +11,7 @@ class PermissionController extends Controller
   public function index(Request $request)
   {
     $search = $request->search;
-    $filter = $request->filter;
+    $filter = $request->input('filter', 'all');
 
     $permissions = Permission::query()
       ->when($search, function ($query) use ($search) {
@@ -20,12 +20,7 @@ class PermissionController extends Controller
       ->when($filter && $filter !== 'all', function ($query) use ($filter) {
         $query->where('is_active', $filter === 'active');
       })
-      ->get();
-
-    if ($request->has('id')) {
-      $permission = Permission::findOrFail($request->id);
-      return redirect()->route('permissions.edit', ['id' => $permission->id]);
-    }
+      ->paginate(5);
 
     return view('content.permissions.index', compact('permissions', 'filter'));
   }

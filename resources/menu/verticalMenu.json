@@ -8,25 +8,25 @@
     },
     {
       "url": "modules",
-      "icon": "menu-icon tf-icons ti ti-file",
+      "icon": "menu-icon tf-icons ti ti-hexagons",
       "name": "Modules",
       "slug": "pages-modules"
     },
     {
       "url": "permissions",
-      "image": "menu-icon tf-icons ti ti-file",
+      "icon": "menu-icon tf-icons ti ti-lock",
       "name": "Permissions",
       "slug": "pages-permissions"
     },
     {
       "url": "roles",
-      "icon": "menu-icon tf-icons ti ti-file",
+      "icon": "menu-icon tf-icons ti ti-user-circle",
       "name": "Roles",
       "slug": "pages-roles"
     },
     {
       "url": "users",
-      "icon": "menu-icon tf-icons ti ti-file",
+      "icon": "menu-icon tf-icons ti ti-users",
       "name": "Users",
       "slug": "pages-users"
     }

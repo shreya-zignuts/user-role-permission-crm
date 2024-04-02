@@ -3,24 +3,24 @@
 @section('title', 'Selects and tags - Forms')
 
 @section('vendor-style')
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/tagify/tagify.css')}}" />
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css')}}" />
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/typeahead-js/typeahead.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
 @endsection
 
 @section('vendor-script')
-<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/tagify/tagify.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/typeahead-js/typeahead.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/bloodhound/bloodhound.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/tagify/tagify.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
 @endsection
 
 @section('page-script')
-<script src="{{asset('assets/js/forms-selects.js')}}"></script>
-<script src="{{asset('assets/js/forms-tagify.js')}}"></script>
-<script src="{{asset('assets/js/forms-typeahead.js')}}"></script>
+    <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
 @endsection
 
 @section('content')
@@ -61,29 +61,36 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-1">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Filter
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                    <li><a class="dropdown-item" href="{{ route('pages-permissions') }}">All</a></li>
-                    <li><a class="dropdown-item" href="{{ route('pages-permissions', ['filter' => 'active']) }}">Active</a>
-                    </li>
-                    <li><a class="dropdown-item"
-                            href="{{ route('pages-permissions', ['filter' => 'inactive']) }}">Inactive</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <a href="{{ route('pages-permissions') }}" class="btn btn-dark">Reset</a>
-        </div>
+        <div class="col-md-1 text-center">
+          <a href="{{ route('pages-permissions') }}" class="btn btn-secondary">Reset</a>
+      </div>
+      <div class="col-md-4">
+          <form action="{{ route('pages-permissions') }}" method="GET">
+              <div class="input-group">
+
+                  <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
+                      name="filter">
+                      <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All </option>
+                      <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active</option>
+                      <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive
+                      </option>
+                  </select>
+                  <button class="btn btn-primary" type="submit">Filter</button>
+              </div>
+          </form>
+      </div>
     </div>
 
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-header">Permissions</h5>
+            <h5 class="card-header">Permissions <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="mb-1"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-lock">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
+                    <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+                    <path d="M8 11v-4a4 4 0 1 1 8 0v4" />
+                </svg></h5>
             <div class="card-body text-end mt-4">
                 <a href="{{ route('create-permission') }}" class="btn btn-primary">Add New Permission</a>
             </div>
@@ -102,25 +109,25 @@
             @if ($permissions->isEmpty())
                 <td colspan="5" class="text-center font-weight-bold" style="color: red">No permission found..</td>
             @else
-            <tbody>
-                @foreach ($permissions as $permission)
-
+                <tbody>
+                    @foreach ($permissions as $permission)
                         <tr>
                             <td></td>
                             <td>{{ $permission->name }}</td>
                             <td>{{ $permission->description }}</td>
                             <td>
                                 <form method="POST" action="{{ route('per-status') }}">
-                                  @csrf
-                                  <input type="hidden" name="permission_id" value="{{ $permission->id }}">
-                                  <label class="switch">
-                                      <input type="checkbox" class="switch-input" name="is_active" onchange="this.form.submit()" {{ $permission->is_active ? 'checked' : '' }}>
-                                      <span class="switch-toggle-slider">
-                                          <span class="switch-on"></span>
-                                          <span class="switch-off"></span>
-                                      </span>
-                                  </label>
-                              </form>
+                                    @csrf
+                                    <input type="hidden" name="permission_id" value="{{ $permission->id }}">
+                                    <label class="switch">
+                                        <input type="checkbox" class="switch-input" name="is_active"
+                                            onchange="this.form.submit()" {{ $permission->is_active ? 'checked' : '' }}>
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-on"></span>
+                                            <span class="switch-off"></span>
+                                        </span>
+                                    </label>
+                                </form>
                             </td>
                             <td>
                                 <div class="dropdown">
@@ -143,9 +150,16 @@
                                 </div>
                             </td>
                         </tr>
-                @endforeach
-              </tbody>
+                    @endforeach
+                </tbody>
             @endif
-          </div>
+        </table>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Pagination links -->
+            {{ $permissions->links('pagination::bootstrap-5') }}
         </div>
-  @endsection
+    </div>
+
+@endsection

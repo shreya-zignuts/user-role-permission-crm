@@ -11,6 +11,8 @@ class ModuleController extends Controller
   {
     $query = Module::query()->whereNull('parent_code');
 
+    $filter = $request->input('filter', 'all');
+
     if ($request->filled('search')) {
       $searchQuery = $request->search;
 
@@ -21,16 +23,15 @@ class ModuleController extends Controller
         });
     }
 
-    if ($request->filled('filter')) {
-      $filter = $request->filter;
-      $query->where('is_active', $filter === 'active');
+    if ($filter === 'active') {
+      $query->where('is_active', true);
+    } elseif ($filter === 'inactive') {
+      $query->where('is_active', false);
     }
 
-    $modules = $query->with('submodules')->get();
+    $modules = $query->with('submodules')->paginate(5);
 
-    $moduleCount = $modules->count();
-
-    return view('content.modules.index', compact('modules', 'moduleCount'));
+    return view('content.modules.index', compact('filter', 'modules'));
   }
 
   public function edit($moduleId)

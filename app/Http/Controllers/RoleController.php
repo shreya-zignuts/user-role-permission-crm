@@ -11,7 +11,7 @@ class RoleController extends Controller
   public function index(Request $request)
   {
     $search = $request->search;
-    $filter = $request->filter;
+    $filter = $request->input('filter', 'all');
 
     $roles = Role::query()
       ->when($search, function ($query) use ($search) {
@@ -20,7 +20,7 @@ class RoleController extends Controller
       ->when($filter && $filter !== 'all', function ($query) use ($filter) {
         $query->where('is_active', $filter === 'active');
       })
-      ->get();
+      ->paginate(5);
 
     return view('content.roles.index', compact('roles', 'filter'));
   }
