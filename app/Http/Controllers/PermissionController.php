@@ -77,12 +77,6 @@ class PermissionController extends Controller
       ->with('success', 'Permission status toggled successfully.');
   }
 
-  // public function edit($id)
-  // {
-  //   $permission = Permission::findOrFail($id);
-  //   $modules = Module::all();
-  //   return view('content.permissions.edit-permission', compact('modules', 'permission'));
-  // }
   public function edit($id)
   {
     $permission = Permission::findOrFail($id);

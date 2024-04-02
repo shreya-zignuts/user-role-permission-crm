@@ -78,29 +78,30 @@
             </form>
         </div>
         <div class="col-md-1 text-center">
-          <a href="{{ route('pages-users') }}" class="btn btn-secondary">Reset</a>
-      </div>
-      <div class="col-md-4">
-          <form action="{{ route('pages-users') }}" method="GET">
-              <div class="input-group">
+            <a href="{{ route('pages-users') }}" class="btn btn-secondary">Reset</a>
+        </div>
+        <div class="col-md-4">
+            <form action="{{ route('pages-users') }}" method="GET">
+                <div class="input-group">
 
-                  <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
-                      name="filter">
-                      <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Users</option>
-                      <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Users</option>
-                      <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Users
-                      </option>
-                  </select>
-                  <button class="btn btn-primary" type="submit">Filter</button>
-              </div>
-          </form>
-      </div>
+                    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
+                        name="filter">
+                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Users</option>
+                        <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Users</option>
+                        <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Users
+                        </option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </div>
+            </form>
+        </div>
     </div>
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-header">Users <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="mb-1"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+            <h5 class="card-header">Users <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    class="mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-users">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
                     <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />

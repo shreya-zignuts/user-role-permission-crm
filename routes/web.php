@@ -80,8 +80,5 @@ Route::middleware('auth', 'permission')->group(function () use ($controller_path
 
   Route::prefix('userside')->group(function () use ($controller_path) {
     Route::get('/', $controller_path . '\UserSideController@index')->name('pages-userside');
-    // Route::get('/edit/{moduleId}', $controller_path . '\ModuleController@edit')->name('edit-module');
-    // Route::post('/update/{moduleId}', $controller_path . '\ModuleController@update')->name('update-module');
-    // Route::post('/toggle-status', $controller_path . '\ModuleController@toggleModuleStatus')->name('module-status');
   });
 });

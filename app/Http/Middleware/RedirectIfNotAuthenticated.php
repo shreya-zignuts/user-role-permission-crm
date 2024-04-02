@@ -32,8 +32,6 @@ class RedirectIfNotAuthenticated
         return redirect()->route('login');
       }
     }
-
-    // If not authenticated or not authorized, redirect or respond with an error
-    return $next($request); // Or return an error response
+    return $next($request);
   }
 }
