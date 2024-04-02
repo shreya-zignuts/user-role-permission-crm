@@ -43,7 +43,7 @@
     @endphp
 
     <div class="row">
-        <div class="col-lg-6 col-sm-6 mb-2">
+        <div class="col-lg-6 col-sm-6 mb-4">
             <div class="card h-100 text-center">
                 <div class="card-body pb-0">
                     <div class="card-icon">
