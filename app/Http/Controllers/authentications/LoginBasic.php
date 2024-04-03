@@ -72,7 +72,6 @@ class LoginBasic extends Controller
   public function logout()
   {
     $user = Auth::user();
-    // $user->is_active = 0;
     $user->update(['remember_token' => null]);
 
     return redirect()

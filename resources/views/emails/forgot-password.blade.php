@@ -12,7 +12,7 @@
 
 <body>
     <div>
-        <h1>Password Reset Mil</h1>
+        <h1>Password Reset Mail</h1>
         <p>You have been invited to reset your password.</p>
         <p>Please click the following link to reset your password:</p>
         <a href="{{ route('password.reset', ['email' => $user->email]) }}" class="btn">Reset Password</a>

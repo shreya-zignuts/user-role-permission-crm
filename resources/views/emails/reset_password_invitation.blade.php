@@ -74,7 +74,7 @@
                 <p class="info">You have been invited to reset your password. <br></p>
                 <p class="info">Please click the following link to reset your password:</p>
                 <div class="login">
-                    <a href="{{ route('password.reset', ['email' => $user->email]) }}" class="btn">Reset Password</a>
+                    <a href="{{ route('password.reset', ['token' => $user->invitation_token]) }}" class="btn">Reset Password</a>
                 </div>
                 </p>
             </div>

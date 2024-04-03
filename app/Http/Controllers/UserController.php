@@ -5,20 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Mail\ForgotPassword;
+use Illuminate\Http\Request;
 
 use Illuminate\Validation\Rule;
+use Laravel\Sanctum\HasApiTokens;
+use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 
+use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordInvitation;
 use App\Mail\ResetPasswordNotification;
 use Illuminate\Support\Facades\Session;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -200,9 +201,11 @@ class UserController extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
 
-    $email = $request->query('email');
+    $token = $request->token; // Retrieve the token from the request
 
-    return view('content.authentications.reset-password', compact('email', 'pageConfigs'));
+    $email = ($user = User::where('invitation_token', $token)->first()) ? $user->email : null;
+
+    return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
   }
 
   /**
@@ -223,9 +226,15 @@ class UserController extends Controller
 
     Auth::login($user);
 
-    return redirect()
-      ->route('pages-userside')
-      ->with('success', 'Password reset successfully. You can now log in.');
+    if ($user->isAdmin()) {
+      return redirect()
+        ->route('admin.dashboard')
+        ->with('success', 'Admin successfully logged in');
+    } else {
+      return redirect()
+        ->route('user.dashboard')
+        ->with('success', 'User successfully logged in');
+    }
   }
 
   /**
@@ -268,7 +277,17 @@ class UserController extends Controller
       return ['status' => 'error', 'message' => 'User not found.'];
     }
 
-    $token = Password::createToken($user);
+    $token = Str::random(60);
+
+    // Store the token in the database
+    $passwordResetToken = new PasswordResetToken();
+    $passwordResetToken->email = $user->email;
+    $passwordResetToken->token = $token;
+    $passwordResetToken->created_at = now(); // or use Carbon::now() if Carbon is not imported
+
+    // Save the record to the database
+    $passwordResetToken->save();
+
     $resetLink = url("password/reset/{$token}");
 
     Mail::to($user->email)->send(new ForgotPassword($user, $resetLink));
