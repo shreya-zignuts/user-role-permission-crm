@@ -91,7 +91,7 @@
                 <div class="card-body pb-0">
                     <div class="card-icon">
                         <div class="user-count-container d-flex flex-column align-items-center">
-                            <h5 class="card-title mt-5 user-count">3212121232</h5>
+                            <h5 class="card-title mt-5 user-count">32</h5>
                             <div class="mt-2">Users Count</div>
                         </div>
                     </div>

@@ -27,13 +27,35 @@
 @endsection
 
 @section('content')
-@if ($errors->any())
-                    <div class="alert alert-danger text-center">
-                        @foreach ($errors->all() as $error)
-                            {{ $error }}
-                        @endforeach
-                    </div>
-                @endif
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.alert.alert-danger').remove();
+            }, 2000); // Remove after 2 seconds
+        </script>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-primary">
+            {{ session('success') }}
+        </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.alert.alert-primary').remove();
+            }, 2000); // Remove after 2 seconds
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger text-center">
+            @foreach ($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </div>
+    @endif
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">

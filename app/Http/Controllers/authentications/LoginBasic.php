@@ -57,25 +57,26 @@ class LoginBasic extends Controller
         auth()
           ->user()
           ->update(['remember_token' => hash('sha256', $rememberToken)]);
-        return redirect()
-          ->route('pages-home')
-          ->with('success', 'successfully logged out')
-          ->withCookie($cookie);
-      }
-
-      if ($user->id === 1) {
-        return redirect()
-          ->route('pages-home')
-          ->with('success', 'Admin successfully logged in');
-      } else {
-        return redirect()
-          ->route('pages-userside')
-          ->with('success', 'User successfully logged in');
+        if ($user->id === 1) {
+          return redirect()
+            ->route('pages-home')
+            ->with('success', 'Admin successfully logged in')
+            ->withCookie($cookie);
+        } else {
+          return redirect()
+            ->route('pages-userside')
+            ->with('success', 'User successfully logged in')
+            ->withCookie($cookie);
+        }
+        // return redirect()
+        //   ->route('pages-home')
+        //   ->with('success', 'Successfully logged in')
+        //   ->withCookie($cookie);
       }
     }
     return redirect()
       ->route('pages-home')
-      ->with('success', 'successfully logged out');
+      ->with('success', 'Successfully logged in');
   }
 
   public function logout()

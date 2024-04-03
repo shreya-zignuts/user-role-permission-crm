@@ -19,7 +19,7 @@ return new class extends Migration {
       $table->string('phone_number')->nullable();
       $table->timestamp('email_verified_at')->nullable();
       $table->string('password');
-      $table->tinyInteger('is_active')->default(0);
+      $table->tinyInteger('is_active')->default(1);
       $table->enum('status', ['I', 'A', 'R'])->default('A'); //I = INVITATION, A = ACCEPTED, R = REJECTED
       $table->string('invitation_token')->nullable();
       $table->rememberToken();

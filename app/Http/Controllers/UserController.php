@@ -218,10 +218,13 @@ class UserController extends Controller
     $user = User::where('email', $request->email)->first();
 
     $user->password = Hash::make($request->password);
+    $user->status = 'A';
     $user->save();
 
+    Auth::login($user);
+
     return redirect()
-      ->route('auth-login-basic')
+      ->route('pages-userside')
       ->with('success', 'Password reset successfully. You can now log in.');
   }
 
@@ -247,7 +250,7 @@ class UserController extends Controller
 
     if ($result['status'] === 'success') {
       return redirect()
-        ->route('login')
+        ->route('pages-userside')
         ->with('status', $result['message']);
     } else {
       return back()->withErrors(['email' => $result['message']]);
