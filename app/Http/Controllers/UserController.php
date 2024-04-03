@@ -307,7 +307,7 @@ class UserController extends Controller
     // dd($user->tokens()->delete());
     $user->tokens()->delete();
 
-    $user->is_active = 0;
+    // $user->is_active = 0;
     $user->save();
 
     return redirect()

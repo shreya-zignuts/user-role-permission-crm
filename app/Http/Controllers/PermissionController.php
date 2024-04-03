@@ -45,27 +45,27 @@ class PermissionController extends Controller
    */
   public function store(Request $request)
   {
-    $request->validate([
+    $data = $request->validate([
       'name' => 'required|string',
       'description' => 'nullable|string',
     ]);
 
-    $permission = Permission::create([
-      'name' => $request->name,
-      'description' => $request->description,
-    ]);
+    $permission = Permission::create([$data]);
 
-    $modules = Module::all();
+    $permissions = $request->input('permissions', []);
+    $permission->modules()->attach($permissions);
 
-    foreach ($modules as $module) {
-      $moduleCode = $module->code;
-      $permission->modules()->attach($moduleCode, [
-        'add_access' => $request->has('add_access_' . $moduleCode),
-        'view_access' => $request->has('view_access_' . $moduleCode),
-        'edit_access' => $request->has('edit_access_' . $moduleCode),
-        'delete_access' => $request->has('delete_access_' . $moduleCode),
-      ]);
-    }
+    // $modules = Module::all();
+
+    // foreach ($modules as $module) {
+    //   $moduleCode = $module->code;
+    //   $permission->modules()->attach($moduleCode, [
+    //     'add_access' => $request->has('add_access_' . $moduleCode),
+    //     'view_access' => $request->has('view_access_' . $moduleCode),
+    //     'edit_access' => $request->has('edit_access_' . $moduleCode),
+    //     'delete_access' => $request->has('delete_access_' . $moduleCode),
+    //   ]);
+    // }
 
     return redirect()
       ->route('pages-permissions')
@@ -108,7 +108,7 @@ class PermissionController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $request->validate([
+    $data = $request->validate([
       'name' => 'required|string',
       'description' => 'nullable|string',
     ]);
@@ -116,22 +116,14 @@ class PermissionController extends Controller
 
     $permission = Permission::findOrFail($id);
 
-    $permission->name = $request->name;
-    $permission->description = $request->description;
+    $data = $request->validate([
+      'name' => 'required|string',
+      'description' => 'nullable|string',
+    ]);
 
-    $permission->save();
+    $permission = Permission::findOrFail($id);
 
-    $modules = Module::all();
-
-    foreach ($modules as $module) {
-      $moduleCode = $module->code;
-      $permission->modules()->updateExistingPivot($moduleCode, [
-        'add_access' => $request->has('add_access_' . $moduleCode),
-        'view_access' => $request->has('view_access_' . $moduleCode),
-        'edit_access' => $request->has('edit_access_' . $moduleCode),
-        'delete_access' => $request->has('delete_access_' . $moduleCode),
-      ]);
-    }
+    $permission->modules()->attach($permissions);
 
     return redirect()
       ->route('pages-permissions')

@@ -39,7 +39,6 @@ class LoginBasic extends Controller
         $user->save();
         $token = $user->createToken('API Token')->plainTextToken;
       } else {
-        Auth::logout();
         return redirect()
           ->route('login')
           ->withErrors(['error' => 'Your account is inactive. Please contact the administrator.']);
