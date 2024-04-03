@@ -226,13 +226,13 @@ class UserController extends Controller
 
     Auth::login($user);
 
-    if ($user->isAdmin()) {
+    if ($user->id === 1) {
       return redirect()
-        ->route('admin.dashboard')
+        ->route('pages-home')
         ->with('success', 'Admin successfully logged in');
     } else {
       return redirect()
-        ->route('user.dashboard')
+        ->route('pages-userside')
         ->with('success', 'User successfully logged in');
     }
   }
@@ -259,8 +259,8 @@ class UserController extends Controller
 
     if ($result['status'] === 'success') {
       return redirect()
-        ->route('pages-userside')
-        ->with('status', $result['message']);
+        ->route('auth-login-basic')
+        ->with('success', 'Link Sent Successfully');
     } else {
       return back()->withErrors(['email' => $result['message']]);
     }
