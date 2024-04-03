@@ -74,9 +74,18 @@ class LoginBasic extends Controller
         //   ->withCookie($cookie);
       }
     }
-    return redirect()
-      ->route('pages-home')
-      ->with('success', 'Successfully logged in');
+    // return redirect()
+    //   ->route('pages-home')
+    //   ->with('success', 'Successfully logged in');
+    if ($user->id === 1) {
+      return redirect()
+        ->route('pages-home')
+        ->with('success', 'Admin successfully logged in');
+    } else {
+      return redirect()
+        ->route('pages-userside')
+        ->with('success', 'User successfully logged in');
+    }
   }
 
   public function logout()
