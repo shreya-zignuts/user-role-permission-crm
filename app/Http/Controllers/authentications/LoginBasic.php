@@ -38,54 +38,35 @@ class LoginBasic extends Controller
         $user->is_active = 1;
         $user->save();
         $token = $user->createToken('API Token')->plainTextToken;
-
-        // Rest of your logic
       } else {
         Auth::logout();
         return redirect()
           ->route('login')
           ->withErrors(['error' => 'Your account is inactive. Please contact the administrator.']);
       }
-      $token = $user->createToken('API Token')->plainTextToken;
 
       if ($remember) {
         $rememberToken = Str::random(60);
-        $cookie = cookie()->forever('remember_token', $rememberToken);
-
-        Cookie::queue('remember_email', $request->input('email'), 60 * 24 * 30);
-        Cookie::queue('remember_password', $request->input('password'), 60 * 24 * 30);
+        $cookie = Cookie::forever('remember_token', $rememberToken);
+        Cookie::queue('remember_email', $request->email, 60 * 24 * 30);
+        Cookie::queue('remember_password', $request->password, 60 * 24 * 30);
         auth()
           ->user()
           ->update(['remember_token' => hash('sha256', $rememberToken)]);
-        if ($user->id === 1) {
-          return redirect()
-            ->route('pages-home')
-            ->with('success', 'Admin successfully logged in')
-            ->withCookie($cookie);
-        } else {
-          return redirect()
-            ->route('pages-userside')
-            ->with('success', 'User successfully logged in')
-            ->withCookie($cookie);
-        }
-        // return redirect()
-        //   ->route('pages-home')
-        //   ->with('success', 'Successfully logged in')
-        //   ->withCookie($cookie);
+      }
+
+      if ($user->id === 1) {
+        return redirect()
+          ->route('pages-home')
+          ->with('success', 'Admin successfully logged in');
+      } else {
+        return redirect()
+          ->route('pages-userside')
+          ->with('success', 'User successfully logged in');
       }
     }
-    // return redirect()
-    //   ->route('pages-home')
-    //   ->with('success', 'Successfully logged in');
-    if ($user->id === 1) {
-      return redirect()
-        ->route('pages-home')
-        ->with('success', 'Admin successfully logged in');
-    } else {
-      return redirect()
-        ->route('pages-userside')
-        ->with('success', 'User successfully logged in');
-    }
+
+    return back()->with('error', 'Wrong credentials');
   }
 
   public function logout()
