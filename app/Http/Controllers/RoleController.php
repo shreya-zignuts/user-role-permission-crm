@@ -64,19 +64,15 @@ class RoleController extends Controller
   /**
    * Toggle the status of the specified role.
    */
-  public function toggleRoleStatus(Request $request)
+  public function toggleRoleStatus(Request $request, $id)
   {
-    $roleId = $request->role_id;
-
-    $role = Role::findOrFail($roleId);
+    $role = Role::findOrFail($id);
 
     $role->is_active = !$role->is_active;
 
     $role->save();
 
-    return redirect()
-      ->back()
-      ->with('success', 'Role status toggled successfully.');
+    return response()->json(['success' => 'Role status toggled successfully.']);
   }
 
   /**
@@ -121,8 +117,6 @@ class RoleController extends Controller
     $role = Role::findOrFail($id);
     $role->delete();
 
-    return redirect()
-      ->route('pages-roles')
-      ->with('success', 'Role deleted successfully');
+    return response()->json(['success' => 'Role deleted successfully.']);
   }
 }

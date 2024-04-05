@@ -99,19 +99,15 @@ class UserController extends Controller
   /**
    * Toggle the status of the specified user.
    */
-  public function toggleStatus(Request $request)
+  public function toggleStatus(Request $request, $id)
   {
-    $userId = $request->user_id;
-
-    $user = User::findOrFail($userId);
+    $user = User::findOrFail($id);
 
     $user->is_active = !$user->is_active;
 
     $user->save();
 
-    return redirect()
-      ->back()
-      ->with('success', 'Status toggled successfully.');
+    return response()->json(['success' => 'User status toggled successfully.']);
   }
 
   /**

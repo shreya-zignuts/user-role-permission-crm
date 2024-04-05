@@ -143,20 +143,17 @@
                                 @endif
                             </td>
                             <td>
-                                <form action="{{ route('toggle-status') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                    <label class="switch">
-                                        <input type="checkbox" class="switch-input" name="is_active" onchange="submit()"
-                                            {{ $user->is_active ? 'checked' : '' }}
-                                            @if (auth()->check())  @endif>
-
-                                        <span class="switch-toggle-slider">
-                                            <span class="switch-on"></span>
-                                            <span class="switch-off"></span>
-                                        </span>
-                                    </label>
-                                </form>
+                              <form method="get" action="{{ route('per-status', ['id' => $user->id]) }}">
+                                @csrf
+                                <label class="switch">
+                                    <input data-id="{{$user->id}}" class="switch-input" type="checkbox" data-toggle="toggle"
+                                    data-onstyle="success" {{$user->is_active?'checked':''}}>
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on"></span>
+                                        <span class="switch-off"></span>
+                                    </span>
+                                </label>
+                            </form>
                             </td>
                             <td>
                                 <div class="dropdown">
@@ -262,4 +259,28 @@
         }
     </script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+
+      $('.switch-input').change(function() {
+
+          var status = $(this).prop('checked') == true ? 1 : 0;
+          var id = $(this).data('id');
+          $.ajax({
+
+              type: "GET",
+              dataType: "json",
+              url: "/users/change-status/" + id,
+              data: {
+                  'status': status,
+                  'id': id
+              },
+
+              success: function(data) {
+                  console.log(data.success)
+
+              }
+          });
+      })
+  </script>
 @endsection

@@ -45,14 +45,18 @@ class PermissionController extends Controller
    */
   public function store(Request $request)
   {
+    // dd($request->all());
+
     $data = $request->validate([
       'name' => 'required|string',
       'description' => 'nullable|string',
     ]);
 
-    $permission = Permission::create([$data]);
+    // dd($request->all());
+    $permission = Permission::create($data);
 
     $permissions = $request->input('permissions', []);
+
     $permission->modules()->attach($permissions);
 
     // $modules = Module::all();
@@ -75,19 +79,15 @@ class PermissionController extends Controller
   /**
    * Toggle the status of the specified permission.
    */
-  public function togglePermissionStatus(Request $request)
+  public function togglePermissionStatus(Request $request, $id)
   {
-    $permissionId = $request->permission_id;
-
-    $permission = Permission::findOrFail($permissionId);
+    $permission = Permission::findOrFail($id);
 
     $permission->is_active = !$permission->is_active;
 
     $permission->save();
 
-    return redirect()
-      ->back()
-      ->with('success', 'Permission status toggled successfully.');
+    return response()->json(['success' => 'Permission status toggled successfully.']);
   }
 
   /**
@@ -116,14 +116,25 @@ class PermissionController extends Controller
 
     $permission = Permission::findOrFail($id);
 
-    $data = $request->validate([
-      'name' => 'required|string',
-      'description' => 'nullable|string',
-    ]);
+    $permission->update($data);
 
-    $permission = Permission::findOrFail($id);
+    // $modules = $request->input('modules', []);
 
-    $permission->modules()->attach($permissions);
+    // dd($request->all());
+    $permissions = $request->input('permissions', []);
+
+    // foreach ($modules as $module) {
+    //   $moduleCode = $module->code;
+    //   $permission->modules()->createOrUpdate($moduleCode, $permissions);
+    // }
+
+    // $modulesToAttach = Module::whereIn('id', $permissions)->get();
+
+    // Sync the modules for the permission
+
+    // dd($permission->modules()->sync($permissions));
+    $permission->modules()->sync($permissions);
+    // Permission::with('modules')->updateOrCreate($permissions);
 
     return redirect()
       ->route('pages-permissions')
@@ -142,8 +153,6 @@ class PermissionController extends Controller
     $permission = Permission::findOrFail($id);
     $permission->delete();
 
-    return redirect()
-      ->route('pages-permissions')
-      ->with('success', 'Permission deleted successfully');
+    return response()->json(['success' => 'Permission deleted successfully.']);
   }
 }

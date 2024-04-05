@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -15,12 +17,14 @@
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
     <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
+    <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
 @endsection
 
 @section('content')
@@ -55,37 +59,38 @@
                     <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
                         <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
                         <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                            aria-describedby="basic-addon1" />
+                            aria-describedby="basic-addon1" value="{{ $search ?? '' }}" />
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="col-md-1 text-center">
-          <a href="{{ route('pages-permissions') }}" class="btn btn-secondary">Reset</a>
-      </div>
-      <div class="col-md-4">
-          <form action="{{ route('pages-permissions') }}" method="GET">
-              <div class="input-group">
+            <a href="{{ route('pages-permissions') }}" class="btn btn-secondary">Reset</a>
+        </div>
+        <div class="col-md-4">
+            <form action="{{ route('pages-permissions') }}" method="GET">
+                <div class="input-group">
 
-                  <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
-                      name="filter">
-                      <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Permissions</option>
-                      <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Permissions</option>
-                      <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Permissions
-                      </option>
-                  </select>
-                  <button class="btn btn-primary" type="submit">Filter</button>
-              </div>
-          </form>
-      </div>
+                    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
+                        name="filter">
+                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Permissions</option>
+                        <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Permissions</option>
+                        <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Permissions
+                        </option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-header">Permissions <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="mb-1"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-lock">
+            <h5 class="card-header">Permissions <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    class="mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-lock">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
                     <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
@@ -116,12 +121,16 @@
                             <td>{{ $permission->name }}</td>
                             <td>{{ $permission->description }}</td>
                             <td>
-                                <form method="POST" action="{{ route('per-status') }}">
+                                {{-- <input data-id="{{$permission->id}}" class="toggle-class" type="checkbox" data-onstyle="danger"
+                              data-offstyle="info" data-toggle="toggle"
+                             data-on="Pending" data-off="Approved" {{$permission->is_active?'checked':''}}> --}}
+
+                                <form method="get" action="{{ route('per-status', ['id' => $permission->id]) }}">
                                     @csrf
-                                    <input type="hidden" name="permission_id" value="{{ $permission->id }}">
                                     <label class="switch">
-                                        <input type="checkbox" class="switch-input" name="is_active"
-                                            onchange="this.form.submit()" {{ $permission->is_active ? 'checked' : '' }}>
+                                        <input data-id="{{ $permission->id }}" class="switch-input" type="checkbox"
+                                            data-toggle="toggle" data-onstyle="success"
+                                            {{ $permission->is_active ? 'checked' : '' }}>
                                         <span class="switch-toggle-slider">
                                             <span class="switch-on"></span>
                                             <span class="switch-off"></span>
@@ -137,15 +146,30 @@
                                         <a class="dropdown-item"
                                             href="{{ route('edit-permission', ['id' => $permission->id]) }}"><i
                                                 class="ti ti-pencil me-1"></i> Edit</a>
-                                        <form id="deletePermissionForm{{ $permission->id }}" method="POST"
+                                        {{-- <form id="deletePermissionForm{{ $permission->id }}" method="POST"
                                             action="{{ route('delete-permission', ['id' => $permission->id]) }}">
                                             @csrf
                                             <!-- Delete button trigger modal -->
-                                            <button class="dropdown-item"
-                                                onclick="return confirm('Are you sure you want to delete this permission?')">
+                                            <button class="dropdown-item">
+                                                <i class="ti ti-trash me-1"></i> Delete
+                                            </button>
+                                        </form> --}}
+
+                                        <form id="deletePermissionForm{{ $permission->id }}" method="POST"
+                                            action="{{ route('delete-permission', ['id' => $permission->id]) }}">
+                                            @csrf
+                                            <button class="dropdown-item delete-permission"
+                                                data-id="{{ $permission->id }}">
                                                 <i class="ti ti-trash me-1"></i> Delete
                                             </button>
                                         </form>
+
+
+                                        {{-- <div class="col-12">
+                                                  <button class="btn btn-primary" id="confirm-text">
+                                                    Alert
+                                                  </button>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </td>
@@ -162,4 +186,85 @@
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $('.switch-input').change(function() {
+
+            var status = $(this).prop('checked') == true ? 1 : 0;
+            var id = $(this).data('id');
+            $.ajax({
+
+                type: "GET",
+                dataType: "json",
+                url: "/permissions/change-status/" + id,
+                data: {
+                    'status': status,
+                    'id': id
+                },
+
+                success: function(data) {
+                    console.log(data.success)
+
+                }
+            });
+        })
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+    $('.delete-permission').click(function(e) {
+        e.preventDefault();
+
+        var form = $(this).closest('form');
+        var id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            customClass: {
+                confirmButton: 'btn btn-primary me-3',
+                cancelButton: 'btn btn-label-secondary'
+            },
+            buttonsStyling: false
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Your file has been deleted.',
+                            customClass: {
+                                confirmButton: 'btn btn-success'
+                            }
+                        }).then(function() {
+                            window.location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                            customClass: {
+                                confirmButton: 'btn btn-danger'
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+    </script>
 @endsection

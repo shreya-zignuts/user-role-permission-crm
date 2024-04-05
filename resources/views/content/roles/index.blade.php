@@ -17,11 +17,13 @@
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/masonry/masonry.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+
 @endsection
 
 @section('page-script')
@@ -121,18 +123,17 @@
                             <td>{{ $role->name }}</td>
                             <td>{{ $role->description }}</td>
                             <td>
-                                <form action="{{ route('role-status') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="role_id" value="{{ $role->id }}">
-                                    <label class="switch">
-                                        <input type="checkbox" class="switch-input" name="is_active" onchange="submit()"
-                                            {{ $role->is_active ? 'checked' : '' }}>
-                                        <span class="switch-toggle-slider">
-                                            <span class="switch-on"></span>
-                                            <span class="switch-off"></span>
-                                        </span>
-                                    </label>
-                                </form>
+                              <form method="get" action="{{ route('per-status', ['id' => $role->id]) }}">
+                                @csrf
+                                <label class="switch">
+                                    <input data-id="{{$role->id}}" class="switch-input" type="checkbox" data-toggle="toggle"
+                                    data-onstyle="success" {{$role->is_active?'checked':''}}>
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on"></span>
+                                        <span class="switch-off"></span>
+                                    </span>
+                                </label>
+                            </form>
                             </td>
                             <td>
                                 <div class="dropdown">
@@ -145,11 +146,11 @@
                                             action="{{ route('delete-role', ['id' => $role->id]) }}">
                                             @csrf
                                             <!-- Delete button trigger modal -->
-                                            <button class="dropdown-item"
-                                                onclick="return confirm('Are you sure you want to delete this role?')">
-                                                <i class="ti ti-trash me-1"></i> Delete
+                                            <button class="dropdown-item delete-role" data-id="{{ $role->id }}">
+                                              <i class="ti ti-trash me-1"></i> Delete
                                             </button>
                                         </form>
+                
                                     </div>
                                 </div>
                             </td>
@@ -165,4 +166,85 @@
             {{ $roles->links('pagination::bootstrap-5') }}
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+
+      $('.switch-input').change(function() {
+
+          var status = $(this).prop('checked') == true ? 1 : 0;
+          var id = $(this).data('id');
+          $.ajax({
+
+              type: "GET",
+              dataType: "json",
+              url: "/roles/change-status/" + id,
+              data: {
+                  'status': status,
+                  'id': id
+              },
+
+              success: function(data) {
+                  console.log(data.success)
+
+              }
+          });
+      })
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    $(document).ready(function() {
+        $('.delete-role').click(function(e) {
+            e.preventDefault();
+
+            var form = $(this).closest('form');
+            var id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: form.attr('action'),
+                        method: 'POST',
+                        data: form.serialize(),
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'Your role has been deleted.',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+</script>
 @endsection

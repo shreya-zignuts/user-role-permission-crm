@@ -18,7 +18,7 @@ class Module extends Model
 
   public function permissions()
   {
-    return $this->belongsToMany(Permission::class, 'permission_modules');
+    return $this->belongsToMany(Permission::class, 'permission_modules'); 
   }
 
   public function submodules()

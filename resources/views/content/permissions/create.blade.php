@@ -47,20 +47,28 @@
                                             <tr>
                                                 <td><strong>{{ $module->name }}</strong></td>
                                                 <td>
-                                                    <input type="checkbox" name="add_access_{{ $module->code }}"
-                                                        value="{{ $module->code }}">
+                                                  <input type="hidden" name="permissions[{{ $module->code }}][add_access]"
+                                                        value="0">
+                                                    <input type="checkbox" name="permissions[{{ $module->code }}][add_access]"
+                                                        value="1">
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" name="view_access_{{ $module->code }}"
-                                                        value="{{ $module->code }}">
+                                                  <input type="hidden" name="permissions[{{ $module->code }}][view_access]"
+                                                        value="0">
+                                                    <input type="checkbox" name="permissions[{{ $module->code }}][view_access]"
+                                                        value="1">
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" name="edit_access_{{ $module->code }}"
-                                                        value="{{ $module->code }}">
+                                                  <input type="hidden" name="permissions[{{ $module->code }}][edit_access]"
+                                                        value="0">
+                                                    <input type="checkbox" name="permissions[{{ $module->code }}][edit_access]"
+                                                        value="1">
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" name="delete_access_{{ $module->code }}"
-                                                        value="{{ $module->code }}">
+                                                  <input type="hidden" name="permissions[{{ $module->code }}][delete_access]"
+                                                        value="0">
+                                                    <input type="checkbox" name="permissions[{{ $module->code }}][delete_access]"
+                                                        value="1">
                                                 </td>
                                             </tr>
                                             <!-- Submodule permissions -->
@@ -68,20 +76,28 @@
                                                 <tr>
                                                     <td>&nbsp;&nbsp;&nbsp;&nbsp;{{ $submodule->name }}</td>
                                                     <td>
-                                                        <input type="checkbox" name="add_access_{{ $submodule->code }}"
-                                                            value="{{ $submodule->code }}">
+                                                      <input type="hidden" name="permissions[{{ $submodule->code }}][add_access]"
+                                                        value="0">
+                                                        <input type="checkbox" name="permissions[{{ $submodule->code }}][add_access]"
+                                                            value="1">
                                                     </td>
                                                     <td>
-                                                        <input type="checkbox" name="view_access_{{ $submodule->code }}"
-                                                            value="{{ $submodule->code }}">
+                                                      <input type="hidden" name="permissions[{{ $submodule->code }}][view_access]"
+                                                        value="0">
+                                                        <input type="checkbox" name="permissions[{{ $submodule->code }}][view_access]"
+                                                            value="1">
                                                     </td>
                                                     <td>
-                                                        <input type="checkbox" name="edit_access_{{ $submodule->code }}"
-                                                            value="{{ $submodule->code }}">
+                                                      <input type="hidden" name="permissions[{{ $submodule->code }}][edit_access]"
+                                                      value="0">
+                                                      <input type="checkbox" name="permissions[{{ $submodule->code }}][edit_access]"
+                                                          value="1">
                                                     </td>
                                                     <td>
-                                                        <input type="checkbox" name="delete_access_{{ $submodule->code }}"
-                                                            value="{{ $submodule->code }}">
+                                                      <input type="hidden" name="permissions[{{ $submodule->code }}][delete_access]"
+                                                      value="0">
+                                                      <input type="checkbox" name="permissions[{{ $submodule->code }}][delete_access]"
+                                                          value="1">
                                                     </td>
                                                 </tr>
                                             @endforeach

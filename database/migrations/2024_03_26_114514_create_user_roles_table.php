@@ -30,17 +30,6 @@ return new class extends Migration {
 
       $table->unique(['user_id', 'role_id']);
 
-      $table
-        ->foreignId('created_by')
-        ->nullable()
-        ->constrained('users')
-        ->onDelete('cascade');
-      $table
-        ->foreignId('updated_by')
-        ->nullable()
-        ->constrained('users')
-        ->onDelete('cascade');
-
       $table->softDeletes();
     });
   }

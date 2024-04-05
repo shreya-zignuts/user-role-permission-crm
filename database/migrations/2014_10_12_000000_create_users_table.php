@@ -27,6 +27,18 @@ return new class extends Migration {
       $table->string('invitation_token')->nullable();
       $table->rememberToken();
       $table->timestamps();
+
+      $table
+        ->foreignId('created_by')
+        ->nullable()
+        ->constrained('users')
+        ->onDelete('cascade');
+      $table
+        ->foreignId('updated_by')
+        ->nullable()
+        ->constrained('users')
+        ->onDelete('cascade');
+      $table->softDeletes();
     });
   }
 
