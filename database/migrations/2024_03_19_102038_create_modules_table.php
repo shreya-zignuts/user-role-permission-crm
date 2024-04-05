@@ -23,7 +23,7 @@ return new class extends Migration {
         ->foreign('parent_code')
         ->references('code')
         ->on('modules')
-        ->onDelete('set null');
+        ->onDelete('cascade');
 
       $table
         ->foreignId('created_by')

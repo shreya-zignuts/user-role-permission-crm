@@ -14,7 +14,7 @@ return new class extends Migration {
       $table->id();
       $table->string('name', 64);
       $table->string('description', 256)->nullable();
-      $table->tinyInteger('is_active')->default(0);
+      $table->tinyInteger('is_active')->default(1);
       $table->timestamps();
       $table
         ->foreignId('created_by')
