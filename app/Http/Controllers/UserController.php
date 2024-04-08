@@ -177,6 +177,7 @@ class UserController extends Controller
     $password = $request->password;
 
     $user->password = Hash::make($password);
+    $user->tokens()->delete();
     $user->save();
 
     $adminEmail = User::first()->email;
@@ -197,7 +198,13 @@ class UserController extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
 
-    $token = $request->token; // Retrieve the token from the request
+    $token = $request->token;
+
+    if (!$request->session()->has('reset_token_' . $token)) {
+      return redirect()
+        ->route('login')
+        ->with('error', 'Invalid or expired reset token.');
+    }
 
     $email = ($user = User::where('invitation_token', $token)->first()) ? $user->email : null;
 
@@ -214,7 +221,24 @@ class UserController extends Controller
       'password' => 'required|string|min:8|confirmed',
     ]);
 
-    $user = User::where('email', $request->email)->first();
+    $token = $request->token;
+
+    // Check if the token exists in the session
+    if (!$request->session()->has('reset_token_' . $token)) {
+      return redirect()
+        ->route('login')
+        ->with('error', 'Invalid or expired reset token.');
+    }
+
+    $email = $request->session()->get('reset_token_' . $token);
+
+    $user = User::where('email', $email)->first();
+
+    if (!$user) {
+      return redirect()
+        ->back()
+        ->with('error', 'User not exists.');
+    }
 
     $user->password = Hash::make($request->password);
     $user->status = 'A';
@@ -273,15 +297,19 @@ class UserController extends Controller
       return ['status' => 'error', 'message' => 'User not found.'];
     }
 
+    $existingToken = PasswordResetToken::where('email', $user->email)->first();
+
+    if ($existingToken) {
+      return ['status' => 'error', 'message' => 'Reset link already sent.'];
+    }
+
     $token = Str::random(60);
 
-    // Store the token in the database
     $passwordResetToken = new PasswordResetToken();
     $passwordResetToken->email = $user->email;
     $passwordResetToken->token = $token;
-    $passwordResetToken->created_at = now(); // or use Carbon::now() if Carbon is not imported
+    $passwordResetToken->created_at = now();
 
-    // Save the record to the database
     $passwordResetToken->save();
 
     $resetLink = url("password/reset/{$token}");
@@ -300,8 +328,8 @@ class UserController extends Controller
     if (!$user) {
       return back()->with('message', 'User not found');
     }
-    // dd($user->tokens()->delete());
     $user->tokens()->delete();
+    // dd($user->tokens()->delete());
 
     // $user->is_active = 0;
     $user->save();

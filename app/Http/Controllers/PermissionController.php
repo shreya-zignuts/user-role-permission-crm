@@ -25,7 +25,25 @@ class PermissionController extends Controller
       })
       ->paginate(5);
 
-    return view('content.permissions.index', compact('permissions', 'filter'));
+    // $permissions = Permission::query()
+    //   ->when($request->search, function ($query) use ($request) {
+    //     $query->where('name', 'like', '%' . $request->search . '%');
+    //   })
+    //   ->when($request->input('filter') && $request->input('filter') !== 'all', function ($query) use ($request) {
+    //     $query->where('is_active', $request->input('filter') === 'active');
+    //   })
+    //   ->orWhere(function ($query) use ($request) {
+    //     if ($request->search) {
+    //       $query->where('name', 'like', '%' . $request->search . '%');
+    //     }
+
+    //     if ($request->input('filter') && $request->input('filter') !== 'all') {
+    //       $query->orWhere('is_active', $request->input('filter') === 'active');
+    //     }
+    //   })
+    //   ->paginate(5);
+
+    return view('content.permissions.index', compact('permissions'));
   }
 
   /**
@@ -58,18 +76,6 @@ class PermissionController extends Controller
     $permissions = $request->input('permissions', []);
 
     $permission->modules()->attach($permissions);
-
-    // $modules = Module::all();
-
-    // foreach ($modules as $module) {
-    //   $moduleCode = $module->code;
-    //   $permission->modules()->attach($moduleCode, [
-    //     'add_access' => $request->has('add_access_' . $moduleCode),
-    //     'view_access' => $request->has('view_access_' . $moduleCode),
-    //     'edit_access' => $request->has('edit_access_' . $moduleCode),
-    //     'delete_access' => $request->has('delete_access_' . $moduleCode),
-    //   ]);
-    // }
 
     return redirect()
       ->route('pages-permissions')

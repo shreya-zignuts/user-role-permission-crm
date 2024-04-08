@@ -5,15 +5,19 @@
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
 @endsection
 
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
+    <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
 @endsection
 
 @section('content')
@@ -43,14 +47,23 @@
 
                         <div class="mb-3">
                             <label for="selectpickerMultiple" class="form-label">Permissions</label>
+                            @php
+                        $activePermissionsExist = false;
+                    @endphp
                             <select id="selectpickerMultiple" name="permissions[]" class="selectpicker w-100"
                                 data-style="btn-default" multiple data-icon-base="ti" data-tick-icon="ti-check text-white">
                                 @foreach ($permissions as $permission)
                                 @if ($permission->is_active)
+                                @php $activePermissionsExist = true; @endphp
                                     <option value="{{ $permission->id }}">{{ $permission->name }}</option>
                                     @endif
                                 @endforeach
                             </select>
+                            @if (!$activePermissionsExist)
+                        <div class="alert alert-danger mt-2">
+                          <li>No permissions are active.</li>
+                        </div>
+                    @endif
                         </div>
                         <div class="col-12 text-center mt-4">
                           <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light"

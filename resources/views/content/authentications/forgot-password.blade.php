@@ -32,6 +32,16 @@ $customizerHidden = 'customizer-hide';
       <!-- Forgot Password -->
       <div class="card">
         <div class="card-body">
+          @if ($errors->has('email'))
+          <div class="alert alert-danger">
+              <li>{{ $errors->first('email') }}</li>
+          </div>
+          <script>
+            setTimeout(function() {
+                document.querySelector('.alert.alert-danger').remove();
+            }, 2000); // Remove after 2 seconds
+        </script>
+      @endif
           <!-- Logo -->
           <div class="app-brand justify-content-center mb-4 mt-2">
             <a href="{{url('/')}}" class="app-brand-link gap-2">
