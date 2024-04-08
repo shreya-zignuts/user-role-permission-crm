@@ -198,13 +198,14 @@ class UserController extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
 
-    $token = $request->token;
+    // dd($request->user()->id);
+    $user = User::findOrFail($request->user()->id);
 
-    if (!$request->session()->has('reset_token_' . $token)) {
-      return redirect()
-        ->route('login')
-        ->with('error', 'Invalid or expired reset token.');
+    if ($user->status === 'A') {
+      return response()->json(['success' => 'password already reset']);
     }
+
+    $token = $request->token;
 
     $email = ($user = User::where('invitation_token', $token)->first()) ? $user->email : null;
 
@@ -221,16 +222,7 @@ class UserController extends Controller
       'password' => 'required|string|min:8|confirmed',
     ]);
 
-    $token = $request->token;
-
-    // Check if the token exists in the session
-    if (!$request->session()->has('reset_token_' . $token)) {
-      return redirect()
-        ->route('login')
-        ->with('error', 'Invalid or expired reset token.');
-    }
-
-    $email = $request->session()->get('reset_token_' . $token);
+    $email = $request->email;
 
     $user = User::where('email', $email)->first();
 

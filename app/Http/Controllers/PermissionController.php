@@ -25,24 +25,6 @@ class PermissionController extends Controller
       })
       ->paginate(5);
 
-    // $permissions = Permission::query()
-    //   ->when($request->search, function ($query) use ($request) {
-    //     $query->where('name', 'like', '%' . $request->search . '%');
-    //   })
-    //   ->when($request->input('filter') && $request->input('filter') !== 'all', function ($query) use ($request) {
-    //     $query->where('is_active', $request->input('filter') === 'active');
-    //   })
-    //   ->orWhere(function ($query) use ($request) {
-    //     if ($request->search) {
-    //       $query->where('name', 'like', '%' . $request->search . '%');
-    //     }
-
-    //     if ($request->input('filter') && $request->input('filter') !== 'all') {
-    //       $query->orWhere('is_active', $request->input('filter') === 'active');
-    //     }
-    //   })
-    //   ->paginate(5);
-
     return view('content.permissions.index', compact('permissions'));
   }
 

@@ -13,4 +13,8 @@ class UserSideController extends Controller
   {
     return view('content.userside.index');
   }
+  public function showModules()
+  {
+    return view('content.userside.modules');
+  }
 }
