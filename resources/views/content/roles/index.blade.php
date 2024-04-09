@@ -38,57 +38,63 @@
 
 @section('content')
 
-@if (session('error'))
-<div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-  <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-      <i class="ti ti-bell ti-xs me-2"></i>
-      <div class="me-auto fw-semibold">Error</div>
-      <?php
-        date_default_timezone_set('Asia/Kolkata');
-        ?>
-      <small class="text-muted"><?= date('h:i A'); ?></small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-  <div class="toast-body" style="padding: 10px; color: #333;">
-    {{ session('error') }}
-  </div>
-</div>
+    @if (session('error'))
+        <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-delay="2000"
+            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <div class="toast-header bg-danger text-white"
+                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                <i class="ti ti-bell ti-xs me-2"></i>
+                <div class="me-auto fw-semibold">Error</div>
+                <?php
+                date_default_timezone_set('Asia/Kolkata');
+                ?>
+                <small class="text-muted"><?= date('h:i A') ?></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" style="padding: 10px; color: #333;">
+                {{ session('error') }}
+            </div>
+        </div>
 
-<script>
-    // Show toast message
-    document.addEventListener('DOMContentLoaded', function () {
-        var toastEl = document.querySelector('.toast');
-        var toast = new bootstrap.Toast(toastEl);
-        toast.show();
-    });
-</script>
-@endif
+        <script>
+            // Show toast message
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+    @endif
 
-@if (session('success'))
-<div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-  <div class="toast-header bg-success text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-      <i class="ti ti-bell ti-xs me-2"></i>
-      <div class="me-auto fw-semibold">Success</div>
-      <?php
-        date_default_timezone_set('Asia/Kolkata');
-        ?>
-      <small class="text-muted"><?= date(' h:i A'); ?></small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-  <div class="toast-body" style="padding: 10px; color: #333;">
-    {{ session('success') }}
-  </div>
-</div>
+    @if (session('success'))
+        <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-delay="2000"
+            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <div class="toast-header bg-success text-white"
+                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                <i class="ti ti-bell ti-xs me-2"></i>
+                <div class="me-auto fw-semibold">Success</div>
+                <?php
+                date_default_timezone_set('Asia/Kolkata');
+                ?>
+                <small class="text-muted"><?= date(' h:i A') ?></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" style="padding: 10px; color: #333;">
+                {{ session('success') }}
+            </div>
+        </div>
 
-<script>
-    // Show toast message
-    document.addEventListener('DOMContentLoaded', function () {
-        var toastEl = document.querySelector('.toast');
-        var toast = new bootstrap.Toast(toastEl);
-        toast.show();
-    });
-</script>
-@endif
+        <script>
+            // Show toast message
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+    @endif
     <div class="row justify-content-center mt-3">
         <div class="col-md-4">
             <form method="GET" action="{{ route('pages-roles') }}">
@@ -207,21 +213,60 @@
 
             var status = $(this).prop('checked') == true ? 1 : 0;
             var id = $(this).data('id');
-            $.ajax({
 
-                type: "GET",
-                dataType: "json",
-                url: "/admin/roles/change-status/" + id,
-                data: {
-                    'status': status,
-                    'id': id
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, toggle it!',
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3',
+                    cancelButton: 'btn btn-label-secondary'
                 },
+                buttonsStyling: false
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
 
-                success: function(data) {
-                    console.log(data.success)
+                        type: "GET",
+                        dataType: "json",
+                        url: "/admin/roles/change-status/" + id,
+                        data: {
+                            'status': status,
+                            'id': id
+                        },
 
+                        success: function(data) {
+                            console.log(data.success)
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Changed!',
+                                text: 'Toggle status for role is changed',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                }
+                            });
+                        }
+                    });
                 }
             });
+
+
         })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

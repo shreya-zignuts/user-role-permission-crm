@@ -66,15 +66,17 @@ class ModuleController extends Controller
   public function toggleModuleStatus(Request $request, $moduleId)
   {
     $module = Module::findOrFail($moduleId);
-    $module->is_active = $request->input('is_active');
+    
+    $module->is_active = !$module->is_active;
     $module->save();
 
     if (!$module->is_active) {
       $module->submodules()->update(['is_active' => false]);
     }
 
-    return redirect()
-      ->back()
-      ->with('success', 'Module status toggled successfully.');
+    // return redirect()
+    //   ->back()
+    //   ->with('success', 'Module status toggled successfully.');
+    return response()->json(['success' => 'Permission status toggled successfully.']);
   }
 }

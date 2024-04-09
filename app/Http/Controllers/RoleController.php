@@ -72,6 +72,9 @@ class RoleController extends Controller
 
     $role->save();
 
+    // return redirect()
+    //   ->back()
+    //   ->with('success', 'User status toggled successfully.');
     return response()->json(['success' => 'Role status toggled successfully.']);
   }
 

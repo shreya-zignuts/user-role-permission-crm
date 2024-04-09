@@ -17,6 +17,7 @@ $controller_path = 'App\Http\Controllers';
 
 // Main Page Route
 Route::get('/', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
+Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
 Route::post('/auth/login-basic', $controller_path . '\authentications\LoginBasic@login')->name('login');
 Route::post('/logout', $controller_path . '\authentications\LoginBasic@logout')->name('logout');
 
@@ -86,6 +87,9 @@ Route::middleware('auth', 'permission', 'admin.check')
 Route::middleware('auth', 'permission')->group(function () use ($controller_path) {
   Route::prefix('userside')->group(function () use ($controller_path) {
     Route::get('/', $controller_path . '\UserSideController@index')->name('pages-userside');
-    Route::get('/module', $controller_path . '\UserSideController@showModules')->name('users-modules');
+    Route::get('/users-modules', $controller_path . '\UserSideController@showModules')->name('users-modules');
+    Route::get('/edit/{id}', $controller_path . '\UserSideController@edit')->name('edit-user-profile');
+    Route::post('/update/{id}', $controller_path . '\UserSideController@update')->name('update-user-profile');
+    Route::post('/reset-password', $controller_path . '\UserSideController@resetPassword')->name('user-reset-password');
   });
 });

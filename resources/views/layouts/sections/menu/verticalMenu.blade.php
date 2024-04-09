@@ -1,5 +1,7 @@
 @php
 $configData = Helper::appClasses();
+$moduleJson = file_get_contents(storage_path('app/modules.json'));
+    $moduleData = json_decode($moduleJson);
 @endphp
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -83,5 +85,6 @@ $configData = Helper::appClasses();
     @endif
     @endforeach
   </ul>
+
 
 </aside>

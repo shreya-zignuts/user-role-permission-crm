@@ -5,12 +5,6 @@
       "name": "Home",
       "icon": "menu-icon tf-icons ti ti-smart-home",
       "slug": "pages-userside"
-    },
-    {
-      "url": "/userside/module",
-      "icon": "menu-icon tf-icons ti ti-hexagons",
-      "name": "Modules",
-      "slug": "users-modules"
     }
   ]
 }
