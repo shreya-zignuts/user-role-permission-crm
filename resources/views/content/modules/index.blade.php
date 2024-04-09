@@ -129,12 +129,10 @@
                             <td>{{ $module->name }}</td>
                             <td>{{ $module->description }}</td>
                             <td>
-                                <form method="POST" action="{{ route('module-status') }}">
+                                <form method="POST" action="{{ route('module-status', ['moduleId' => $module->code]) }}">
                                     @csrf
-                                    <input type="hidden" name="module_code" value="{{ $module->code }}">
                                     <label class="switch">
-                                        <input type="checkbox" class="switch-input" name="is_active"
-                                            onchange="this.form.submit()" {{ $module->is_active ? 'checked' : '' }}>
+                                        <input type="checkbox" class="switch-input" name="is_active" {{ $module->is_active ? 'checked' : '' }}>
                                         <span class="switch-toggle-slider">
                                             <span class="switch-on"></span>
                                             <span class="switch-off"></span>
@@ -164,21 +162,17 @@
                                                 <td>{{ $submodule->name }}</td>
                                                 <td>{{ $submodule->description }}</td>
                                                 <td>
-                                                    <form method="GET" action="{{ route('pages-modules') }}">
-                                                        @csrf
-                                                        <input type="hidden" name="module_code"
-                                                            value="{{ $submodule->code }}">
-                                                        <input type="hidden" name="toggle" value="true">
-                                                        <label class="switch">
-                                                            <input type="checkbox" class="switch-input" name="toggle"
-                                                                {{ $module->is_active && $submodule->is_active ? 'checked' : '' }}
-                                                                onchange="submit()">
-                                                            <span class="switch-toggle-slider">
-                                                                <span class="switch-on"></span>
-                                                                <span class="switch-off"></span>
-                                                            </span>
-                                                        </label>
-                                                    </form>
+                                                  <form method="get" action="{{ route('module-status', ['moduleId' => $submodule->code]) }}">
+                                                    @csrf
+                                                    <label class="switch">
+                                                        <input data-id="{{ $submodule->code }}" class="toggle-class switch-input" type="checkbox" name="is_active"
+                                                               data-toggle="toggle" data-onstyle="success" {{ $module->is_active && $submodule->is_active ? 'checked' : '' }}>
+                                                        <span class="switch-toggle-slider">
+                                                            <span class="switch-on"></span>
+                                                            <span class="switch-off"></span>
+                                                        </span>
+                                                    </label>
+                                                </form>
                                                 </td>
                                                 <td><a
                                                         href="{{ route('edit-module', ['moduleId' => $submodule->code]) }}"><img
@@ -200,4 +194,31 @@
             {{ $modules->links('pagination::bootstrap-5') }}
         </div>
     </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $('.switch-input').change(function() {
+        var status = $(this).prop('checked') ? 1 : 0;
+        var id = $(this).closest('form').attr('action').split('/').pop(); // Get the module ID from the form action URL
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/admin/modules/change-status/" + id,
+            data: {
+                'is_active': status
+            },
+            success: function(data) {
+                console.log(data.success);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                // Handle error scenario if needed
+            }
+        });
+    });
+</script>
+
+    </script>
 @endsection

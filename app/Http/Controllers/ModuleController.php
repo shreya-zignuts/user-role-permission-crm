@@ -63,15 +63,15 @@ class ModuleController extends Controller
   /**
    * Toggle the status of the specified module.
    */
-  public function toggleModuleStatus(Request $request)
+  public function toggleModuleStatus(Request $request, $moduleId)
   {
-    $moduleId = $request->module_code;
-
     $module = Module::findOrFail($moduleId);
-
-    $module->is_active = !$module->is_active;
-
+    $module->is_active = $request->input('is_active');
     $module->save();
+
+    if (!$module->is_active) {
+      $module->submodules()->update(['is_active' => false]);
+    }
 
     return redirect()
       ->back()

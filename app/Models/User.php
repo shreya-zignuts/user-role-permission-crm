@@ -6,12 +6,13 @@ namespace App\Models;
 use Laravel\Passport\Token;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-  use HasApiTokens, HasFactory, Notifiable;
+  use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
   /**
    * The attributes that are mass assignable.
@@ -54,5 +55,15 @@ class User extends Authenticatable
   public function roles()
   {
     return $this->belongsToMany(Role::class, 'user_roles');
+  }
+
+  public function createdBy()
+  {
+    return $this->belongsTo(User::class, 'created_by');
+  }
+
+  public function updatedBy()
+  {
+    return $this->belongsTo(User::class, 'updated_by');
   }
 }

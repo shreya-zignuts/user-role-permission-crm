@@ -198,19 +198,37 @@ class UserController extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
 
-    // dd($request->user()->id);
-    $user = User::findOrFail($request->user()->id);
-
-    if ($user->status === 'A') {
-      return response()->json(['success' => 'password already reset']);
-    }
-
     $token = $request->token;
 
     $email = ($user = User::where('invitation_token', $token)->first()) ? $user->email : null;
 
     return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
   }
+
+  // public function showResetForm(Request $request)
+  // {
+  //   $pageConfigs = ['myLayout' => 'blank'];
+
+  //   $token = $request->token;
+
+  //   $user = User::where('invitation_token', $token)->first();
+
+  //   if (!$user) {
+  //     return response()->json(['error' => 'Invalid token'], 400);
+  //   }
+
+  //   if ($user->status === 'A') {
+  //     return response()->json(['success' => 'Password already reset']);
+  //   }
+
+  //   // Mark the token as used
+  //   $user->invitation_token = null;
+  //   $user->save();
+
+  //   $email = $user->email;
+
+  //   return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
+  // }
 
   /**
    * Reset the user's password.

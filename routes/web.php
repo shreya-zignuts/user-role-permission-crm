@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 $controller_path = 'App\Http\Controllers';
 
 // Main Page Route
-Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
+Route::get('/', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
 Route::post('/auth/login-basic', $controller_path . '\authentications\LoginBasic@login')->name('login');
 Route::post('/logout', $controller_path . '\authentications\LoginBasic@logout')->name('logout');
 
@@ -34,13 +34,16 @@ Route::middleware('auth', 'permission', 'admin.check')
     // Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name(
     //   'auth-register-basic'
     // );
+
     Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
 
     Route::prefix('modules')->group(function () use ($controller_path) {
       Route::get('/', $controller_path . '\ModuleController@index')->name('pages-modules');
       Route::get('/edit/{moduleId}', $controller_path . '\ModuleController@edit')->name('edit-module');
       Route::post('/update/{moduleId}', $controller_path . '\ModuleController@update')->name('update-module');
-      Route::post('/toggle-status', $controller_path . '\ModuleController@toggleModuleStatus')->name('module-status');
+      Route::get('/change-status/{moduleId}', $controller_path . '\ModuleController@toggleModuleStatus')->name(
+        'module-status'
+      );
     });
 
     Route::prefix('permissions')->group(function () use ($controller_path) {

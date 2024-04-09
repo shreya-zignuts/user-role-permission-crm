@@ -1,49 +1,34 @@
 {
   "menu": [
     {
-      "url": "/",
+      "url": "/admin",
       "name": "Home",
       "icon": "menu-icon tf-icons ti ti-smart-home",
       "slug": "pages-home"
     },
     {
-      "url": "modules",
-      "icon": "menu-icon tf-icons ti ti-file",
+      "url": "/admin/modules",
+      "icon": "menu-icon tf-icons ti ti-hexagons",
       "name": "Modules",
       "slug": "pages-modules"
     },
     {
-      "url": "permissions",
-      "icon": "menu-icon tf-icons ti ti-file",
+      "url": "/admin/permissions",
+      "icon": "menu-icon tf-icons ti ti-lock",
       "name": "Permissions",
       "slug": "pages-permissions"
     },
     {
-      "url": "roles",
-      "icon": "menu-icon tf-icons ti ti-file",
+      "url": "/admin/roles",
+      "icon": "menu-icon tf-icons ti ti-user-circle",
       "name": "Roles",
       "slug": "pages-roles"
     },
     {
-      "url": "pages/misc-error",
-      "name": "Error",
-      "icon": "menu-icon tf-icons ti ti-alert-triangle",
-      "slug": "pages-misc-error",
-      "target": "_blank"
-    },
-    {
-      "url": "auth/login-basic",
-      "name": "Login",
-      "icon": "menu-icon tf-icons ti ti-login",
-      "slug": "auth-login-basic",
-      "target": "_blank"
-    },
-    {
-      "url": "auth/register-basic",
-      "name": "Register",
-      "icon": "menu-icon tf-icons ti ti-user",
-      "slug": "auth-register-basic",
-      "target": "_blank"
+      "url": "/admin/users",
+      "icon": "menu-icon tf-icons ti ti-users",
+      "name": "Users",
+      "slug": "pages-users"
     }
   ]
 }

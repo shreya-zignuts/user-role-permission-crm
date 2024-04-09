@@ -71,8 +71,9 @@ class PermissionController extends Controller
   {
     $permission = Permission::findOrFail($id);
 
-    $permission->is_active = !$permission->is_active;
+    // $permission->update(['is_active' => !$permission->is_active]);
 
+    $permission->is_active = $request->is_active; // Assuming 'status' is either 1 or 0
     $permission->save();
 
     return response()->json(['success' => 'Permission status toggled successfully.']);

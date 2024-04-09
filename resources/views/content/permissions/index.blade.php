@@ -25,6 +25,7 @@
     <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
+
 @endsection
 
 @section('content')
@@ -152,22 +153,18 @@
                             <td>{{ $permission->name }}</td>
                             <td>{{ $permission->description }}</td>
                             <td>
-                                {{-- <input data-id="{{$permission->id}}" class="toggle-class" type="checkbox" data-onstyle="danger"
-                              data-offstyle="info" data-toggle="toggle"
-                             data-on="Pending" data-off="Approved" {{$permission->is_active?'checked':''}}> --}}
-
-                                <form method="get" action="{{ route('per-status', ['id' => $permission->id]) }}">
-                                    @csrf
-                                    <label class="switch">
-                                        <input data-id="{{ $permission->id }}" class="switch-input" type="checkbox"
-                                            data-toggle="toggle" data-onstyle="success"
-                                            {{ $permission->is_active ? 'checked' : '' }}>
-                                        <span class="switch-toggle-slider">
-                                            <span class="switch-on"></span>
-                                            <span class="switch-off"></span>
-                                        </span>
-                                    </label>
-                                </form>
+                              <form method="get" action="{{ route('per-status', ['id' => $permission->id]) }}">
+                                @csrf
+                                <input type="hidden" name="is_active" value="{{ $permission->is_active ? '0': '1'}}">
+                                <label class="switch">
+                                    <input data-id="{{ $permission->id }}" class="toggle-class switch-input" type="checkbox" name="is_active"
+                                           data-toggle="toggle" data-onstyle="success" {{ $permission->is_active ? 'checked' : '' }}>
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on"></span>
+                                        <span class="switch-off"></span>
+                                    </span>
+                                </label>
+                            </form>
                             </td>
                             <td>
                                 <div class="dropdown">
@@ -177,14 +174,6 @@
                                         <a class="dropdown-item"
                                             href="{{ route('edit-permission', ['id' => $permission->id]) }}"><i
                                                 class="ti ti-pencil me-1"></i> Edit</a>
-                                        {{-- <form id="deletePermissionForm{{ $permission->id }}" method="POST"
-                                            action="{{ route('delete-permission', ['id' => $permission->id]) }}">
-                                            @csrf
-                                            <!-- Delete button trigger modal -->
-                                            <button class="dropdown-item">
-                                                <i class="ti ti-trash me-1"></i> Delete
-                                            </button>
-                                        </form> --}}
 
                                         <form id="deletePermissionForm{{ $permission->id }}" method="POST"
                                             action="{{ route('delete-permission', ['id' => $permission->id]) }}">
@@ -194,13 +183,6 @@
                                                 <i class="ti ti-trash me-1"></i> Delete
                                             </button>
                                         </form>
-
-
-                                        {{-- <div class="col-12">
-                                                  <button class="btn btn-primary" id="confirm-text">
-                                                    Alert
-                                                  </button>
-                                        </div> --}}
                                     </div>
                                 </div>
                             </td>
@@ -220,82 +202,82 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $('.switch-input').change(function() {
+          console.log('here');
+    var status = $(this).prop('checked') ? 1 : 0;
+    var id = $(this).data('id');
 
-            var status = $(this).prop('checked') == true ? 1 : 0;
-            var id = $(this).data('id');
-            $.ajax({
-
-                type: "GET",
-                dataType: "json",
-                url: "/permissions/change-status/" + id,
-                data: {
-                    'status': status,
-                    'id': id
-                },
-
-                success: function(data) {
-                    console.log(data.success)
-
-                }
-            });
-        })
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <script>
-      $(document).ready(function() {
-    $('.delete-permission').click(function(e) {
-        e.preventDefault();
-
-        var form = $(this).closest('form');
-        var id = $(this).data('id');
-
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            customClass: {
-                confirmButton: 'btn btn-primary me-3',
-                cancelButton: 'btn btn-label-secondary'
-            },
-            buttonsStyling: false
-        }).then(function(result) {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                    success: function(response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Deleted!',
-                            text: 'Your file has been deleted.',
-                            customClass: {
-                                confirmButton: 'btn btn-success'
-                            }
-                        }).then(function() {
-                            window.location.reload();
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                            customClass: {
-                                confirmButton: 'btn btn-danger'
-                            }
-                        });
-                    }
-                });
-            }
-        });
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/admin/permissions/change-status/" + id,
+        data: {
+            'is_active': status
+        },
+        success: function(data) {
+            console.log(data.success);
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            // Handle error scenario if needed
+        }
     });
 });
-
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.delete-permission').click(function(e) {
+            e.preventDefault();
+
+            var form = $(this).closest('form');
+            var id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: form.attr('action'),
+                        method: 'POST',
+                        data: form.serialize(),
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'Your role has been deleted.',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
 @endsection

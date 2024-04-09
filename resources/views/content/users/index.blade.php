@@ -193,14 +193,15 @@
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{ route('edit-user', ['id' => $user->id]) }}"><i
                                                 class="ti ti-pencil me-1"></i> Edit</a>
-                                        <form id="deleteRoleForm{{ $user->id }}" method="POST"
-                                            action="{{ route('delete-user', ['id' => $user->id]) }}">
-                                            @csrf
-                                            <button type="submit" class="dropdown-item text-left"
-                                                onclick="return confirm('Are you sure you want to delete this user?')">
-                                                <i class="ti ti-trash me-1"></i> Delete
-                                            </button>
-                                        </form>
+                                        <form id="deleteUserForm{{ $user->id }}" method="POST"
+                                          action="{{ route('delete-user', ['id' => $user->id]) }}">
+                                          @csrf
+                                          <!-- Delete button trigger modal -->
+                                          <button class="dropdown-item delete-user" data-id="{{ $user->id }}">
+                                              <i class="ti ti-trash me-1"></i> Delete
+                                          </button>
+                                      </form>
+
                                         <a href="#" data-bs-target="#addRoleModal" data-bs-toggle="modal"
                                             class="btn text-nowrap dropdown-item reset-password-btn"
                                             data-user-email="{{ $user->email }}"
@@ -209,7 +210,6 @@
                                                 width="20px" alt="">
                                             &nbsp; New Password
                                         </a>
-                                        @auth
                                             <form action="{{ route('logout.user', ['id' => $user->id]) }}" method="post">
                                                 @csrf
 
@@ -217,7 +217,6 @@
                                                         src="https://cdn-icons-png.flaticon.com/128/3889/3889524.png"
                                                         width="16px" alt="">&nbsp; Force Logout</button>
                                             </form>
-                                        @endauth
                                     </div>
                                 </div>
                             </td>
@@ -289,8 +288,8 @@
             document.getElementById('userEmail').value = userEmail;
         }
     </script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <script>
 
       $('.switch-input').change(function() {
@@ -301,7 +300,7 @@
 
               type: "GET",
               dataType: "json",
-              url: "/users/change-status/" + id,
+              url: "/admin/users/change-status/" + id,
               data: {
                   'status': status,
                   'id': id
@@ -314,4 +313,63 @@
           });
       })
   </script>
+    <!-- Include SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.delete-user').click(function(e) {
+            e.preventDefault();
+
+            var form = $(this).closest('form');
+            var id = $(this).data('id');
+
+            // Use SweetAlert for delete confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: form.attr('action'),
+                        method: 'POST',
+                        data: form.serialize(),
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'Your role has been deleted.',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+
 @endsection

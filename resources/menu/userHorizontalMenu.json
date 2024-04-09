@@ -1,16 +1,16 @@
 {
   "menu": [
     {
-      "url": "/",
+      "url": "/userside",
       "name": "Home",
       "icon": "menu-icon tf-icons ti ti-smart-home",
-      "slug": "pages-home"
+      "slug": "pages-userside"
     },
     {
-      "url": "modules",
-      "icon": "menu-icon tf-icons ti ti-file",
+      "url": "/userside/module",
+      "icon": "menu-icon tf-icons ti ti-hexagons",
       "name": "Modules",
-      "slug": "pages-modules"
+      "slug": "users-modules"
     }
   ]
 }

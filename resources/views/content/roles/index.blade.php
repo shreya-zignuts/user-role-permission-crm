@@ -211,7 +211,7 @@
 
                 type: "GET",
                 dataType: "json",
-                url: "/roles/change-status/" + id,
+                url: "/admin/roles/change-status/" + id,
                 data: {
                     'status': status,
                     'id': id
