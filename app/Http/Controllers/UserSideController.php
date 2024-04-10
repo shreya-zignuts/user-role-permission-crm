@@ -4,19 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Module;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\MenuServiceProvider;
 
 class UserSideController extends Controller
 {
   /**
    * Display the index page for the user side.
    */
-  public function index()
+
+  public function index(Request $request)
   {
     $user = Auth::user();
-    return view('content.userside.index', compact('user'));
+
+    // Check if the user is authenticated
+    if (!$user) {
+      return redirect()->route('login');
+    }
+
+    $modules = $user->getModulesWithPermissions();
+
+    $user->modules = $modules;
+    
+    return view('content.userside.index', [
+      'user' => $user,
+    ]);
   }
 
   public function edit($id)

@@ -93,19 +93,20 @@ class RoleController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $request->validate([
+    $data = $request->validate([
       'name' => 'required|string|max:255',
       'description' => 'nullable|string|max:255',
       'permissions' => 'required|array',
       'permissions.*' => 'integer|exists:permissions,id',
     ]);
 
-    $role = Role::create([
-      'name' => $request->name,
-      'description' => $request->description,
-    ]);
+    $role = Role::findOrFail($id);
 
-    $role->permissions()->sync($request->permissions);
+    $role->update($data);
+
+    $roles = $request->input('roles', []);
+
+    $role->permissions()->sync($roles);
 
     return redirect()
       ->route('pages-roles')

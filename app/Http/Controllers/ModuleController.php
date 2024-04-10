@@ -66,7 +66,7 @@ class ModuleController extends Controller
   public function toggleModuleStatus(Request $request, $moduleId)
   {
     $module = Module::findOrFail($moduleId);
-    
+
     $module->is_active = !$module->is_active;
     $module->save();
 

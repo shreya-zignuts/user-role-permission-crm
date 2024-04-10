@@ -21,6 +21,8 @@ class RedirectIfNotAuthenticated
     if (Auth::check()) {
       $user = Auth::user();
 
+      // dd($user);
+
       // Check if the user id is 1 (admin)
       if (
         Auth::check() &&

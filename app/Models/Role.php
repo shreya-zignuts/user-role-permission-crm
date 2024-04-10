@@ -26,7 +26,7 @@ class Role extends Model
   }
 
   /**
-   * The permissions that belong to the role.
+   * The permissions that belzong to the role.
    */
   public function permissions()
   {

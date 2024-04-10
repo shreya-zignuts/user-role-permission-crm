@@ -66,4 +66,25 @@ class User extends Authenticatable
   {
     return $this->belongsTo(User::class, 'updated_by');
   }
+
+  public function getModulesWithPermissions()
+  {
+    $modules = collect();
+    foreach ($this->roles as $role) {
+      foreach ($role->permissions as $permission) {
+        // dd($permission->modules);
+        // $modules = $modules->merge($permission->module);
+        $modules = $modules->merge(
+          $permission->modules->filter(function ($module) {
+            return $module->pivot->add_access ||
+              $module->pivot->view_access ||
+              $module->pivot->edit_access ||
+              $module->pivot->delete_access;
+          })
+        );
+      }
+    }
+    // dd($modules);
+    return $modules->unique('code');
+  }
 }

@@ -66,6 +66,9 @@
                                         $currentModule = $permissionModules->where('code', $module->code)->first();
                                         $currentModulePermission = $currentModule->pivot;
 
+                                        // dd($currentModulePermission);
+
+
                                         ?>
 
                                         @if ($module->is_active)
@@ -112,6 +115,9 @@
                                                 <?php
                                                 $currentSubModule = $permissionModules->where('code', $submodule->code)->first();
                                                 $currentSubModulePermission = $currentSubModule->pivot;
+
+                                        // dd($currentModule, $currentSubModule);
+
 
                                                 ?>
                                                 <tr>

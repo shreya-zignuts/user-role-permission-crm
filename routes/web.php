@@ -29,7 +29,7 @@ Route::prefix('forgotpassword')->group(function () use ($controller_path) {
   Route::post('/update', $controller_path . '\UserController@sendResetLinkEmail')->name('send-mail');
 });
 
-Route::middleware('auth', 'permission', 'admin.check')
+Route::middleware(['auth', 'permission', 'admin.check'])
   ->prefix('admin')
   ->group(function () use ($controller_path) {
     // Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name(
@@ -84,7 +84,7 @@ Route::middleware('auth', 'permission', 'admin.check')
     });
   });
 
-Route::middleware('auth', 'permission')->group(function () use ($controller_path) {
+Route::middleware(['auth'])->group(function () use ($controller_path) {
   Route::prefix('userside')->group(function () use ($controller_path) {
     Route::get('/', $controller_path . '\UserSideController@index')->name('pages-userside');
     Route::get('/users-modules', $controller_path . '\UserSideController@showModules')->name('users-modules');
