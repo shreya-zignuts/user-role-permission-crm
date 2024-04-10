@@ -16,6 +16,13 @@ return new class extends Migration {
       $table->string('description', 256)->nullable();
       $table->string('parent_code', 8)->nullable(); // Foreign key
       $table->tinyInteger('is_active')->default(1);
+      $table->string('url', 128)->nullable(); // Foreign key
+
+      $table
+        ->string('slug', 128)
+        ->nullable()
+        ->unique(); // Foreign key
+
       $table->timestamps();
 
       // Add foreign key constraint

@@ -23,6 +23,8 @@ class ModuleSeeder extends Seeder
         'is_active' => 1,
         'created_at' => now(),
         'updated_at' => now(),
+        'url' => '/userside/modules/account',
+        'slug' => 'userside-account',
       ],
       [
         'code' => 'CNT',
@@ -32,6 +34,8 @@ class ModuleSeeder extends Seeder
         'is_active' => 1,
         'created_at' => now(),
         'updated_at' => now(),
+        'url' => '/userside/modules/contact',
+        'slug' => 'userside-contact',
       ],
       [
         'code' => 'NTS',
@@ -41,6 +45,8 @@ class ModuleSeeder extends Seeder
         'is_active' => 1,
         'created_at' => now(),
         'updated_at' => now(),
+        'url' => '/userside/modules/notes',
+        'slug' => 'userside-notes',
       ],
       [
         'code' => 'MET',
@@ -50,6 +56,8 @@ class ModuleSeeder extends Seeder
         'is_active' => 1,
         'created_at' => now(),
         'updated_at' => now(),
+        'url' => '/userside/modules/meeting',
+        'slug' => 'userside-meeting',
       ],
       [
         'code' => 'ACT',
@@ -59,6 +67,8 @@ class ModuleSeeder extends Seeder
         'is_active' => 1,
         'created_at' => now(),
         'updated_at' => now(),
+        'url' => '/userside/modules/activityLogs',
+        'slug' => 'userside-activityLogs',
       ],
       [
         'code' => 'CMP',
@@ -68,6 +78,8 @@ class ModuleSeeder extends Seeder
         'is_active' => 1,
         'created_at' => now(),
         'updated_at' => now(),
+        'url' => '/userside/modules/company',
+        'slug' => 'userside-company',
       ],
       [
         'code' => 'PPL',
@@ -77,6 +89,8 @@ class ModuleSeeder extends Seeder
         'is_active' => 1,
         'created_at' => now(),
         'updated_at' => now(),
+        'url' => '/userside/modules/people',
+        'slug' => 'userside-people',
       ],
     ]);
   }

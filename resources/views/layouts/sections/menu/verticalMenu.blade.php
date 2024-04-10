@@ -95,24 +95,19 @@
             @if (!isset($navbarFull) && $menu->url === '/userside')
                 @foreach ($user->modules as $module)
                     {{-- @dd($module->parent_code) --}}
-                    @if ($module->parent_code == null)
-                        <li class="menu-item">
-                            <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
-                                class="menu-link">
-                                @isset($module->icon)
-                                    <i class="{{ $module->icon }}"></i>
-                                @endisset
-                                <div>{{ isset($module->name) ? __($module->name) : '' }}</div>
-                            </a>
-                        </li>
-                    @endif
+                    {{-- @if ($module->parent_code == null) --}}
+                    <li class="menu-item">
+                        <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
+                            class="menu-link">
+                            @isset($module->icon)
+                                <i class="{{ $module->icon }}"></i>
+                            @endisset
+                            <div>{{ isset($module->name) ? __($module->name) : '' }}</div>
+                        </a>
+                    </li>
+                    {{-- @endif --}}
                 @endforeach
             @endif
         @endforeach
-
-
-
     </ul>
-
-
 </aside>
