@@ -91,5 +91,12 @@ Route::middleware(['auth'])->group(function () use ($controller_path) {
     Route::get('/edit/{id}', $controller_path . '\UserSideController@edit')->name('edit-user-profile');
     Route::post('/update/{id}', $controller_path . '\UserSideController@update')->name('update-user-profile');
     Route::post('/reset-password', $controller_path . '\UserSideController@resetPassword')->name('user-reset-password');
+    Route::get('/modules/notes', $controller_path . '\UserSideController@notesModule')->name('userside-notes');
+    Route::get('/modules/meeting', $controller_path . '\UserSideController@meetingModule')->name('userside-meeting');
+    Route::get('/modules/activityLogs', $controller_path . '\UserSideController@activityLogsModule')->name(
+      'userside-activityLogs'
+    );
+    Route::get('/modules/company', $controller_path . '\UserSideController@companyModule')->name('userside-company');
+    Route::get('/modules/people', $controller_path . '\UserSideController@peopleModule')->name('userside-people');
   });
 });

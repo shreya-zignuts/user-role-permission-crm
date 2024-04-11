@@ -103,10 +103,11 @@
                     <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
                         <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
                         <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                            aria-describedby="basic-addon1" />
+                            aria-describedby="basic-addon1" value="{{ request()->input('search') }}" />
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
+                <input type="hidden" name="filter" value="{{ $filter }}">
             </form>
         </div>
         <div class="col-md-1 text-center">

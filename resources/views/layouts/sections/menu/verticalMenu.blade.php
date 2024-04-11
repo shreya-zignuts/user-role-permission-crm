@@ -80,34 +80,55 @@
                     @endisset
                 </li>
             @endif
-            {{-- @if (!isset($navbarFull) && $menu->url === '/userside')
-                {{-- Assuming 'users' is the correct slug --}}
-            {{-- @foreach ($menuData['modules'] as $module)
-      <li class="menu-item">
-        <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}" class="menu-link">
-          @isset($module->icon)
-          <i class="{{ $module->icon }}"></i>
-          @endisset
-          <div>{{ isset($module->name) ? __($module->name) : '' }}</div>
-        </a>
-      </li>
-      @endforeach --}}
             @if (!isset($navbarFull) && $menu->url === '/userside')
-                @foreach ($user->modules as $module)
-                    {{-- @dd($module->parent_code) --}}
-                    {{-- @if ($module->parent_code == null) --}}
-                    <li class="menu-item">
-                        <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
-                            class="menu-link">
-                            @isset($module->icon)
-                                <i class="{{ $module->icon }}"></i>
-                            @endisset
-                            <div>{{ isset($module->name) ? __($module->name) : '' }}</div>
-                        </a>
-                    </li>
-                    {{-- @endif --}}
-                @endforeach
+                <ul class="menu-item">
+                    @foreach ($user->modules as $module)
+                        @if (!isset($module['parent_code']))
+                            <li class="menu-item">
+                                <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
+                                    class="menu-link menu-toggle">
+                                    @isset($module->icon)
+                                        <i class="{{ $module->icon }}"></i>
+                                    @endisset
+                                    <div>{{ isset($module->name) ? __($module->name) : '' }}</div>
+                                </a>
+                                @if (count($module->submodules) > 0)
+                                    <ul class="submenu" style="display: none;">
+                                        @foreach ($module->submodules as $submenu)
+                                            @if (in_array($submenu->code, $user->modules->pluck('code')->toArray()) && $submenu->parent_code === $module->code)
+                                                <li class="menu-item">
+                                                    <a href="{{ isset($submenu->url) ? url($submenu->url) : 'javascript:void(0)' }}"
+                                                        class="menu-link submenu-link">
+                                                        <img src="https://cdn-icons-png.flaticon.com/128/8265/8265301.png"
+                                                            width="19px" alt="">
+                                                        <div class="active">
+                                                            {{ isset($submenu->name) ? __($submenu->name) : '' }}</div>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endif
+                    @endforeach
+
+                </ul>
             @endif
+
+
+            <!-- JavaScript for Toggling Submenus -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('.menu-toggle').click(function(e) {
+                        e.preventDefault();
+                        $(this).next('.submenu').slideToggle();
+                    });
+                });
+            </script>
+
+
         @endforeach
     </ul>
 </aside>

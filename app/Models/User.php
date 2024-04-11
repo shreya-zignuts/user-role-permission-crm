@@ -72,8 +72,6 @@ class User extends Authenticatable
     $modules = collect();
     foreach ($this->roles as $role) {
       foreach ($role->permissions as $permission) {
-        // dd($permission->modules);
-        // $modules = $modules->merge($permission->module);
         $modules = $modules->merge(
           $permission->modules->filter(function ($module) {
             return $module->pivot->add_access ||
@@ -84,7 +82,38 @@ class User extends Authenticatable
         );
       }
     }
-    // dd($modules);
+
     return $modules->unique('code');
   }
+
+  // public function getModulesWithPermissions()
+  // {
+  //   $modules = collect();
+
+  //   foreach ($this->roles as $role) {
+  //     foreach ($role->permissions as $permission) {
+  //       // Retrieve modules and submodules with permissions
+  //       $modules = $modules->merge(
+  //         $permission
+  //           ->modules()
+  //           ->with([
+  //             'submodules' => function ($query) use ($permission) {
+  //               $query->whereHas('permissions', function ($subQuery) use ($permission) {
+  //                 $subQuery->where('permission_id', $permission->id)->where(function ($q) {
+  //                   $q->where('add_access', 1)
+  //                     ->orWhere('view_access', 1)
+  //                     ->orWhere('edit_access', 1)
+  //                     ->orWhere('delete_access', 1);
+  //                 });
+  //               });
+  //             },
+  //           ])
+  //           ->get()
+  //       );
+  //     }
+  //   }
+
+  //   // Return unique modules with permitted submodules
+  //   return $modules->unique('code');
+  // }
 }

@@ -35,9 +35,9 @@ class MenuServiceProvider extends ServiceProvider
     \View::share('menuData', $menuData);
   }
 
-  /**
-   * Get menu data for admin.
-   */
+  // /**
+  //  * Get menu data for admin.
+  //  */
   private function getAdminMenuData()
   {
     $verticalMenuFile = 'verticalMenu.json';
