@@ -112,23 +112,21 @@
                             </li>
                         @endif
                     @endforeach
-
                 </ul>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        $('.menu-toggle').click(function(e) {
+                            e.preventDefault();
+                            var $submenu = $(this).next('.submenu');
+                            if (!$submenu.is(':visible')) {
+                                $('.submenu').slideUp();
+                                $submenu.slideToggle();
+                            }
+                        });
+                  });
+                </script>
             @endif
-
-
-            <!-- JavaScript for Toggling Submenus -->
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script>
-                $(document).ready(function() {
-                    $('.menu-toggle').click(function(e) {
-                        e.preventDefault();
-                        $(this).next('.submenu').slideToggle();
-                    });
-                });
-            </script>
-
-
         @endforeach
     </ul>
 </aside>

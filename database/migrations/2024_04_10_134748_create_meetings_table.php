@@ -16,6 +16,7 @@ return new class extends Migration {
       $table->string('description', 64)->nullable();
       $table->date('date');
       $table->time('time');
+      $table->tinyInteger('is_active')->default(1);
       $table->unsignedBigInteger('user_id');
       $table
         ->foreign('user_id')

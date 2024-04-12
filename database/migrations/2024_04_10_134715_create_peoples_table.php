@@ -17,6 +17,7 @@ return new class extends Migration {
       $table->string('email', 128);
       $table->string('phone_number')->nullable();
       $table->string('address')->nullable();
+      $table->tinyInteger('is_active')->default(1);
       $table->unsignedBigInteger('user_id');
       $table
         ->foreign('user_id')

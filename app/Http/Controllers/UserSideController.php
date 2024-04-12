@@ -13,6 +13,7 @@ use App\Providers\MenuServiceProvider;
 
 class UserSideController extends Controller
 {
+ 
   /**
    * Display the index page for the user side.
    */
@@ -25,8 +26,8 @@ class UserSideController extends Controller
     if (!$user) {
       return redirect()->route('login');
     }
-
-    $modules = $user->getModulesWithPermissions();
+    dd($modules);
+    // $modules = $user->getModulesWithPermissions();
 
     $user->modules = $modules;
 
@@ -141,6 +142,7 @@ class UserSideController extends Controller
     $modules = $user->getModulesWithPermissions();
 
     $user->modules = $modules;
-    return view('content.userside.people', compact('user'));
+
+    return view('content.userside.people.index', compact('user'));
   }
 }

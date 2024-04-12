@@ -50,6 +50,9 @@ class PermissionController extends Controller
     $data = $request->validate([
       'name' => 'required|string',
       'description' => 'nullable|string',
+      'permissions' => 'array',
+      'permissions.*' => 'array|nullable',
+      // 'modules' => 'array',
     ]);
 
     // dd($request->all());
@@ -57,6 +60,7 @@ class PermissionController extends Controller
 
     $permissions = $request->input('permissions', []);
 
+    // dd($permissions);
     $permission->modules()->attach($permissions);
 
     return redirect()

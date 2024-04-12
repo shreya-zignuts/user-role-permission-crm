@@ -17,6 +17,7 @@ return new class extends Migration {
         ->enum('type', ['C', 'M', 'P', 'A'])
         ->default('C')
         ->comment('C: Coding, M: Meeting, P: Playing, V: Watching Video');
+      $table->tinyInteger('is_active')->default(1);
       $table->unsignedBigInteger('user_id');
       $table
         ->foreign('user_id')

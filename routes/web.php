@@ -97,6 +97,12 @@ Route::middleware(['auth'])->group(function () use ($controller_path) {
       'userside-activityLogs'
     );
     Route::get('/modules/company', $controller_path . '\UserSideController@companyModule')->name('userside-company');
-    Route::get('/modules/people', $controller_path . '\UserSideController@peopleModule')->name('userside-people');
+
+    Route::prefix('modules/people')->group(function () use ($controller_path) {
+      Route::get('/', $controller_path . '\PeopleController@index')->name('userside-people');
+      Route::get('/create', $controller_path . '\PeopleController@create')->name('create-people');
+      Route::get('/edit', $controller_path . '\PeopleController@edit')->name('edit-people');
+      Route::get('/update', $controller_path . '\PeopleController@update')->name('update-people');
+    });
   });
 });
