@@ -12,9 +12,10 @@ return new class extends Migration {
   {
     Schema::create('activity_logs', function (Blueprint $table) {
       $table->id();
+      $table->string('title', 64);
       $table->string('log');
       $table
-        ->enum('type', ['C', 'M', 'P', 'A'])
+        ->enum('type', ['C', 'M', 'P', 'V'])
         ->default('C')
         ->comment('C: Coding, M: Meeting, P: Playing, V: Watching Video');
       $table->tinyInteger('is_active')->default(1);

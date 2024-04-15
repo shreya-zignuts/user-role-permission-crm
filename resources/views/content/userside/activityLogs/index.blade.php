@@ -98,7 +98,7 @@
     @endif
     <div class="row justify-content-center mt-3">
         <div class="col-md-4">
-            <form method="GET" action="{{ route('userside-people') }}">
+            <form method="GET" action="{{ route('userside-activityLogs') }}">
                 @csrf
                 <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
                     <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
@@ -112,10 +112,10 @@
             </form>
         </div>
         <div class="col-md-1 text-center">
-            <a href="{{ route('userside-people') }}" class="btn btn-secondary">Reset</a>
+            <a href="{{ route('userside-activityLogs') }}" class="btn btn-secondary">Reset</a>
         </div>
         <div class="col-md-4">
-            <form action="{{ route('userside-people') }}" method="GET">
+            <form action="{{ route('userside-activityLogs') }}" method="GET">
                 <div class="input-group">
                     <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
                         name="filter">
@@ -131,12 +131,11 @@
 
     <!-- Add New Button based on Access -->
     @php
-        $peopleModule = $user->modules->where('code', 'PPL')->first();
+        $peopleModule = $user->modules->where('code', 'ACT')->first();
     @endphp
-
     <div class="card w-100 mt-5">
       <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-header">People <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+          <h5 class="card-header">Activity Logs <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   class="mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round"
                   class="icon icon-tabler icons-tabler-outline icon-tabler-users">
@@ -147,8 +146,10 @@
                   <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
               </svg></h5>
           <div class="card-body text-end mt-4">
+            {{-- @dd($peopleModule->pivot->add_access) --}}
+
             @if ($peopleModule->pivot->add_access)
-            <a href="{{ route('create-people')}}" class="btn btn-primary">Add People</a>
+            <a href="{{ route('create-activityLogs')}}" class="btn btn-primary">Add Activity Log</a>
         @endif
           </div>
       </div>
@@ -157,8 +158,7 @@
               style="background: linear-gradient(to right, #9e96f2 22.16%, rgba(133, 123, 245, 0.7) 76.47%); text-align: center">
               <tr>
                                 <th>Name</th>
-                                <th>Designation</th>
-                                <th>Address</th>
+                                <th>log</th>
                                 <th>Status</th>
                                 @if($peopleModule->pivot->delete_access || $peopleModule->pivot->edit_access)
                                 <th>Actions</th>
@@ -168,17 +168,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($people as $person)
+                            @foreach($activityLog as $activity)
                                 <tr>
-                                    <td>{{ $person->name }}</td>
-                                    <td>{{ $person->designation }}</td>
-                                    <td>{{ $person->address }}</td>
+                                    <td>{{ $activity->title }}</td>
+                                    <td>{{ $activity->log }}</td>
                                     <td>
-                                      <form method="get" action="{{ route('people-status', ['id' => $person->id]) }}">
+                                      <form method="get" action="{{ route('activityLogs-status', ['id' => $activity->id]) }}">
                                         @csrf
                                         <label class="switch">
-                                            <input data-id="{{$person->id}}" class="switch-input" type="checkbox" data-toggle="toggle"
-                                            data-onstyle="success" {{$person->is_active?'checked':''}}>
+                                            <input data-id="{{$activity->id}}" class="switch-input" type="checkbox" data-toggle="toggle"
+                                            data-onstyle="success" {{$activity->is_active?'checked':''}}>
                                             <span class="switch-toggle-slider">
                                                 <span class="switch-on"></span>
                                                 <span class="switch-off"></span>
@@ -187,7 +186,7 @@
                                     </form>
                                     </td>
                                     <td>
-                                @if($peopleModule->pivot->delete_access || $peopleModule->pivot->edit_access)
+                                      @if($peopleModule->pivot->delete_access || $peopleModule->pivot->edit_access)
                                       <div class="dropdown">
                                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                               <i class="ti ti-dots-vertical"></i>
@@ -195,21 +194,21 @@
                                           <div class="dropdown-menu">
                                               <!-- Edit Button based on Access -->
                                               @if ($peopleModule->pivot->edit_access)
-                                                  <a class="dropdown-item" href="{{ route('edit-people', ['id' => $person->id]) }}">
+                                                  <a class="dropdown-item" href="{{ route('edit-activityLogs', ['id' => $activity->id]) }}">
                                                       <i class="ti ti-pencil me-1"></i> Edit
                                                   </a>
                                               @endif
                                               <!-- Delete Button based on Access -->
                                               @if ($peopleModule->pivot->delete_access)
-                                              <form id="deletePersonForm{{ $person->id }}" method="POST"
-                                                action="{{ route('delete-people', ['id' => $person->id]) }}">
+                                              <form id="deleteActivityLogForm{{ $activity->id }}" method="POST"
+                                                action="{{ route('delete-activityLogs', ['id' => $activity->id]) }}">
                                                 @csrf
                                                 <!-- Delete button trigger modal -->
-                                                <button class="dropdown-item delete-person" data-id="{{ $person->id }}">
+                                                <button class="dropdown-item delete-activityLog" data-id="{{ $activity->id }}">
                                                     <i class="ti ti-trash me-1"></i> Delete
                                                 </button>
                                             </form>
-                                              @endif
+                                        @endif
                                           </div>
                                       </div>
                                       @endif
@@ -249,7 +248,7 @@
 
                   type: "GET",
                   dataType: "json",
-                  url: "/userside/modules/people/change-status/" + id,
+                  url: "/userside/modules/activityLogs/change-status/" + id,
                   data: {
                       'status': status,
                       'id': id
@@ -292,7 +291,7 @@
 
     <script>
         $(document).ready(function() {
-            $('.delete-person').click(function(e) {
+            $('.delete-activityLog').click(function(e) {
                 e.preventDefault();
 
                 var form = $(this).closest('form');

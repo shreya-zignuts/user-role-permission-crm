@@ -13,7 +13,7 @@ use App\Providers\MenuServiceProvider;
 
 class UserSideController extends Controller
 {
- 
+
   /**
    * Display the index page for the user side.
    */
@@ -26,8 +26,8 @@ class UserSideController extends Controller
     if (!$user) {
       return redirect()->route('login');
     }
-    dd($modules);
-    // $modules = $user->getModulesWithPermissions();
+    // dd($modules);
+    $modules = $user->getModulesWithPermissions();
 
     $user->modules = $modules;
 
@@ -95,54 +95,4 @@ class UserSideController extends Controller
       ->with('success', 'User successfully logged in');
   }
 
-  public function notesModule()
-  {
-    $user = Auth::user();
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
-    // $modules = Module::findOrFail($id);
-    return view('content.userside.notes', compact('user'));
-  }
-
-  public function meetingModule()
-  {
-    $user = Auth::user();
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
-    // $modules = Module::findOrFail($id);
-    return view('content.userside.meeting', compact('user'));
-  }
-
-  public function activityLogsModule()
-  {
-    $user = Auth::user();
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
-    return view('content.userside.activityLogs', compact('user'));
-  }
-
-  public function companyModule()
-  {
-    $user = Auth::user();
-
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
-
-    // $modules = Module::findOrFail($id);
-    return view('content.userside.company', compact('user'));
-  }
-
-  public function peopleModule()
-  {
-    $user = Auth::user();
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
-
-    return view('content.userside.people.index', compact('user'));
-  }
 }

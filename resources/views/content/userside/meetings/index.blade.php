@@ -37,6 +37,12 @@
 @endsection
 
 @section('content')
+
+@php
+            date_default_timezone_set('Asia/Kolkata');
+            $toastTime = date('h:i A');
+        @endphp
+
 @if (session('error'))
 <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
   <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
@@ -98,7 +104,7 @@
     @endif
     <div class="row justify-content-center mt-3">
         <div class="col-md-4">
-            <form method="GET" action="{{ route('userside-people') }}">
+            <form method="GET" action="{{ route('userside-meetings') }}">
                 @csrf
                 <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
                     <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
@@ -112,10 +118,10 @@
             </form>
         </div>
         <div class="col-md-1 text-center">
-            <a href="{{ route('userside-people') }}" class="btn btn-secondary">Reset</a>
+            <a href="{{ route('userside-meetings') }}" class="btn btn-secondary">Reset</a>
         </div>
         <div class="col-md-4">
-            <form action="{{ route('userside-people') }}" method="GET">
+            <form action="{{ route('userside-meetings') }}" method="GET">
                 <div class="input-group">
                     <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
                         name="filter">
@@ -131,7 +137,7 @@
 
     <!-- Add New Button based on Access -->
     @php
-        $peopleModule = $user->modules->where('code', 'PPL')->first();
+        $peopleModule = $user->modules->where('code', 'MET')->first();
     @endphp
 
     <div class="card w-100 mt-5">
@@ -148,7 +154,7 @@
               </svg></h5>
           <div class="card-body text-end mt-4">
             @if ($peopleModule->pivot->add_access)
-            <a href="{{ route('create-people')}}" class="btn btn-primary">Add People</a>
+            <a href="{{ route('create-meetings')}}" class="btn btn-primary">Add Meeting</a>
         @endif
           </div>
       </div>
@@ -157,8 +163,9 @@
               style="background: linear-gradient(to right, #9e96f2 22.16%, rgba(133, 123, 245, 0.7) 76.47%); text-align: center">
               <tr>
                                 <th>Name</th>
-                                <th>Designation</th>
-                                <th>Address</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Status</th>
                                 @if($peopleModule->pivot->delete_access || $peopleModule->pivot->edit_access)
                                 <th>Actions</th>
@@ -168,17 +175,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($people as $person)
+                            @foreach($meetings as $meeting)
                                 <tr>
-                                    <td>{{ $person->name }}</td>
-                                    <td>{{ $person->designation }}</td>
-                                    <td>{{ $person->address }}</td>
+                                    <td>{{ $meeting->title }}</td>
+                                    <td>{{ $meeting->description }}</td>
+                                    <td>{{ $meeting->date }}</td>
+                                    <td>{{ $meeting->time }}</td>
                                     <td>
-                                      <form method="get" action="{{ route('people-status', ['id' => $person->id]) }}">
+                                      <form method="get" action="{{ route('meetings-status', ['id' => $meeting->id]) }}">
                                         @csrf
                                         <label class="switch">
-                                            <input data-id="{{$person->id}}" class="switch-input" type="checkbox" data-toggle="toggle"
-                                            data-onstyle="success" {{$person->is_active?'checked':''}}>
+                                            <input data-id="{{$meeting->id}}" class="switch-input" type="checkbox" data-toggle="toggle"
+                                            data-onstyle="success" {{$meeting->is_active?'checked':''}}>
                                             <span class="switch-toggle-slider">
                                                 <span class="switch-on"></span>
                                                 <span class="switch-off"></span>
@@ -195,17 +203,17 @@
                                           <div class="dropdown-menu">
                                               <!-- Edit Button based on Access -->
                                               @if ($peopleModule->pivot->edit_access)
-                                                  <a class="dropdown-item" href="{{ route('edit-people', ['id' => $person->id]) }}">
+                                                  <a class="dropdown-item" href="{{ route('edit-meetings', ['id' => $meeting->id]) }}">
                                                       <i class="ti ti-pencil me-1"></i> Edit
                                                   </a>
                                               @endif
                                               <!-- Delete Button based on Access -->
                                               @if ($peopleModule->pivot->delete_access)
-                                              <form id="deletePersonForm{{ $person->id }}" method="POST"
-                                                action="{{ route('delete-people', ['id' => $person->id]) }}">
+                                              <form id="deleteMeetingForm{{ $meeting->id }}" method="POST"
+                                                action="{{ route('delete-meetings', ['id' => $meeting->id]) }}">
                                                 @csrf
                                                 <!-- Delete button trigger modal -->
-                                                <button class="dropdown-item delete-person" data-id="{{ $person->id }}">
+                                                <button class="dropdown-item delete-meeting" data-id="{{ $meeting->id }}">
                                                     <i class="ti ti-trash me-1"></i> Delete
                                                 </button>
                                             </form>
@@ -224,124 +232,57 @@
         </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<script>
-  $('.switch-input').change(function() {
-
-      var status = $(this).prop('checked') == true ? 1 : 0;
-      var id = $(this).data('id');
-
-      Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, toggle it!',
-          customClass: {
-              confirmButton: 'btn btn-primary me-3',
-              cancelButton: 'btn btn-label-secondary'
-          },
-          buttonsStyling: false
-      }).then(function(result) {
-          if (result.isConfirmed) {
-              $.ajax({
-
-                  type: "GET",
-                  dataType: "json",
-                  url: "/userside/modules/people/change-status/" + id,
-                  data: {
-                      'status': status,
-                      'id': id
-                  },
-
-                  success: function(data) {
-                      console.log(data.success)
-
-                      Swal.fire({
-                          icon: 'success',
-                          title: 'Changed!',
-                          text: 'Toggle status for user is changed',
-                          customClass: {
-                              confirmButton: 'btn btn-success'
-                          }
-                      }).then(function() {
-                          window.location.reload();
-                      });
-                  },
-                  error: function(xhr, status, error) {
-                      console.error(xhr.responseText);
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: 'Something went wrong!',
-                          customClass: {
-                              confirmButton: 'btn btn-danger'
-                          }
-                      });
-                  }
-              });
-          }
-      });
-
-
-  })
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
-        $(document).ready(function() {
-            $('.delete-person').click(function(e) {
-                e.preventDefault();
+      $(document).ready(function() {
+    // Function to update toggle switches based on meeting time
+    function updateToggleSwitches() {
+        var currentTime = new Date(); // Get current time
+        var meetings = {!! json_encode($meetings) !!}; // Meetings data from Blade
 
-                var form = $(this).closest('form');
-                var id = $(this).data('id');
+        meetings.forEach(function(meeting) {
+            var meetingDateTime = new Date(meeting.date + 'T' + meeting.time); // Combine date and time
 
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    customClass: {
-                        confirmButton: 'btn btn-primary me-3',
-                        cancelButton: 'btn btn-label-secondary'
-                    },
-                    buttonsStyling: false
-                }).then(function(result) {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: form.attr('action'),
-                            method: 'POST',
-                            data: form.serialize(),
-                            success: function(response) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Your role has been deleted.',
-                                    customClass: {
-                                        confirmButton: 'btn btn-success'
-                                    }
-                                }).then(function() {
-                                    window.location.reload();
-                                });
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(xhr.responseText);
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong!',
-                                    customClass: {
-                                        confirmButton: 'btn btn-danger'
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            });
+            // Check if current time is greater than meeting time
+            if (currentTime > meetingDateTime) {
+                // Update toggle switch to off position visually
+                $('[data-id="' + meeting.id + '"].switch-input').prop('checked', false);
+
+                // Send AJAX request to update is_active in the database
+                updateMeetingStatus(meeting.id, 0); // Set is_active to 0
+            }
         });
-    </script>
+    }
+
+    // Call the function when the page loads
+    updateToggleSwitches();
+
+    // Add event listener to toggle switches
+    $('.switch-input').change(function() {
+        var meetingId = $(this).data('id');
+        var isActive = $(this).prop('checked') ? 1 : 0; // 1 for checked (active), 0 for unchecked (inactive)
+
+        updateMeetingStatus(meetingId, isActive);
+    });
+
+    // Function to update meeting status via AJAX
+    function updateMeetingStatus(meetingId, isActive) {
+        $.ajax({
+            url: '{{ route("meetings-status", ["id" => "__meetingId__"]) }}'.replace('__meetingId__', meetingId),
+            method: 'POST',
+            data: {
+                id: meetingId,
+                is_active: isActive,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                console.log('Meeting status updated successfully.');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating meeting status:', error);
+            }
+        });
+    }
+});
+
+  </script>
 @endsection
