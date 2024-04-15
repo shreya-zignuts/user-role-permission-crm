@@ -13,7 +13,6 @@ use App\Providers\MenuServiceProvider;
 
 class UserSideController extends Controller
 {
-
   /**
    * Display the index page for the user side.
    */
@@ -39,6 +38,9 @@ class UserSideController extends Controller
   public function edit($id)
   {
     $user = User::findOrFail($id);
+    $modules = $user->getModulesWithPermissions();
+
+    $user->modules = $modules;
     return view('content.userside.edit-profile', compact('user'));
   }
 
@@ -92,7 +94,6 @@ class UserSideController extends Controller
 
     return redirect()
       ->route('pages-userside')
-      ->with('success', 'User successfully logged in');
+      ->with('success', 'Password Reset Successfull');
   }
-
 }

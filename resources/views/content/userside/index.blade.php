@@ -31,6 +31,65 @@
         $imageSrc =
             'https://media.istockphoto.com/id/899347890/vector/online-graphical-report-icon.jpg?s=612x612&w=0&k=20&c=hmd7aTt5jfYbKHXizrqwyq1Gz0VN4Fj-hjvz4_w24qU=';
     @endphp
+    @if (session('error'))
+    <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+      <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+          <i class="ti ti-bell ti-xs me-2"></i>
+          <div class="me-auto fw-semibold">Error</div>
+          <?php
+            date_default_timezone_set('Asia/Kolkata');
+            ?>
+          <small class="text-muted"><?= date('h:i A'); ?></small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" style="padding: 10px; color: #333;">
+        {{ session('error') }}
+      </div>
+    </div>
+
+    <script>
+        // Show toast message
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastEl = document.querySelector('.toast');
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        });
+    </script>
+    @endif
+
+    @if (session('success'))
+    <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+      <div class="toast-header bg-success text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+          <i class="ti ti-bell ti-xs me-2"></i>
+          <div class="me-auto fw-semibold">Success</div>
+          <?php
+            date_default_timezone_set('Asia/Kolkata');
+            ?>
+          <small class="text-muted"><?= date(' h:i A'); ?></small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" style="padding: 10px; color: #333;">
+        {{ session('success') }}
+      </div>
+    </div>
+
+    <script>
+        // Show toast message
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastEl = document.querySelector('.toast');
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        });
+    </script>
+    @endif
+
+        @if ($errors && $errors->any())
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </div>
+        @endif
     <h4 class="fw-bold py-3 mb-4">
         <span class="text-muted fw-light">User Profile /</span> Profile
     </h4>
@@ -136,72 +195,7 @@
             </div>
           </div>
         </div>
-        <div class="card-body pb-0">
-          <ul class="timeline ms-1 mb-0">
-            <li class="timeline-item timeline-item-transparent">
-              <span class="timeline-point timeline-point-primary"></span>
-              <div class="timeline-event">
-                <div class="timeline-header">
-                  <h6 class="mb-0">Client Meeting</h6>
-                  <small class="text-muted">Today</small>
-                </div>
-                <p class="mb-2">Project meeting with john @10:15am</p>
-                <div class="d-flex flex-wrap">
-                  <div class="avatar me-2">
-                    <img src="{{ asset('assets/img/avatars/3.png') }}" alt="Avatar" class="rounded-circle" />
-                  </div>
-                  <div class="ms-1">
-                    <h6 class="mb-0">Lester McCarthy (Client)</h6>
-                    <span>CEO of Infibeam</span>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="timeline-item timeline-item-transparent">
-              <span class="timeline-point timeline-point-success"></span>
-              <div class="timeline-event">
-                <div class="timeline-header">
-                  <h6 class="mb-0">Create a new project for client</h6>
-                  <small class="text-muted">2 Day Ago</small>
-                </div>
-                <p class="mb-0">Add files to new design folder</p>
-              </div>
-            </li>
-            <li class="timeline-item timeline-item-transparent">
-              <span class="timeline-point timeline-point-danger"></span>
-              <div class="timeline-event">
-                <div class="timeline-header">
-                  <h6 class="mb-0">Shared 2 New Project Files</h6>
-                  <small class="text-muted">6 Day Ago</small>
-                </div>
-                <p class="mb-2">Sent by Mollie Dixon <img src="{{ asset('assets/img/avatars/4.png') }}" class="rounded-circle me-3" alt="avatar" height="24" width="24"></p>
-                <div class="d-flex flex-wrap gap-2 pt-1">
-                  <a href="javascript:void(0)" class="me-3">
-                    <img src="{{asset('assets/img/icons/misc/doc.png') }}" alt="Document image" width="15" class="me-2">
-                    <span class="fw-semibold text-heading">App Guidelines</span>
-                  </a>
-                  <a href="javascript:void(0)">
-                    <img src="{{asset('assets/img/icons/misc/xls.png') }}" alt="Excel image" width="15" class="me-2">
-                    <span class="fw-semibold text-heading">Testing Results</span>
-                  </a>
-                </div>
-              </div>
-            </li>
-            <li class="timeline-item timeline-item-transparent border-0">
-              <span class="timeline-point timeline-point-info"></span>
-              <div class="timeline-event">
-                <div class="timeline-header">
-                  <h6 class="mb-0">Project status updated</h6>
-                  <small class="text-muted">10 Day Ago</small>
-                </div>
-                <p class="mb-0">Woocommerce iOS App Completed</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    </div>
+
 
     <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
@@ -216,11 +210,20 @@
                         @csrf
                         <input type="hidden" name="id" id="userId" class="form-control">
                         <div class="mb-3 form-password-toggle">
-                            <label class="form-label" for="email">Email</label>
-                            <input type="email" name="email" id="userEmail" class="form-control" required autofocus
+                            <input type="hidden" name="email" id="userEmail" class="form-control" required autofocus
                                 readonly
                                 style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 0.375rem 0.75rem; line-height: 1.5; background-color: #e9ecef; opacity: 1;">
                         </div>
+                        <div class="mb-3">
+                          <label for="current-password" class="form-label">Current Password</label>
+                          <input id="current-password" type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" required autocomplete="current-password">
+                          @error('current_password')
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $message }}</strong>
+                              </span>
+                          @enderror
+                      </div>
+
                         <div class="mb-3">
                             <label for="password" class="form-label">New Password</label>
                             <input id="password" type="password"
