@@ -24,9 +24,16 @@ Route::post('/logout', $controller_path . '\authentications\LoginBasic@logout')-
 Route::get('/password/reset', $controller_path . '\UserController@showResetForm')->name('password.reset');
 Route::post('/password/reset', $controller_path . '\UserController@resetPassword')->name('password.update');
 
+// Route::prefix('forgotpassword')->group(function () use ($controller_path) {
+//   Route::get('/form', $controller_path . '\UserController@showForgotForm')->name('forgot-password-form');
+//   Route::post('/update', $controller_path . '\UserController@sendResetLinkEmail')->name('send-mail');
+// });
+
 Route::prefix('forgotpassword')->group(function () use ($controller_path) {
-  Route::get('/form', $controller_path . '\UserController@showForgotForm')->name('forgot-password-form');
-  Route::post('/update', $controller_path . '\UserController@sendResetLinkEmail')->name('send-mail');
+  Route::get('/form', $controller_path . '\ForgotPasswordController@showForgotForm')->name('forgot-password-form');
+  Route::post('/update', $controller_path . '\ForgotPasswordController@sendResetLinkEmail')->name('send-mail');
+  Route::get('/reset', $controller_path . '\ForgotPasswordController@showResetForm')->name('reset.password.form');
+  Route::post('/reset', $controller_path . '\ForgotPasswordController@resetPassword')->name('forgot.password.reset');
 });
 
 Route::middleware(['auth', 'permission', 'admin.check'])

@@ -205,6 +205,12 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="row justify-content-center">
+                  <div class="col-md-6">
+                      <!-- Pagination links -->
+                      {{ $notes->links('pagination::bootstrap-5') }}
+                  </div>
+              </div>
             </div>
         </div>
     </div>

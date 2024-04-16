@@ -24,11 +24,8 @@
 @endsection
 
 @section('content')
-    <div class="d-flex justify-content-center mt-3">
-        <div class="modal-content p-3 p-md-5 w-75 align-content-center">
-            <div class="modal-body">
               <div class="d-flex justify-content-center mt-3">
-                <div class="modal-content p-3 p-md-5 w-75 align-content-center">
+                <div class="modal-content p-3 p-md-5 w-75 align-content-center mt-5">
                     <div class="modal-body">
                       @if (session('success'))
                       <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
@@ -63,16 +60,14 @@
                                   @endforeach
                               </div>
                           @endif
-                <h5 class="mt-2">User Management</h5>
+                <h5 class="mt-2">Edit Company</h5>
                 <form class="mt-1" method="POST" action="{{ route('update-company', $company->id) }}">
                     @csrf
-                    {{-- User Personal Info --}}
-                    <h6>User Personal Info</h6>
                     <div class="row g-3">
                       {{-- @dd($activityLog->name) --}}
                       <input type="hidden" id="user_id" name="user_id" value="{{ $userId }}">
                       <div class="col-md-12">
-                        <label for="title" class="form-label">{{ __('name') }}</label>
+                        <label for="title" class="form-label">{{ __('Name') }}</label>
                         <input id="name" type="text" class="form-control" name="name" value="{{ old('log', $company->name)}}">
                         @error('name')
                             <span class="invalid-feedback" role="alert">
@@ -81,7 +76,7 @@
                         @enderror
                     </div>
                     <div class="col-md-12">
-                        <label for="owner_name" class="form-label">{{ __('owner_name') }}</label>
+                        <label for="owner_name" class="form-label">{{ __('Owner Name') }}</label>
                         <input id="owner_name" type="text" class="form-control" name="owner_name" value="{{ old('log', $company->owner_name) }}">
                         @error('owner_name')
                             <span class="invalid-feedback" role="alert">

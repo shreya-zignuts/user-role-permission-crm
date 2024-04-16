@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use DateTimeZone;
 use Carbon\Carbon;
 use App\Models\Meeting;
 use Illuminate\Http\Request;
@@ -30,6 +32,7 @@ class MeetingController extends Controller
         $query->where('is_active', $filter === 'active');
       })
       ->paginate(5);
+
     return view('content.userside.meetings.index', compact('user', 'meetings', 'filter'));
   }
 
@@ -53,32 +56,27 @@ class MeetingController extends Controller
     $validatedData = $request->validate([
       'title' => 'required|string|max:64',
       'description' => 'string|max:256',
-      'date' => 'required|date',
+      'date' => 'required|date|after_or_equal:today',
       'time' => 'required|date_format:H:i',
     ]);
 
-    $dateTime = Carbon::createFromFormat('Y-m-d H:i', $request->date . ' ' . $request->time);
-
-    // Get the current date and time
-    $now = Carbon::now();
-
-    // Calculate is_active based on current date/time and meeting date/time
-    $is_active = $dateTime->gt($now); // Check if meeting time is greater than current time
+    //convert in 24 hours format
+    $time12 = $request->time;
+    $time24 = date('H:i', strtotime($time12));
 
     $meeting = new Meeting([
       'title' => $request->title,
       'description' => $request->description,
-      'date' => $request->date, // Store date separately
-      'time' => $request->time, // Store time separately
+      'date' => $request->date,
+      'time' => $time24,
       'user_id' => $request->user_id,
-      'is_active' => $is_active,
     ]);
 
     $meeting->save();
 
     return redirect()
       ->route('userside-meetings')
-      ->with('success', 'User created successfully.');
+      ->with('success', 'Meeting created successfully.');
   }
 
   public function edit($id)
@@ -115,7 +113,7 @@ class MeetingController extends Controller
 
     return redirect()
       ->route('userside-meetings')
-      ->with('success', 'User updated successfully.');
+      ->with('success', 'Meeting updated successfully.');
   }
 
   public function delete($id)
@@ -125,21 +123,19 @@ class MeetingController extends Controller
 
     return redirect()
       ->route('userside-notes')
-      ->with('success', 'User deleted successfully');
+      ->with('success', 'Meeting deleted successfully');
   }
 
   public function toggleStatus(Request $request, $id)
   {
-    $meetings = Meeting::findOrFail($id);
+    // Find the meeting by ID
+    $meeting = Meeting::findOrFail($id);
 
-    $meetings->is_active = !$meetings->is_active;
+    // Update the meeting status based on the request
+    $meeting->is_active = $request->input('is_active');
+    $meeting->save();
 
-    $meetings->save();
-
-    // return redirect()
-    //   ->back()
-    //   ->with('success', 'User status toggled successfully.');
-
-    return response()->json(['success' => 'User status toggled successfully.']);
+    // You can return a response if needed, such as JSON response
+    return response()->json(['message' => 'Meeting status updated successfully'], 200);
   }
 }

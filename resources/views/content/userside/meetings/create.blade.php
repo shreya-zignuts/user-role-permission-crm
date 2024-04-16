@@ -29,11 +29,8 @@
 
 @section('content')
 <div class="d-flex justify-content-center mt-3">
-  <div class="modal-content p-3 p-md-5 w-75 align-content-center">
+  <div class="modal-content p-3 p-md-5 w-75 align-content-center mt-5">
       <div class="modal-body">
-        <div class="d-flex justify-content-center mt-3">
-          <div class="modal-content p-3 p-md-5 w-75 align-content-center">
-              <div class="modal-body">
                 @if (session('success'))
                 <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                   <div class="toast-header bg-success text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
@@ -68,8 +65,6 @@
                         </div>
                     @endif
                     <div class="h4">Create Meeting</div>
-
-                    <div class="card-body">
                         <form method="POST" action="{{ route('store-meetings') }}">
                             @csrf
                             {{-- <input type="hidden" id="status" name="status" value="{{ old('status', '0') }}"> --}}

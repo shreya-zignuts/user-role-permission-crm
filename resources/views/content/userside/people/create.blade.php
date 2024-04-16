@@ -18,7 +18,7 @@
 
 @section('content')
     <div class="d-flex justify-content-center mt-3">
-        <div class="modal-content p-3 p-md-5 w-75 align-content-center">
+        <div class="modal-content p-3 p-md-5 w-75 align-content-center mt-5">
             <div class="modal-body">
                 @if ($errors->any())
                     <div class="alert alert-danger">

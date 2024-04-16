@@ -12,9 +12,10 @@ use Illuminate\Validation\Rule;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordInvitation;
 use App\Mail\ResetPasswordNotification;
@@ -198,15 +199,119 @@ class UserController extends Controller
   /**
    * Show the password reset form.
    */
+  // public function showResetForm(Request $request)
+  // {
+  //   $pageConfigs = ['myLayout' => 'blank'];
+  //   $token = $request->token;
+
+  //   // Debug output
+  //   // echo "Token: $token<br>";
+
+  //   $user = User::where('invitation_token', $token)->first();
+
+  //   $user = Auth::user();
+  //   // Debug output
+  //   // echo "User: ";
+  //   // var_dump($user);
+
+  //   $email = $user ? $user->email : null;
+
+  //   // Debug output
+  //   // echo "Email: $email";
+
+  //   // Check the retrieved user and email
+  //   if (!$user) {
+  //     // Token does not match any user
+  //     Session::flash('error', 'Invalid token');
+  //     return redirect()->route('login');
+  //   }
+
+  //   return view('content.authentications.reset-password', compact('token', 'user', 'email', 'pageConfigs'));
+  // }
+
+  // public function showResetForm(Request $request)
+  // {
+  //   $pageConfigs = ['myLayout' => 'blank'];
+
+  //   $token = $request->token;
+
+  //   $email = ($user = User::where('invitation_token', $token)->first()) ? $request->email : null;
+
+  //   // $user = User::where('email', $request->email)->get();
+
+  //   // $email = $user->first() ? $request->email : null;
+
+  //   return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
+  // }
+
+  // public function showResetForm(Request $request)
+  // {
+  //   $token = $request->token;
+
+  //   $tokenRecord = DB::table('password_reset_tokens')
+  //     ->where('token', $token)
+  //     ->first();
+
+  //   $tokenExpiry = $tokenRecord ? Carbon::parse($tokenRecord->token_expiry) : null;
+
+  //   if ($tokenRecord && !$tokenExpiry->isPast()) {
+  //     // Token is a password reset token
+  //     return view('content.forgetPassword.passwordResetForm', compact('token'));
+  //   }
+
+  //   // Check if the user with the given invitation token exists
+  //   $user = User::where('invitation_token', $token)->first();
+
+  //   $email = ($user = User::where('invitation_token', $token)->first()) ? $user->email : null;
+
+  //   if ($user) {
+  //     if ($user->status === 'A' && $user->id !== 1) {
+  //       $pageConfigs = ['myLayout' => 'blank'];
+
+  //       Session::flash('success', 'Already reset password');
+
+  //       return view(
+  //         'content.authentications.auth-login-basic',
+  //         with(['token' => $token, 'pageConfigs' => $pageConfigs])
+  //       );
+  //     } else {
+  //       $pageConfigs = ['myLayout' => 'blank'];
+  //       // User status is not A, show the reset form
+  //       return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
+  //     }
+  //   } else {
+  //     $pageConfigs = ['myLayout' => 'blank'];
+
+  //     // Token does not exist, show the reset form
+  //     return view('content.authentications.reset-password', compact('token', 'pageConfigs', 'email'));
+  //   }
+  // }
+
   public function showResetForm(Request $request)
   {
-    $pageConfigs = ['myLayout' => 'blank'];
-
     $token = $request->token;
 
-    $email = ($user = User::where('invitation_token', $token)->first()) ? $user->email : null;
+    // Check if the token matches an invitation token for a user
+    $user = User::where('invitation_token', $token)->first();
 
-    return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
+    if ($user) {
+      $email = $user->email; // Retrieve the email associated with the token
+
+      if ($user->status === 'A' && $user->id !== 1) {
+        $pageConfigs = ['myLayout' => 'blank'];
+
+        // User is authenticated, show success message or redirect to dashboard
+        Session::flash('success', 'Already set password');
+        return view('content.authentications.auth-login-basic', compact('pageConfigs'));
+      } else {
+        $pageConfigs = ['myLayout' => 'blank'];
+        // User is not authenticated, show reset password form
+        return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
+      }
+    } else {
+      // Token does not match any user, show error or redirect to a generic error page
+      return response()->view('errors.404', [], 404); // Example of a 404 error page
+    }
   }
 
   /**
@@ -223,10 +328,23 @@ class UserController extends Controller
 
     $user = User::where('email', $email)->first();
 
-    if (!$user) {
-      return redirect()
-        ->back()
-        ->with('error', 'User not exists.');
+    if ($user) {
+      // Check if there is an existing token
+      $existingToken = DB::table('password_reset_tokens')
+        ->where('email', $email)
+        ->first();
+
+      if ($existingToken) {
+        // Delete the existing token
+        DB::table('password_reset_tokens')
+          ->where('email', $email)
+          ->delete();
+      }
+
+      // Additional logic if needed after deleting the token
+    } else {
+      // User not found
+      return ['status' => 'error', 'message' => 'User not found.'];
     }
 
     $user->password = Hash::make($request->password);
@@ -244,68 +362,6 @@ class UserController extends Controller
         ->route('pages-userside')
         ->with('success', 'User successfully logged in');
     }
-  }
-
-  /**
-   * Show the forgot password form.
-   */
-  public function showForgotForm()
-  {
-    $pageConfigs = ['myLayout' => 'blank'];
-    return view('content.authentications.forgot-password', ['pageConfigs' => $pageConfigs]);
-  }
-
-  /**
-   * Send reset password link email to the user.
-   */
-  public function sendResetLinkEmail(Request $request)
-  {
-    $request->validate([
-      'email' => 'required|email',
-    ]);
-
-    $result = $this->sendResetLinkEmailToUser($request->email);
-
-    if ($result['status'] === 'success') {
-      return redirect()
-        ->route('auth-login-basic')
-        ->with('success', 'Link Sent Successfully');
-    } else {
-      return back()->withErrors(['email' => $result['message']]);
-    }
-  }
-
-  /**
-   * Send reset password link email to the user.
-   */
-  protected function sendResetLinkEmailToUser($email)
-  {
-    $user = User::where('email', $email)->first();
-
-    if (!$user) {
-      return ['status' => 'error', 'message' => 'User not found.'];
-    }
-
-    $existingToken = PasswordResetToken::where('email', $user->email)->first();
-
-    if ($existingToken) {
-      return ['status' => 'error', 'message' => 'Reset link already sent.'];
-    }
-
-    $token = Str::random(60);
-
-    $passwordResetToken = new PasswordResetToken();
-    $passwordResetToken->email = $user->email;
-    $passwordResetToken->token = $token;
-    $passwordResetToken->created_at = now();
-
-    $passwordResetToken->save();
-
-    $resetLink = url("password/reset/{$token}");
-
-    Mail::to($user->email)->send(new ForgotPassword($user, $resetLink));
-
-    return ['status' => 'success', 'message' => 'Password reset link sent successfully.'];
   }
 
   /**
