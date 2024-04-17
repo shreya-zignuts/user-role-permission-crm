@@ -137,14 +137,17 @@ class MeetingController extends Controller
 
   public function toggleStatus(Request $request, $id)
   {
-    // Find the meeting by ID
-    $meeting = Meeting::findOrFail($id);
+    // Assuming 'Meeting' is your model
+    $meeting = Meeting::find($id);
 
-    // Update the meeting status based on the request
-    $meeting->is_active = $request->input('is_active');
+    if (!$meeting) {
+      return response()->json(['error' => 'Meeting not found'], 404);
+    }
+
+    // Update is_active status
+    $meeting->is_active = !$meeting->is_active;
     $meeting->save();
 
-    // You can return a response if needed, such as JSON response
-    return response()->json(['message' => 'Meeting status updated successfully'], 200);
+    return response()->json(['message' => 'Meeting status updated successfully']);
   }
 }

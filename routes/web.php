@@ -159,7 +159,7 @@ Route::middleware(['auth'])->group(function () use ($controller_path) {
         Route::get('/edit/{id}', $controller_path . '\user\MeetingController@edit')->name('edit-meetings');
         Route::post('/update/{id}', $controller_path . '\user\MeetingController@update')->name('update-meetings');
         Route::post('/delete/{id}', $controller_path . '\user\MeetingController@delete')->name('delete-meetings');
-        Route::post('/change-status/{id}', $controller_path . '\user\MeetingController@toggleStatus')->name(
+        Route::get('/change-status/{id}', $controller_path . '\user\MeetingController@toggleStatus')->name(
           'meetings-status'
         );
       });
@@ -171,9 +171,6 @@ Route::middleware(['auth'])->group(function () use ($controller_path) {
         Route::get('/edit/{id}', $controller_path . '\user\CompanyController@edit')->name('edit-company');
         Route::post('/update/{id}', $controller_path . '\user\CompanyController@update')->name('update-company');
         Route::post('/delete/{id}', $controller_path . '\user\CompanyController@delete')->name('delete-company');
-        Route::post('/change-status/{id}', $controller_path . '\user\CompanyController@toggleStatus')->name(
-          'company-status'
-        );
       });
     });
   });
