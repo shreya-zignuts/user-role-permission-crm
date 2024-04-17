@@ -113,23 +113,9 @@ class PermissionController extends Controller
 
     $permission->update($data);
 
-    // $modules = $request->input('modules', []);
-
-    // dd($request->all());
     $permissions = $request->input('permissions', []);
 
-    // foreach ($modules as $module) {
-    //   $moduleCode = $module->code;
-    //   $permission->modules()->createOrUpdate($moduleCode, $permissions);
-    // }
-
-    // $modulesToAttach = Module::whereIn('id', $permissions)->get();
-
-    // Sync the modules for the permission
-
-    // dd($permission->modules()->sync($permissions));
     $permission->modules()->sync($permissions);
-    // Permission::with('modules')->updateOrCreate($permissions);
 
     return redirect()
       ->route('pages-permissions')

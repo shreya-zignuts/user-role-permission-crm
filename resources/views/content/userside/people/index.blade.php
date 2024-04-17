@@ -276,7 +276,7 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Changed!',
-                                text: 'Toggle status for user is changed',
+                                text: 'Toggle status for people is changed',
                                 customClass: {
                                     confirmButton: 'btn btn-success'
                                 }
@@ -334,7 +334,7 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Deleted!',
-                                    text: 'Your role has been deleted.',
+                                    text: 'Your people has been deleted.',
                                     customClass: {
                                         confirmButton: 'btn btn-success'
                                     }

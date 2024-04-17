@@ -264,7 +264,7 @@
                       Swal.fire({
                           icon: 'success',
                           title: 'Changed!',
-                          text: 'Toggle status for user is changed',
+                          text: 'Toggle status for activity log is changed',
                           customClass: {
                               confirmButton: 'btn btn-success'
                           }
@@ -322,7 +322,7 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Deleted!',
-                                    text: 'Your role has been deleted.',
+                                    text: 'Your activity log has been deleted.',
                                     customClass: {
                                         confirmButton: 'btn btn-success'
                                     }

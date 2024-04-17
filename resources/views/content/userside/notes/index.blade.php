@@ -229,7 +229,7 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Deleted!',
-                                    text: 'Your role has been deleted.',
+                                    text: 'Your note has been deleted.',
                                     customClass: {
                                         confirmButton: 'btn btn-success'
                                     }

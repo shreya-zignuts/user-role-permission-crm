@@ -200,93 +200,6 @@ class UserController extends Controller
   /**
    * Show the password reset form.
    */
-  // public function showResetForm(Request $request)
-  // {
-  //   $pageConfigs = ['myLayout' => 'blank'];
-  //   $token = $request->token;
-
-  //   // Debug output
-  //   // echo "Token: $token<br>";
-
-  //   $user = User::where('invitation_token', $token)->first();
-
-  //   $user = Auth::user();
-  //   // Debug output
-  //   // echo "User: ";
-  //   // var_dump($user);
-
-  //   $email = $user ? $user->email : null;
-
-  //   // Debug output
-  //   // echo "Email: $email";
-
-  //   // Check the retrieved user and email
-  //   if (!$user) {
-  //     // Token does not match any user
-  //     Session::flash('error', 'Invalid token');
-  //     return redirect()->route('login');
-  //   }
-
-  //   return view('content.authentications.reset-password', compact('token', 'user', 'email', 'pageConfigs'));
-  // }
-
-  // public function showResetForm(Request $request)
-  // {
-  //   $pageConfigs = ['myLayout' => 'blank'];
-
-  //   $token = $request->token;
-
-  //   $email = ($user = User::where('invitation_token', $token)->first()) ? $request->email : null;
-
-  //   // $user = User::where('email', $request->email)->get();
-
-  //   // $email = $user->first() ? $request->email : null;
-
-  //   return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
-  // }
-
-  // public function showResetForm(Request $request)
-  // {
-  //   $token = $request->token;
-
-  //   $tokenRecord = DB::table('password_reset_tokens')
-  //     ->where('token', $token)
-  //     ->first();
-
-  //   $tokenExpiry = $tokenRecord ? Carbon::parse($tokenRecord->token_expiry) : null;
-
-  //   if ($tokenRecord && !$tokenExpiry->isPast()) {
-  //     // Token is a password reset token
-  //     return view('content.forgetPassword.passwordResetForm', compact('token'));
-  //   }
-
-  //   // Check if the user with the given invitation token exists
-  //   $user = User::where('invitation_token', $token)->first();
-
-  //   $email = ($user = User::where('invitation_token', $token)->first()) ? $user->email : null;
-
-  //   if ($user) {
-  //     if ($user->status === 'A' && $user->id !== 1) {
-  //       $pageConfigs = ['myLayout' => 'blank'];
-
-  //       Session::flash('success', 'Already reset password');
-
-  //       return view(
-  //         'content.authentications.auth-login-basic',
-  //         with(['token' => $token, 'pageConfigs' => $pageConfigs])
-  //       );
-  //     } else {
-  //       $pageConfigs = ['myLayout' => 'blank'];
-  //       // User status is not A, show the reset form
-  //       return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
-  //     }
-  //   } else {
-  //     $pageConfigs = ['myLayout' => 'blank'];
-
-  //     // Token does not exist, show the reset form
-  //     return view('content.authentications.reset-password', compact('token', 'pageConfigs', 'email'));
-  //   }
-  // }
 
   public function showResetForm(Request $request)
   {
@@ -301,16 +214,13 @@ class UserController extends Controller
       if ($user->status === 'A' && $user->id !== 1) {
         $pageConfigs = ['myLayout' => 'blank'];
 
-        // User is authenticated, show success message or redirect to dashboard
         Session::flash('success', 'Already set password');
         return view('content.authentications.auth-login-basic', compact('pageConfigs'));
       } else {
         $pageConfigs = ['myLayout' => 'blank'];
-        // User is not authenticated, show reset password form
         return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
       }
     } else {
-      // Token does not match any user, show error or redirect to a generic error page
       return response()->view('errors.404', [], 404); // Example of a 404 error page
     }
   }
