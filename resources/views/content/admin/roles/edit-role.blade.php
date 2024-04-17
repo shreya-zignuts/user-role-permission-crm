@@ -60,8 +60,8 @@
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light"
                             id="type-success">Update</button>
-                        <a href="{{ route('pages-roles') }}" class="btn btn-label-secondary waves-effect ml-3"
-                            aria-label="Cancel">Cancel</a>
+                            <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
+                            aria-label="Close"><a href="{{ route('pages-roles')}}">Cancel</a></button>
                     </div>
                 </form>
             </div>

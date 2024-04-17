@@ -41,7 +41,7 @@ class UserController extends Controller
         $query->where('is_active', $filter === 'active');
       })
       ->paginate(5);
-    return view('content.users.index', compact('users', 'filter'));
+    return view('content.admin.users.index', compact('users', 'filter'));
   }
 
   /**
@@ -50,7 +50,7 @@ class UserController extends Controller
   public function create()
   {
     $roles = Role::all();
-    return view('content.users.create', compact('roles'));
+    return view('content.admin.users.create', compact('roles'));
   }
 
   /**
@@ -123,7 +123,7 @@ class UserController extends Controller
   {
     $user = User::findOrFail($id);
     $roles = Role::all();
-    return view('content.users.edit-user', compact('user', 'roles'));
+    return view('content.admin.users.edit-user', compact('user', 'roles'));
   }
 
   /**

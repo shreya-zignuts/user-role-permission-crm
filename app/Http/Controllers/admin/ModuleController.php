@@ -35,7 +35,7 @@ class ModuleController extends Controller
 
     $modules = $query->with('submodules')->paginate(5);
 
-    return view('content.modules.index', compact('filter', 'modules'));
+    return view('content.admin.modules.index', compact('filter', 'modules'));
   }
 
   /**
@@ -44,7 +44,7 @@ class ModuleController extends Controller
   public function edit($moduleId)
   {
     $module = Module::where('code', $moduleId)->firstOrFail();
-    return view('content.modules.edit-module', compact('module'));
+    return view('content.admin.modules.edit-module', compact('module'));
   }
 
   /**

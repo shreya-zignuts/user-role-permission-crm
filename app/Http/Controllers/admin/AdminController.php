@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\pages;
-
+namespace App\Http\Controllers\admin;
 use App\Models\Role;
+
 use App\Models\User;
 use App\Models\Module;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class HomePage extends Controller
+class AdminController extends Controller
 {
   public function index()
   {
@@ -20,7 +20,7 @@ class HomePage extends Controller
       ->where('id', '!=', 1)
       ->count();
     return view(
-      'content.pages.pages-home',
+      'content.admin.dashboard.index',
       compact('activeModuleCount', 'activePermissionCount', 'activeRolesCount', 'activeUsersCount')
     );
   }

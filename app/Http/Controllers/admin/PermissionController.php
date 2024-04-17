@@ -26,7 +26,7 @@ class PermissionController extends Controller
       })
       ->paginate(5);
 
-    return view('content.permissions.index', compact('permissions'));
+    return view('content.admin.permissions.index', compact('permissions'));
   }
 
   /**
@@ -38,7 +38,7 @@ class PermissionController extends Controller
       ->with('submodules')
       ->get();
 
-    return view('content.permissions.create', compact('modules'));
+    return view('content.admin.permissions.create', compact('modules'));
   }
 
   /**
@@ -95,7 +95,7 @@ class PermissionController extends Controller
       ->with('submodules')
       ->get();
 
-    return view('content.permissions.edit-permission', compact('modules', 'permission'));
+    return view('content.admin.permissions.edit-permission', compact('modules', 'permission'));
   }
 
   /**

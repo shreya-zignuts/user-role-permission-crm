@@ -52,7 +52,7 @@ Route::middleware(['auth', 'permission', 'admin.check'])
     //   'auth-register-basic'
     // );
 
-    Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
+    Route::get('/', $controller_path . '\admin\AdminController@index')->name('pages-home');
 
     Route::prefix('modules')->group(function () use ($controller_path) {
       Route::get('/', $controller_path . '\admin\ModuleController@index')->name('pages-modules');

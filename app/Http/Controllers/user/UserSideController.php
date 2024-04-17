@@ -25,18 +25,9 @@ class UserSideController extends Controller
 
     // dd($user);
 
-    return view('content.userside.index', [
+    return view('content.userside.dashboard.index', [
       'user' => $user,
     ]);
-  }
-
-  public function edit($id)
-  {
-    $user = User::findOrFail($id);
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
-    return view('content.userside.edit-profile', compact('user'));
   }
 
   /**

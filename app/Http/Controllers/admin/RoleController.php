@@ -26,7 +26,7 @@ class RoleController extends Controller
       })
       ->paginate(5);
 
-    return view('content.roles.index', compact('roles', 'filter'));
+    return view('content.admin.roles.index', compact('roles', 'filter'));
   }
 
   /**
@@ -35,7 +35,7 @@ class RoleController extends Controller
   public function create()
   {
     $permissions = Permission::all();
-    return view('content.roles.create', compact('permissions'));
+    return view('content.admin.roles.create', compact('permissions'));
   }
 
   /**
@@ -86,7 +86,7 @@ class RoleController extends Controller
   {
     $role = Role::findOrFail($id);
     $permissions = Permission::all();
-    return view('content.roles.edit-role', compact('role', 'permissions'));
+    return view('content.admin.roles.edit-role', compact('role', 'permissions'));
   }
 
   /**

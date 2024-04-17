@@ -116,8 +116,9 @@
 
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{ route('userside-meetings') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
-                        </div>
+                            <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
+                              aria-label="Close"><a href="{{ route('userside-meetings')}}">Cancel</a></button>
+                           </div>
                     </form>
                 </div>
             </div>

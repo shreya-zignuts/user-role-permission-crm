@@ -96,7 +96,8 @@
 
                     <div class="pt-4">
                         <button type="submit" class="btn btn-primary me-sm-3 me-1">Create</button>
-                        <a href="{{ route('userside-people') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
+                        <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
+                        aria-label="Close"><a href="{{ route('userside-people')}}">Cancel</a></button>
                     </div>
                 </form>
             </div>

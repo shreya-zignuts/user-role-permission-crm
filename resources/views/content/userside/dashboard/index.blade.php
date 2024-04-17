@@ -364,8 +364,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="phone">Phone No</label>
-                                <input type="text" id="phone" name="phone" class="form-control phone-mask"
-                                    placeholder="123-456-7890" aria-label="123-456-7890" value="{{ $user->phone }}" />
+                                <input type="text" id="phone_number" name="phone_number" class="form-control phone-mask"
+                                    placeholder="123-456-7890" aria-label="123-456-7890" value="{{ $user->phone_number }}" />
                             </div>
                         </div>
 

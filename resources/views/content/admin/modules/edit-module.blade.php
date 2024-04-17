@@ -58,7 +58,8 @@
                 </div>
                 <div class="text-center mb-4 mt-0">
                     <button type="submit" id="update" name="update" class="btn btn-primary">Update</button>
-                    <a href="{{ route('pages-modules') }}" class="btn btn-dark">Cancel</a>
+                    <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
+                              aria-label="Close"><a href="{{ route('pages-modules')}}">Cancel</a></button>
                 </div>
                 </form>
             </div>
