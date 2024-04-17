@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\user;
+use App\Http\Controllers\Controller;
 
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Module;
+use App\Helpers\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -19,16 +21,9 @@ class UserSideController extends Controller
 
   public function index(Request $request)
   {
-    $user = Auth::user();
+    $user = Helpers::getUserData();
 
-    // Check if the user is authenticated
-    if (!$user) {
-      return redirect()->route('login');
-    }
-    // dd($modules);
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
+    // dd($user);
 
     return view('content.userside.index', [
       'user' => $user,

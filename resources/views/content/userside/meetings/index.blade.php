@@ -131,20 +131,15 @@
                 <div class="input-group">
                     <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
                         name="filter">
-                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Users</option>
-                        <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Users</option>
-                        <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Users</option>
+                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Meetings</option>
+                        <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Meetings</option>
+                        <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Meetings</option>
                     </select>
                     <button class="btn btn-primary" type="submit">Filter</button>
                 </div>
             </form>
         </div>
     </div>
-
-    <!-- Add New Button based on Access -->
-    @php
-        $peopleModule = $user->modules->where('code', 'MET')->first();
-    @endphp
 
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
@@ -159,7 +154,7 @@
                     <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
                 </svg></h5>
             <div class="card-body text-end mt-4">
-                @if ($peopleModule->pivot->add_access)
+                @if ($permissionsArray['add'])
                     <a href="{{ route('create-meetings') }}" class="btn btn-primary">Add Meeting</a>
                 @endif
             </div>
@@ -173,7 +168,7 @@
                     <th>Date</th>
                     <th>Time</th>
                     <th>Status</th>
-                    @if ($peopleModule->pivot->delete_access || $peopleModule->pivot->edit_access)
+                    @if ($permissionsArray['edit'] || $permissionsArray['delete'])
                         <th>Actions</th>
                     @else
                         <th></th>
@@ -211,7 +206,7 @@
                             </form>
                         </td>
                         <td>
-                            @if ($peopleModule->pivot->delete_access || $peopleModule->pivot->edit_access)
+                            @if ($permissionsArray['edit'] || $permissionsArray['delete'])
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                         data-bs-toggle="dropdown">
@@ -219,14 +214,14 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <!-- Edit Button based on Access -->
-                                        @if ($peopleModule->pivot->edit_access)
+                                        @if ($permissionsArray['edit'])
                                             <a class="dropdown-item"
                                                 href="{{ route('edit-meetings', ['id' => $meeting->id]) }}">
                                                 <i class="ti ti-pencil me-1"></i> Edit
                                             </a>
                                         @endif
                                         <!-- Delete Button based on Access -->
-                                        @if ($peopleModule->pivot->delete_access)
+                                        @if ($permissionsArray['delete'])
                                             <form id="deleteMeetingForm{{ $meeting->id }}" method="POST"
                                                 action="{{ route('delete-meetings', ['id' => $meeting->id]) }}">
                                                 @csrf

@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\user;
+use App\Http\Controllers\Controller;
 
+use App\Helpers\Helpers;
 use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -11,13 +13,25 @@ class ActivityLogController extends Controller
 {
   public function index(Request $request)
   {
-    $user = Auth::user();
+    $user = Helpers::getUserData();
 
-    $modules = $user->getModulesWithPermissions();
+    $moduleCode = 'CMP';
+    $module = $user->modules->where('code', $moduleCode)->first();
 
-    $user->modules = $modules;
+    $permissions = $module
+      ? $module
+        ->permissions()
+        ->withPivot('view_access', 'add_access', 'edit_access', 'delete_access')
+        ->get()
+      : null;
 
-    // $people = People::all();
+    // Prepare permissions array for the view
+    $permissionsArray = [
+      'view' => $permissions->where('pivot.view_access', true)->isNotEmpty(),
+      'add' => $permissions->where('pivot.add_access', true)->isNotEmpty(),
+      'edit' => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
+      'delete' => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
+    ];
 
     $search = $request->search;
     $filter = $request->filter;
@@ -30,18 +44,14 @@ class ActivityLogController extends Controller
         $query->where('is_active', $filter === 'active');
       })
       ->paginate(5);
-    return view('content.userside.activityLogs.index', compact('user', 'activityLog', 'filter'));
+    return view('content.userside.activityLogs.index', compact('user', 'permissionsArray', 'activityLog', 'filter'));
   }
 
   public function create()
   {
-    $user = Auth::user();
-
     $userId = Auth::id();
     // dd($userId);
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
+    $user = Helpers::getUserData();
 
     $activityLog = ActivityLog::all();
 
@@ -76,12 +86,7 @@ class ActivityLogController extends Controller
 
   public function edit($id)
   {
-    $user = Auth::user();
-
-    // dd($userId);
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
+    $user = Helpers::getUserData();
 
     $userId = Auth::id();
 

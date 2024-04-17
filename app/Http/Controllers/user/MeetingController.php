@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\user;
+use App\Http\Controllers\Controller;
 
 use DateTime;
 use DateTimeZone;
 use Carbon\Carbon;
 use App\Models\Meeting;
+use App\Helpers\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,13 +15,25 @@ class MeetingController extends Controller
 {
   public function index(Request $request)
   {
-    $user = Auth::user();
+    $user = Helpers::getUserData();
 
-    $modules = $user->getModulesWithPermissions();
+    $moduleCode = 'MET';
+    $module = $user->modules->where('code', $moduleCode)->first();
 
-    $user->modules = $modules;
+    $permissions = $module
+      ? $module
+        ->permissions()
+        ->withPivot('view_access', 'add_access', 'edit_access', 'delete_access')
+        ->get()
+      : null;
 
-    // $people = People::all();
+    // Prepare permissions array for the view
+    $permissionsArray = [
+      'view' => $permissions->where('pivot.view_access', true)->isNotEmpty(),
+      'add' => $permissions->where('pivot.add_access', true)->isNotEmpty(),
+      'edit' => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
+      'delete' => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
+    ];
 
     $search = $request->search;
     $filter = $request->filter;
@@ -33,7 +47,7 @@ class MeetingController extends Controller
       })
       ->paginate(5);
 
-    return view('content.userside.meetings.index', compact('user', 'meetings', 'filter'));
+    return view('content.userside.meetings.index', compact('user', 'meetings', 'filter', 'permissionsArray'));
   }
 
   public function create()
@@ -81,12 +95,7 @@ class MeetingController extends Controller
 
   public function edit($id)
   {
-    $user = Auth::user();
-
-    // dd($userId);
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
+    $user = Helpers::getUserData();
 
     $userId = Auth::id();
 

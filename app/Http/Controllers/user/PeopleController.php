@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\user;
+use App\Http\Controllers\Controller;
 
 use App\Models\User;
 use App\Models\People;
+use App\Helpers\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,12 +13,27 @@ class PeopleController extends Controller
 {
   public function index(Request $request)
   {
-    $user = Auth::user();
+    $user = Helpers::getUserData();
 
-    $modules = $user->getModulesWithPermissions();
+    $moduleCode = 'PPL';
+    $module = $user->modules->where('code', $moduleCode)->first();
 
-    $user->modules = $modules;
+    $permissions = $module
+      ? $module
+        ->permissions()
+        ->withPivot('view_access', 'add_access', 'edit_access', 'delete_access')
+        ->get()
+      : null;
 
+    // Prepare permissions array for the view
+    $permissionsArray = [
+      'view' => $permissions->where('pivot.view_access', true)->isNotEmpty(),
+      'add' => $permissions->where('pivot.add_access', true)->isNotEmpty(),
+      'edit' => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
+      'delete' => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
+    ];
+
+    // dd($permissions);
     // $people = People::all();
 
     $search = $request->search;
@@ -30,18 +47,14 @@ class PeopleController extends Controller
         $query->where('is_active', $filter === 'active');
       })
       ->paginate(5);
-    return view('content.userside.people.index', compact('user', 'people', 'filter'));
+    return view('content.userside.people.index', compact('user', 'permissionsArray', 'people', 'filter'));
   }
 
   public function create()
   {
-    $user = Auth::user();
-
     $userId = Auth::id();
     // dd($userId);
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
+    $user = Helpers::getUserData();
 
     $people = People::all();
 
@@ -68,12 +81,7 @@ class PeopleController extends Controller
 
   public function edit($id)
   {
-    $user = Auth::user();
-
-    // dd($userId);
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
+    $user = Helpers::getUserData();
 
     $userId = Auth::id();
 

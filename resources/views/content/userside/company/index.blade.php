@@ -108,31 +108,13 @@
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
-                <input type="hidden" name="filter" value="{{ request()->input('filter') }}">
             </form>
         </div>
         <div class="col-md-1 text-center">
             <a href="{{ route('userside-company') }}" class="btn btn-secondary">Reset</a>
         </div>
-        <div class="col-md-4">
-            <form action="{{ route('userside-company') }}" method="GET">
-                <div class="input-group">
-                    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
-                        name="filter">
-                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Users</option>
-                        <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Users</option>
-                        <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Users</option>
-                    </select>
-                    <button class="btn btn-primary" type="submit">Filter</button>
-                </div>
-            </form>
-        </div>
     </div>
 
-    <!-- Add New Button based on Access -->
-    @php
-        $peopleModule = $user->modules->where('code', 'CMP')->first();
-    @endphp
     <div class="card w-100 mt-5">
       <div class="d-flex justify-content-between align-items-center">
           <h5 class="card-header">Activity Logs <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -148,7 +130,7 @@
           <div class="card-body text-end mt-4">
             {{-- @dd($peopleModule->pivot->add_access) --}}
 
-            @if ($peopleModule->pivot->add_access)
+            @if ($permissionsArray['add'])
             <a href="{{ route('create-company')}}" class="btn btn-primary">Add Company</a>
         @endif
           </div>
@@ -160,7 +142,7 @@
                                 <th>Name</th>
                                 <th>Owner Name</th>
                                 <th>Industry</th>
-                                @if($peopleModule->pivot->delete_access || $peopleModule->pivot->edit_access)
+                                @if($permissionsArray['edit'] || $permissionsArray['delete'])
                                 <th>Actions</th>
                                 @else
                                 <th></th>
@@ -174,20 +156,20 @@
                                     <td>{{ $comp->owner_name }}</td>
                                     <td>{{ $comp->industry }}</td>
                                     <td>
-                                      @if($peopleModule->pivot->delete_access || $peopleModule->pivot->edit_access)
+                                      @if($permissionsArray['edit'] || $permissionsArray['edit'])
                                       <div class="dropdown">
                                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                               <i class="ti ti-dots-vertical"></i>
                                           </button>
                                           <div class="dropdown-menu">
                                               <!-- Edit Button based on Access -->
-                                              @if ($peopleModule->pivot->edit_access)
+                                              @if ($permissionsArray['edit'])
                                                   <a class="dropdown-item" href="{{ route('edit-company', ['id' => $comp->id]) }}">
                                                       <i class="ti ti-pencil me-1"></i> Edit
                                                   </a>
                                               @endif
                                               <!-- Delete Button based on Access -->
-                                              @if ($peopleModule->pivot->delete_access)
+                                              @if ($permissionsArray['delete'])
                                               <form id="deleteCompanyForm{{ $comp->id }}" method="POST"
                                                 action="{{ route('delete-company', ['id' => $comp->id]) }}">
                                                 @csrf

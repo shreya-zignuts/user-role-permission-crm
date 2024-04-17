@@ -83,33 +83,61 @@
             @if (!isset($navbarFull) && $menu->url === '/userside')
                 <ul class="menu-item">
                     @foreach ($user->modules as $module)
-                        @if (!isset($module['parent_code']))
-                            <li class="menu-item">
-                                <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
-                                    class="menu-link menu-toggle">
-                                    @isset($module->icon)
-                                        <i class="{{ $module->icon }}"></i>
-                                    @endisset
-                                    <div>{{ isset($module->name) ? __($module->name) : '' }}</div>
-                                </a>
-                                @if (count($module->submodules) > 0)
-                                    <ul class="submenu" style="display: none;">
-                                        @foreach ($module->submodules as $submenu)
-                                            @if (in_array($submenu->code, $user->modules->pluck('code')->toArray()) && $submenu->parent_code === $module->code)
-                                                <li class="menu-item">
-                                                    <a href="{{ isset($submenu->url) ? url($submenu->url) : 'javascript:void(0)' }}"
-                                                        class="menu-link submenu-link">
-                                                        <img src="https://cdn-icons-png.flaticon.com/128/8265/8265301.png"
-                                                            width="19px" alt="">
-                                                        <div class="active">
-                                                            {{ isset($submenu->name) ? __($submenu->name) : '' }}</div>
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </li>
+                        @php
+                            $hasSubmodulesWithView = false;
+                            if (count($module->submodules) > 0) {
+                                foreach ($module->submodules as $submenu) {
+                                    foreach ($submenu->permissions as $permission) {
+                                        if ($permission->pivot->view_access) {
+                                            $hasSubmodulesWithView = true;
+                                            break 2; // Break both foreach loops
+                                        }
+                                    }
+                                }
+                            }
+                        @endphp
+
+                        @if ($hasSubmodulesWithView)
+                            @if (!isset($module['parent_code']))
+                                <li class="menu-item">
+                                    <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
+                                        class="menu-link menu-toggle">
+                                        @isset($module->icon)
+                                            <i class="{{ $module->icon }}"></i>
+                                        @endisset
+                                        <div>{{ isset($module->name) ? __($module->name) : '' }}</div>
+                                    </a>
+                                    @if (count($module->submodules) > 0)
+                                        <ul class="submenu" style="display: none;">
+                                            @foreach ($module->submodules as $submenu)
+                                                @php
+                                                    $hasViewAccess = false;
+                                                    foreach ($submenu->permissions as $permission) {
+                                                        if ($permission->pivot->view_access) {
+                                                            $hasViewAccess = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                @endphp
+                                                @if ($hasViewAccess)
+                                                    @if (in_array($submenu->code, $user->modules->pluck('code')->toArray()) && $submenu->parent_code === $module->code)
+                                                        <li class="menu-item">
+                                                            <a href="{{ isset($submenu->url) ? url($submenu->url) : 'javascript:void(0)' }}"
+                                                                class="menu-link submenu-link">
+                                                                <img src="https://cdn-icons-png.flaticon.com/128/8265/8265301.png"
+                                                                    width="19px" alt="">
+                                                                <div class="active">
+                                                                    {{ isset($submenu->name) ? __($submenu->name) : '' }}
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endif
                         @endif
                     @endforeach
                 </ul>
@@ -124,9 +152,10 @@
                                 $submenu.slideToggle();
                             }
                         });
-                  });
+                    });
                 </script>
             @endif
+
         @endforeach
     </ul>
 </aside>

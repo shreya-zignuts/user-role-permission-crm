@@ -4,14 +4,13 @@ namespace App\Helpers;
 
 use Config;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class Helpers
 {
   public static function appClasses()
   {
-
     $data = config('custom.custom');
-
 
     // default data array
     $DefaultData = [
@@ -181,5 +180,20 @@ class Helpers
         }
       }
     }
+  }
+  public static function getUserData()
+  {
+    $user = Auth::user();
+
+    // Check if the user is authenticated
+    if (!$user) {
+      return null;
+    }
+
+    $modules = $user->getModulesWithPermissions();
+
+    $user->modules = $modules;
+
+    return $user;
   }
 }
