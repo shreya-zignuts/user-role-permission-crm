@@ -18,36 +18,24 @@ class MeetingController extends Controller
     $user = Helpers::getUserData();
 
     $moduleCode = 'MET';
-    $module = $user->modules->where('code', $moduleCode)->first();
-
-    $permissions = $module
-      ? $module
-        ->permissions()
-        ->withPivot('view_access', 'add_access', 'edit_access', 'delete_access')
-        ->get()
-      : null;
-
-    // Prepare permissions array for the view
-    $permissionsArray = [
-      'view' => $permissions->where('pivot.view_access', true)->isNotEmpty(),
-      'add' => $permissions->where('pivot.add_access', true)->isNotEmpty(),
-      'edit' => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
-      'delete' => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
-    ];
-
-    $search = $request->search;
-    $filter = $request->filter;
+    $permissionsArray = Auth::user()->getModulePermissions($user, $moduleCode);
 
     $meetings = Meeting::query()
-      ->when($search, function ($query) use ($search) {
-        $query->where('title', 'like', '%' . $search . '%');
-      })
-      ->when($filter && $filter !== 'all', function ($query) use ($filter) {
-        $query->where('is_active', $filter === 'active');
+      ->when($request->filled(['search', 'filter']), function ($query) use ($request) {
+        // Apply search filter if search query is present
+        if ($request->filled('search')) {
+          $query->where('title', 'like', '%' . $request->input('search') . '%');
+        }
+
+        // Apply status filter if filter is selected
+        if ($request->filled('filter') && $request->input('filter') !== 'all') {
+          $query->where('status', $request->input('filter') === 'active' ? 1 : 0);
+        }
       })
       ->paginate(5);
 
-    return view('content.userside.meetings.index', compact('user', 'meetings', 'filter', 'permissionsArray'));
+    $meetings->appends([$request->filled('search'), $request->filled('filter')]);
+    return view('content.userside.meetings.index', compact('user', 'meetings', 'permissionsArray'));
   }
 
   public function create()
@@ -99,7 +87,13 @@ class MeetingController extends Controller
 
     $userId = Auth::id();
 
-    $meetings = Meeting::findOrFail($id);
+    $meetings = Meeting::find($id);
+
+    if (!$meetings) {
+      return redirect()
+        ->back()
+        ->with('error', 'Meeting not found');
+    }
 
     return view('content.userside.meetings.edit', compact('user', 'meetings', 'userId'));
   }
@@ -116,7 +110,13 @@ class MeetingController extends Controller
       'time' => 'required|date_format:H:i',
     ]);
 
-    $meetings = Meeting::findOrFail($id);
+    $meetings = Meeting::find($id);
+
+    if (!$meetings) {
+      return redirect()
+        ->back()
+        ->with('error', 'Meeting not found');
+    }
 
     $meetings->update($request->only(['title', 'description', 'date', 'time']));
 
@@ -127,7 +127,13 @@ class MeetingController extends Controller
 
   public function delete($id)
   {
-    $meetings = Meeting::findOrFail($id);
+    $meetings = Meeting::find($id);
+
+    if (!$meetings) {
+      return redirect()
+        ->back()
+        ->with('error', 'Meeting not found');
+    }
     $meetings->delete();
 
     return redirect()

@@ -15,6 +15,7 @@ return new class extends Migration {
       $table->string('name', 64);
       $table->string('owner_name', 64);
       $table->string('industry', 64);
+      $table->string('address')->nullable();
       $table->unsignedBigInteger('user_id');
       $table
         ->foreign('user_id')

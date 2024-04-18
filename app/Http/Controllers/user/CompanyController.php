@@ -14,34 +14,21 @@ class CompanyController extends Controller
   {
     $user = Helpers::getUserData();
 
-
     $moduleCode = 'CMP';
-    $module = $user->modules->where('code', $moduleCode)->first();
-
-    $permissions = $module
-      ? $module
-        ->permissions()
-        ->withPivot('view_access', 'add_access', 'edit_access', 'delete_access')
-        ->get()
-      : null;
-
-    // Prepare permissions array for the view
-    $permissionsArray = [
-      'view' => $permissions->where('pivot.view_access', true)->isNotEmpty(),
-      'add' => $permissions->where('pivot.add_access', true)->isNotEmpty(),
-      'edit' => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
-      'delete' => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
-    ];
-
-    $search = $request->search;
-    $filter = $request->filter;
+    $permissionsArray = Auth::user()->getModulePermissions($user, $moduleCode);
 
     $company = Company::query()
-      ->when($search, function ($query) use ($search) {
-        $query->where('name', 'like', '%' . $search . '%');
+      ->when($request->filled(['search']), function ($query) use ($request) {
+        // Apply search filter if search query is present
+        if ($request->filled('search')) {
+          $query->where('name', 'like', '%' . $request->input('search') . '%');
+        }
       })
       ->paginate(5);
-    return view('content.userside.company.index', compact('user', 'company', 'permissionsArray', 'filter'));
+
+    $company->appends([$request->filled('search'), $request->filled('filter')]);
+
+    return view('content.userside.company.index', compact('user', 'company', 'permissionsArray'));
   }
 
   public function create()
@@ -61,6 +48,7 @@ class CompanyController extends Controller
       'name' => 'required|string|max:64',
       'owner_name' => 'string|max:64',
       'industry' => 'string|max:64',
+      'address' => 'string|nullable',
     ]);
 
     $data['user_id'] = auth()->user()->id;
@@ -77,7 +65,13 @@ class CompanyController extends Controller
 
     $userId = Auth::id();
 
-    $company = Company::findOrFail($id);
+    $company = Company::find($id);
+
+    if (!$company) {
+      return redirect()
+        ->back()
+        ->with('error', 'Company not found');
+    }
 
     return view('content.userside.company.edit', compact('user', 'company', 'userId'));
   }
@@ -91,11 +85,18 @@ class CompanyController extends Controller
       'name' => 'required|string|max:64',
       'owner_name' => 'string|max:64',
       'industry' => 'string|max:64',
+      'address' => 'string|nullable',
     ]);
 
-    $company = Company::findOrFail($id);
+    $company = Company::find($id);
 
-    $company->update($request->only(['name', 'owner_name', 'industry']));
+    if (!$company) {
+      return redirect()
+        ->back()
+        ->with('error', 'Company not found');
+    }
+
+    $company->update($request->only(['name', 'owner_name', 'industry', 'address']));
 
     return redirect()
       ->route('userside-company')
@@ -104,7 +105,13 @@ class CompanyController extends Controller
 
   public function delete($id)
   {
-    $company = Company::findOrFail($id);
+    $company = Company::find($id);
+
+    if (!$company) {
+      return redirect()
+        ->back()
+        ->with('error', 'Company not found');
+    }
     $company->delete();
 
     return redirect()

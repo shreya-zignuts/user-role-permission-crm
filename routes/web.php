@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 $controller_path = 'App\Http\Controllers';
 
 // Main Page Route
+Route::get('/', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
 Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
 Route::post('/auth/login-basic', $controller_path . '\authentications\LoginBasic@login')->name('login');
 Route::post('/logout', $controller_path . '\authentications\LoginBasic@logout')->name('logout');
@@ -116,61 +117,99 @@ Route::middleware(['auth'])->group(function () use ($controller_path) {
 
     Route::prefix('modules')->group(function () use ($controller_path) {
       Route::prefix('/people')->group(function () use ($controller_path) {
-        Route::get('/', $controller_path . '\user\PeopleController@index')->name('userside-people');
-        Route::get('/create', $controller_path . '\user\PeopleController@create')->name('create-people');
+        Route::get('/', $controller_path . '\user\PeopleController@index')
+          ->name('userside-people')
+          ->middleware('check.access:PPL,view');
+        Route::get('/create', $controller_path . '\user\PeopleController@create')
+          ->name('create-people')
+          ->middleware('check.access:PPL,add');
         Route::post('/store', $controller_path . '\user\PeopleController@store')->name('store-people');
-        Route::get('/edit/{id}', $controller_path . '\user\PeopleController@edit')->name('edit-people');
+        Route::get('/edit/{id}', $controller_path . '\user\PeopleController@edit')
+          ->name('edit-people')
+          ->middleware('check.access:PPL,edit');
         Route::post('/update/{id}', $controller_path . '\user\PeopleController@update')->name('update-people');
-        Route::post('/delete/{id}', $controller_path . '\user\PeopleController@delete')->name('delete-people');
+        Route::post('/delete/{id}', $controller_path . '\user\PeopleController@delete')
+          ->name('delete-people')
+          ->middleware('check.access:PPL,delete');
         Route::get('/change-status/{id}', $controller_path . '\user\PeopleController@toggleStatus')->name(
           'people-status'
         );
       });
 
       Route::prefix('/activityLogs')->group(function () use ($controller_path) {
-        Route::get('/', $controller_path . '\user\ActivityLogController@index')->name('userside-activityLogs');
-        Route::get('/create', $controller_path . '\user\ActivityLogController@create')->name('create-activityLogs');
+        Route::get('/', $controller_path . '\user\ActivityLogController@index')
+          ->name('userside-activityLogs')
+          ->middleware('check.access:ACT,view');
+        Route::get('/create', $controller_path . '\user\ActivityLogController@create')
+          ->name('create-activityLogs')
+          ->middleware('check.access:ACT,add');
         Route::post('/store', $controller_path . '\user\ActivityLogController@store')->name('store-activityLogs');
-        Route::get('/edit/{id}', $controller_path . '\user\ActivityLogController@edit')->name('edit-activityLogs');
+        Route::get('/edit/{id}', $controller_path . '\user\ActivityLogController@edit')
+          ->name('edit-activityLogs')
+          ->middleware('check.access:ACT,edit');
         Route::post('/update/{id}', $controller_path . '\user\ActivityLogController@update')->name(
           'update-activityLogs'
         );
-        Route::post('/delete/{id}', $controller_path . '\user\ActivityLogController@delete')->name(
-          'delete-activityLogs'
-        );
+        Route::post('/delete/{id}', $controller_path . '\user\ActivityLogController@delete')
+          ->name('delete-activityLogs')
+          ->middleware('check.access:ACT,delete');
         Route::get('/change-status/{id}', $controller_path . '\user\ActivityLogController@toggleStatus')->name(
           'activityLogs-status'
         );
       });
 
       Route::prefix('/notes')->group(function () use ($controller_path) {
-        Route::get('/', $controller_path . '\user\NotesController@index')->name('userside-notes');
-        Route::get('/create', $controller_path . '\user\NotesController@create')->name('create-notes');
+        Route::get('/', $controller_path . '\user\NotesController@index')
+          ->name('userside-notes')
+          ->middleware('check.access:NTS,view');
+        Route::get('/create', $controller_path . '\user\NotesController@create')
+          ->name('create-notes')
+          ->middleware('check.access:NTS,add');
         Route::post('/store', $controller_path . '\user\NotesController@store')->name('store-notes');
-        Route::get('/edit/{id}', $controller_path . '\user\NotesController@edit')->name('edit-notes');
+        Route::get('/edit/{id}', $controller_path . '\user\NotesController@edit')
+          ->name('edit-notes')
+          ->middleware('check.access:NTS,edit');
         Route::post('/update/{id}', $controller_path . '\user\NotesController@update')->name('update-notes');
-        Route::post('/delete/{id}', $controller_path . '\user\NotesController@delete')->name('delete-notes');
+        Route::post('/delete/{id}', $controller_path . '\user\NotesController@delete')
+          ->name('delete-notes')
+          ->middleware('check.access:NTS,delete');
       });
 
       Route::prefix('/meeting')->group(function () use ($controller_path) {
-        Route::get('/', $controller_path . '\user\MeetingController@index')->name('userside-meetings');
-        Route::get('/create', $controller_path . '\user\MeetingController@create')->name('create-meetings');
+        Route::get('/', $controller_path . '\user\MeetingController@index')
+          ->name('userside-meetings')
+          ->middleware('check.access:MET,view');
+        Route::get('/create', $controller_path . '\user\MeetingController@create')
+          ->name('create-meetings')
+          ->middleware('check.access:MET,add');
         Route::post('/store', $controller_path . '\user\MeetingController@store')->name('store-meetings');
-        Route::get('/edit/{id}', $controller_path . '\user\MeetingController@edit')->name('edit-meetings');
+        Route::get('/edit/{id}', $controller_path . '\user\MeetingController@edit')
+          ->name('edit-meetings')
+          ->middleware('check.access:MET,edit');
         Route::post('/update/{id}', $controller_path . '\user\MeetingController@update')->name('update-meetings');
-        Route::post('/delete/{id}', $controller_path . '\user\MeetingController@delete')->name('delete-meetings');
+        Route::post('/delete/{id}', $controller_path . '\user\MeetingController@delete')
+          ->name('delete-meetings')
+          ->middleware('check.access:MET,delete');
         Route::get('/change-status/{id}', $controller_path . '\user\MeetingController@toggleStatus')->name(
           'meetings-status'
         );
       });
 
       Route::prefix('/company')->group(function () use ($controller_path) {
-        Route::get('/', $controller_path . '\user\CompanyController@index')->name('userside-company');
-        Route::get('/create', $controller_path . '\user\CompanyController@create')->name('create-company');
+        Route::get('/', $controller_path . '\user\CompanyController@index')
+          ->name('userside-company')
+          ->middleware('check.access:CMP,view');
+        Route::get('/create', $controller_path . '\user\CompanyController@create')
+          ->name('create-company')
+          ->middleware('check.access:CMP,add');
         Route::post('/store', $controller_path . '\user\CompanyController@store')->name('store-company');
-        Route::get('/edit/{id}', $controller_path . '\user\CompanyController@edit')->name('edit-company');
+        Route::get('/edit/{id}', $controller_path . '\user\CompanyController@edit')
+          ->name('edit-company')
+          ->middleware('check.access:CMP,edit');
         Route::post('/update/{id}', $controller_path . '\user\CompanyController@update')->name('update-company');
-        Route::post('/delete/{id}', $controller_path . '\user\CompanyController@delete')->name('delete-company');
+        Route::post('/delete/{id}', $controller_path . '\user\CompanyController@delete')
+          ->name('delete-company')
+          ->middleware('check.access:CMP,delete');
       });
     });
   });

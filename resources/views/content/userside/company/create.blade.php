@@ -91,6 +91,13 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="col-md-12">
+                          <label class="form-label" for="address">Address</label>
+                          <textarea id="address" name="address" class="form-control" placeholder="123 Main St"></textarea>
+                          @error('address')
+                              <div class="text-danger">{{ $message }}</div>
+                          @enderror
+                      </div>
                     <div class="pt-4">
                         <button type="submit" class="btn btn-primary me-sm-3 me-1">Create</button>
                         <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"

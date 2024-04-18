@@ -16,38 +16,25 @@ class PeopleController extends Controller
     $user = Helpers::getUserData();
 
     $moduleCode = 'PPL';
-    $module = $user->modules->where('code', $moduleCode)->first();
-
-    $permissions = $module
-      ? $module
-        ->permissions()
-        ->withPivot('view_access', 'add_access', 'edit_access', 'delete_access')
-        ->get()
-      : null;
-
-    // Prepare permissions array for the view
-    $permissionsArray = [
-      'view' => $permissions->where('pivot.view_access', true)->isNotEmpty(),
-      'add' => $permissions->where('pivot.add_access', true)->isNotEmpty(),
-      'edit' => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
-      'delete' => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
-    ];
-
-    // dd($permissions);
-    // $people = People::all();
-
-    $search = $request->search;
-    $filter = $request->filter;
+    $permissionsArray = Auth::user()->getModulePermissions($user, $moduleCode);
 
     $people = People::query()
-      ->when($search, function ($query) use ($search) {
-        $query->where('name', 'like', '%' . $search . '%');
-      })
-      ->when($filter && $filter !== 'all', function ($query) use ($filter) {
-        $query->where('is_active', $filter === 'active');
+      ->when($request->filled(['search', 'filter']), function ($query) use ($request) {
+        // Apply search filter if search query is present
+        if ($request->filled('search')) {
+          $query->where('name', 'like', '%' . $request->input('search') . '%');
+        }
+
+        // Apply status filter if filter is selected
+        if ($request->filled('filter') && $request->input('filter') !== 'all') {
+          $query->where('is_active', $request->input('filter') === 'active' ? 1 : 0);
+        }
       })
       ->paginate(5);
-    return view('content.userside.people.index', compact('user', 'permissionsArray', 'people', 'filter'));
+
+    $people->appends([$request->filled('search'), $request->filled('filter')]);
+
+    return view('content.userside.people.index', compact('user', 'permissionsArray', 'people'));
   }
 
   public function create()
@@ -85,7 +72,13 @@ class PeopleController extends Controller
 
     $userId = Auth::id();
 
-    $people = People::findOrFail($id);
+    $people = People::find($id);
+
+    if (!$people) {
+      return redirect()
+        ->back()
+        ->with('error', 'people not found');
+    }
 
     return view('content.userside.people.edit', compact('user', 'people', 'userId'));
   }
@@ -103,7 +96,13 @@ class PeopleController extends Controller
       'address' => 'nullable|string|max:256',
     ]);
 
-    $people = People::findOrFail($id);
+    $people = People::find($id);
+
+    if (!$people) {
+      return redirect()
+        ->back()
+        ->with('error', 'people not found');
+    }
 
     $people->update($request->only(['name', 'designation', 'email', 'phone_number', 'address']));
 
@@ -114,7 +113,13 @@ class PeopleController extends Controller
 
   public function delete($id)
   {
-    $people = People::findOrFail($id);
+    $people = People::find($id);
+
+    if (!$people) {
+      return redirect()
+        ->back()
+        ->with('error', 'people not found');
+    }
     $people->delete();
 
     return redirect()
@@ -124,7 +129,13 @@ class PeopleController extends Controller
 
   public function toggleStatus(Request $request, $id)
   {
-    $people = People::findOrFail($id);
+    $people = People::find($id);
+
+    if (!$people) {
+      return redirect()
+        ->back()
+        ->with('error', 'people not found');
+    }
 
     $people->is_active = !$people->is_active;
 

@@ -56,8 +56,34 @@
     });
 </script>
 @endif
+      <div class="row justify-content-center mt-3">
+        <div class="col-md-4">
+            <form method="GET" action="{{ route('pages-modules') }}">
+                @csrf
+                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
+                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
+                            aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                        <select class="form-select" id="inputGroupSelect04" name="filter">
+                            <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All Modules</option>
+                            <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active Modules</option>
+                            <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>Inactive Modules</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Search & Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-1 text-center">
+            <form method="GET" action="{{ route('pages-modules') }}">
+                @csrf
+                <button type="submit" class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
+      </div>
 
-    <div class="row justify-content-center mt-3">
+    {{-- <div class="row justify-content-center mt-3">
         <div class="col-md-4">
             <form method="GET" action="{{ route('pages-modules') }}">
                 @csrf
@@ -90,7 +116,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}
 
 
     <div class="card w-100 mt-5">

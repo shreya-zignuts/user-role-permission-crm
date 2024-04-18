@@ -41,6 +41,9 @@ class UserController extends Controller
         $query->where('is_active', $filter === 'active');
       })
       ->paginate(5);
+
+    $users->appends(['search' => $search, 'filter' => $filter]);
+
     return view('content.admin.users.index', compact('users', 'filter'));
   }
 
@@ -103,7 +106,13 @@ class UserController extends Controller
    */
   public function toggleStatus(Request $request, $id)
   {
-    $user = User::findOrFail($id);
+    $user = User::find($id);
+
+    if (!$user) {
+      return redirect()
+        ->back()
+        ->with('error', 'user not found');
+    }
 
     $user->is_active = !$user->is_active;
 
@@ -121,7 +130,13 @@ class UserController extends Controller
    */
   public function edit($id)
   {
-    $user = User::findOrFail($id);
+    $user = User::find($id);
+
+    if (!$user) {
+      return redirect()
+        ->back()
+        ->with('error', 'user not found');
+    }
     $roles = Role::all();
     return view('content.admin.users.edit-user', compact('user', 'roles'));
   }
@@ -139,7 +154,13 @@ class UserController extends Controller
       'roles' => 'nullable|array',
     ]);
 
-    $user = User::findOrFail($id);
+    $user = User::find($id);
+
+    if (!$user) {
+      return redirect()
+        ->back()
+        ->with('error', 'user not found');
+    }
 
     $user->update([
       'first_name' => $request->first_name,
@@ -160,7 +181,13 @@ class UserController extends Controller
    */
   public function delete($id)
   {
-    $user = User::findOrFail($id);
+    $user = User::find($id);
+
+    if (!$user) {
+      return redirect()
+        ->back()
+        ->with('error', 'user not found');
+    }
     $user->delete();
 
     return redirect()

@@ -139,4 +139,24 @@ class User extends Authenticatable
   //   // Return unique modules with permitted submodules
   //   return $modules->unique('code');
   // }
+
+  public static function getModulePermissions($user, $moduleCode)
+  {
+    $module = Module::where('code', $moduleCode)->first();
+    if (!$module) {
+      return null;
+    }
+
+    $permissions = $module
+      ->permissions()
+      ->withPivot('view_access', 'add_access', 'edit_access', 'delete_access')
+      ->get();
+
+    return [
+      'view' => $permissions->where('pivot.view_access', true)->isNotEmpty(),
+      'add' => $permissions->where('pivot.add_access', true)->isNotEmpty(),
+      'edit' => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
+      'delete' => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
+    ];
+  }
 }

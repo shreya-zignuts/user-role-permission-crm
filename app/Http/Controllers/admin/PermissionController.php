@@ -26,6 +26,8 @@ class PermissionController extends Controller
       })
       ->paginate(5);
 
+    $permissions->appends(['search' => $search, 'filter' => $filter]);
+
     return view('content.admin.permissions.index', compact('permissions'));
   }
 
@@ -74,7 +76,13 @@ class PermissionController extends Controller
    */
   public function togglePermissionStatus(Request $request, $id)
   {
-    $permission = Permission::findOrFail($id);
+    $permission = Permission::find($id);
+
+    if (!$permission) {
+      return redirect()
+        ->back()
+        ->with('error', 'permission not found');
+    }
 
     // $permission->update(['is_active' => !$permission->is_active]);
 
@@ -90,7 +98,13 @@ class PermissionController extends Controller
    */
   public function edit($id)
   {
-    $permission = Permission::findOrFail($id);
+    $permission = Permission::find($id);
+
+    if (!$permission) {
+      return redirect()
+        ->back()
+        ->with('error', 'per not found');
+    }
     $modules = Module::whereNull('parent_code')
       ->with('submodules')
       ->get();
@@ -109,7 +123,13 @@ class PermissionController extends Controller
     ]);
     // dd($request->all());
 
-    $permission = Permission::findOrFail($id);
+    $permission = Permission::find($id);
+
+    if (!$permission) {
+      return redirect()
+        ->back()
+        ->with('error', 'module not found');
+    }
 
     $permission->update($data);
 
@@ -131,7 +151,13 @@ class PermissionController extends Controller
    */
   public function delete($id)
   {
-    $permission = Permission::findOrFail($id);
+    $permission = Permission::find($id);
+
+    if (!$permission) {
+      return redirect()
+        ->back()
+        ->with('error', 'module not found');
+    }
     $permission->delete();
 
     return response()->json(['success' => 'Permission deleted successfully.']);

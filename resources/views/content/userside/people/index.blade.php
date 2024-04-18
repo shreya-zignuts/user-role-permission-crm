@@ -103,36 +103,30 @@
         </div>
     @endif
     <div class="row justify-content-center mt-3">
-        <div class="col-md-4">
-            <form method="GET" action="{{ route('userside-people') }}">
-                @csrf
-                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
-                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
-                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                            aria-describedby="basic-addon1" value="{{ request()->input('search') }}" />
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </div>
-                <input type="hidden" name="filter" value="{{ request()->input('filter') }}">
-            </form>
-        </div>
-        <div class="col-md-1 text-center">
-            <a href="{{ route('userside-people') }}" class="btn btn-secondary">Reset</a>
-        </div>
-        <div class="col-md-4">
-            <form action="{{ route('userside-people') }}" method="GET">
-                <div class="input-group">
-                    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
-                        name="filter">
-                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All People</option>
-                        <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active People</option>
-                        <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive People</option>
-                    </select>
-                    <button class="btn btn-primary" type="submit">Filter</button>
-                </div>
-            </form>
-        </div>
+      <div class="col-md-4">
+          <form method="GET" action="{{ route('userside-people') }}">
+              @csrf
+              <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                  <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
+                      <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                      <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
+                          aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                      <select class="form-select" id="inputGroupSelect04" name="filter">
+                          <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All people</option>
+                          <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active people</option>
+                          <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>Inactive people</option>
+                      </select>
+                      <button type="submit" class="btn btn-primary">Search & Filter</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="col-md-1 text-center">
+          <form method="GET" action="{{ route('userside-people') }}">
+              @csrf
+              <button type="submit" class="btn btn-secondary">Reset</button>
+          </form>
+      </div>
     </div>
 
     <div class="card w-100 mt-5">
@@ -171,6 +165,11 @@
                 </tr>
             </thead>
             <tbody>
+              @if ($people->isEmpty())
+                    <tr>
+                        <td colspan="5" class="text-center">No data available..</td>
+                    </tr>
+                @else
                 @foreach ($people as $person)
                     <tr>
                         <td>{{ $person->name }}</td>
@@ -221,11 +220,10 @@
                                     </div>
                                 </div>
                             @endif
-                </td>
-
-                </tr>
-
+                        </td>
+                    </tr>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>

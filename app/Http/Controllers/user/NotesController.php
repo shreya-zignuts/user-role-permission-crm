@@ -14,34 +14,21 @@ class NotesController extends Controller
   {
     $user = Helpers::getUserData();
 
-
     $moduleCode = 'NTS';
-    $module = $user->modules->where('code', $moduleCode)->first();
-
-    $permissions = $module
-      ? $module
-        ->permissions()
-        ->withPivot('view_access', 'add_access', 'edit_access', 'delete_access')
-        ->get()
-      : null;
-
-    // Prepare permissions array for the view
-    $permissionsArray = [
-      'view' => $permissions->where('pivot.view_access', true)->isNotEmpty(),
-      'add' => $permissions->where('pivot.add_access', true)->isNotEmpty(),
-      'edit' => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
-      'delete' => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
-    ];
-
-    $search = $request->search;
-    $filter = $request->filter;
+    $permissionsArray = Auth::user()->getModulePermissions($user, $moduleCode);
 
     $notes = Note::query()
-      ->when($search, function ($query) use ($search) {
-        $query->where('title', 'like', '%' . $search . '%');
+      ->when($request->filled(['search']), function ($query) use ($request) {
+        // Apply search filter if search query is present
+        if ($request->filled('search')) {
+          $query->where('title', 'like', '%' . $request->input('search') . '%');
+        }
       })
-      ->paginate(5);
-    return view('content.userside.notes.index', compact('user', 'permissionsArray', 'notes', 'filter'));
+      ->paginate(10);
+
+    $notes->appends([$request->filled('search'), $request->filled('filter')]);
+
+    return view('content.userside.notes.index', compact('user', 'permissionsArray', 'notes'));
   }
 
   public function create()
@@ -76,7 +63,13 @@ class NotesController extends Controller
 
     $userId = Auth::id();
 
-    $notes = Note::findOrFail($id);
+    $notes = Note::find($id);
+
+    if (!$notes) {
+      return redirect()
+        ->back()
+        ->with('error', 'Note not found');
+    }
 
     return view('content.userside.notes.edit', compact('user', 'notes', 'userId'));
   }
@@ -91,7 +84,13 @@ class NotesController extends Controller
       'description' => 'string|max:256',
     ]);
 
-    $notes = Note::findOrFail($id);
+    $notes = Note::find($id);
+
+    if (!$notes) {
+      return redirect()
+        ->back()
+        ->with('error', 'Note not found');
+    }
 
     $notes->update($request->only(['title', 'description']));
 
@@ -102,7 +101,13 @@ class NotesController extends Controller
 
   public function delete($id)
   {
-    $notes = Note::findOrFail($id);
+    $notes = Note::find($id);
+
+    if (!$notes) {
+      return redirect()
+        ->back()
+        ->with('error', 'Note not found');
+    }
     $notes->delete();
 
     return redirect()

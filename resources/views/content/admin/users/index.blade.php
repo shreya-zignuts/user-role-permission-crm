@@ -95,39 +95,32 @@
     @endif
 
     <div class="row justify-content-center mt-3">
-        <div class="col-md-4">
-            <form method="GET" action="{{ route('pages-users') }}">
-                @csrf
-                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
-                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
-                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                            aria-describedby="basic-addon1" value="{{ request()->input('search') }}"/>
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </div>
-                <input type="hidden" name="filter" value="{{ $filter }}">
-            </form>
-        </div>
-        <div class="col-md-1 text-center">
-            <a href="{{ route('pages-users') }}" class="btn btn-secondary">Reset</a>
-        </div>
-        <div class="col-md-4">
-            <form action="{{ route('pages-users') }}" method="GET">
-                <div class="input-group">
-
-                    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
-                        name="filter">
-                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Users</option>
-                        <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Users</option>
-                        <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Users
-                        </option>
-                    </select>
-                    <button class="btn btn-primary" type="submit">Filter</button>
-                </div>
-            </form>
-        </div>
+      <div class="col-md-4">
+          <form method="GET" action="{{ route('pages-users') }}">
+              @csrf
+              <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                  <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
+                      <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                      <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
+                          aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                      <select class="form-select" id="inputGroupSelect04" name="filter">
+                          <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All users</option>
+                          <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active users</option>
+                          <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>Inactive users</option>
+                      </select>
+                      <button type="submit" class="btn btn-primary">Search & Filter</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="col-md-1 text-center">
+          <form method="GET" action="{{ route('pages-users') }}">
+              @csrf
+              <button type="submit" class="btn btn-secondary">Reset</button>
+          </form>
+      </div>
     </div>
+
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="card-header">Users <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

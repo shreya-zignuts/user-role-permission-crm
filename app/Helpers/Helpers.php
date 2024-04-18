@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 use Config;
+use App\Models\User;
+use App\Models\Module;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 

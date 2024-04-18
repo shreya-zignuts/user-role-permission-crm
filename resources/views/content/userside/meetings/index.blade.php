@@ -109,36 +109,30 @@
         </div>
     @endif
     <div class="row justify-content-center mt-3">
-        <div class="col-md-4">
-            <form method="GET" action="{{ route('userside-meetings') }}">
-                @csrf
-                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
-                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
-                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                            aria-describedby="basic-addon1" value="{{ request()->input('search') }}" />
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </div>
-                <input type="hidden" name="filter" value="{{ request()->input('filter') }}">
-            </form>
-        </div>
-        <div class="col-md-1 text-center">
-            <a href="{{ route('userside-meetings') }}" class="btn btn-secondary">Reset</a>
-        </div>
-        <div class="col-md-4">
-            <form action="{{ route('userside-meetings') }}" method="GET">
-                <div class="input-group">
-                    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
-                        name="filter">
-                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Meetings</option>
-                        <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Meetings</option>
-                        <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Meetings</option>
-                    </select>
-                    <button class="btn btn-primary" type="submit">Filter</button>
-                </div>
-            </form>
-        </div>
+      <div class="col-md-4">
+          <form method="GET" action="{{ route('userside-meetings') }}">
+              @csrf
+              <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                  <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
+                      <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                      <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
+                          aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                      <select class="form-select" id="inputGroupSelect04" name="filter">
+                          <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All meetings</option>
+                          <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active meetings</option>
+                          <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>Inactive meetings</option>
+                      </select>
+                      <button type="submit" class="btn btn-primary">Search & Filter</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="col-md-1 text-center">
+          <form method="GET" action="{{ route('userside-meetings') }}">
+              @csrf
+              <button type="submit" class="btn btn-secondary">Reset</button>
+          </form>
+      </div>
     </div>
 
     <div class="card w-100 mt-5">
@@ -176,6 +170,11 @@
                 </tr>
             </thead>
             <tbody>
+              @if($meetings->isEmpty())
+                <tr>
+                    <td colspan="6" class="text-center">No data available...</td>
+                </tr>
+            @else
                 @foreach ($meetings as $meeting)
                     <tr>
                         <td>{{ $meeting->title }}</td>
@@ -183,11 +182,21 @@
                         <td>{{ $meeting->date }}</td>
                         <td>{{ $meeting->time }}</td>
                         <td>
+                          @php
+                          $meetingDateTime = strtotime($meeting->date . ' ' . $meeting->time);
+
+                          $currentDateTime = strtotime('now');
+
+                          $timeDifference = $currentDateTime - $meetingDateTime;
+
+                          $isExpired = $timeDifference >= 60;
+
+                      @endphp
                           <form method="get" action="{{ route('meetings-status', ['id' => $meeting->id]) }}">
                             @csrf
                             <label class="switch">
                                 <input data-id="{{$meeting->id}}" class="switch-input" type="checkbox" data-toggle="toggle"
-                                data-onstyle="success" {{$meeting->is_active?'checked':''}}>
+                                data-onstyle="success" data-expired="{{ $isExpired ? 'false' : 'true' }}" {{ $isExpired ? '' : 'checked' }}>
                                 <span class="switch-toggle-slider">
                                     <span class="switch-on"></span>
                                     <span class="switch-off"></span>
@@ -229,6 +238,7 @@
 
                     </tr>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>
@@ -305,7 +315,70 @@
     </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
+    $(document).ready(function() {
+        $('.switch-input').each(function() {
+            var isExpired = $(this).data('expired');
+
+            // Check if the meeting is expired
+            if (isExpired) {
+                var id = $(this).data('id');
+
+                // Update the switch status to inactive (assuming switch-off means inactive)
+                $(this).prop('checked', false);
+
+                // Send AJAX request to update is_active status to 0
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "/userside/modules/meeting/change-status/" + id,
+                    data: {
+                        'is_active': 0, // Set status to 0 (inactive) when meeting is expired
+                        'id': id
+                    },
+                    success: function(data) {
+                        console.log('Status Updated:', data.success);
+                        // Optionally, you can show a notification or perform other actions here
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error Updating Status:', xhr.responseText);
+                        // Handle errors as needed
+                    }
+                });
+            }
+        });
+
+        // Event listener for switch change
+        $('.switch-input').change(function() {
+            var id = $(this).data('id');
+            var isActive = $(this).prop('checked');
+
+            // Send AJAX request to update is_active status immediately on switch change
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "/userside/modules/meeting/change-status/" + id,
+                data: {
+                    'status': isActive ? 1 : 0, // Set status based on switch state
+                    'id': id
+                },
+                success: function(data) {
+                    console.log('Status Updated:', data.success);
+                    // Optionally, you can show a notification or perform other actions here
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error Updating Status:', xhr.responseText);
+                    // Handle errors as needed
+                }
+            });
+        });
+    });
+</script>
+
+{{-- <script>
   $('.switch-input').change(function() {
 
       var status = $(this).prop('checked') == true ? 1 : 0;
@@ -365,12 +438,12 @@
 
 
   })
-</script>
+</script> --}}
 @endsection
 
 
 
-{{-- 
+{{--
 @php
     $configData = Helper::appClasses();
 @endphp

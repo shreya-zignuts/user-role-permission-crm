@@ -17,6 +17,15 @@ class RoleController extends Controller
     $search = $request->search;
     $filter = $request->input('filter', 'all');
 
+    // $roles = Role::query()
+    //   ->when($search, function ($query) use ($search) {
+    //     $query->where('name', 'like', '%' . $search . '%');
+    //   })
+    //   ->when($filter && $filter !== 'all', function ($query) use ($filter) {
+    //     $query->where('is_active', $filter === 'active');
+    //   })
+    //   ->paginate(5);
+
     $roles = Role::query()
       ->when($search, function ($query) use ($search) {
         $query->where('name', 'like', '%' . $search . '%');
@@ -25,6 +34,9 @@ class RoleController extends Controller
         $query->where('is_active', $filter === 'active');
       })
       ->paginate(5);
+
+    // Append the search and filter parameters to the pagination links
+    $roles->appends(['search' => $search, 'filter' => $filter]);
 
     return view('content.admin.roles.index', compact('roles', 'filter'));
   }
@@ -67,7 +79,13 @@ class RoleController extends Controller
    */
   public function toggleRoleStatus(Request $request, $id)
   {
-    $role = Role::findOrFail($id);
+    $role = Role::find($id);
+
+    if (!$role) {
+      return redirect()
+        ->back()
+        ->with('error', 'role not found');
+    }
 
     $role->is_active = !$role->is_active;
 
@@ -84,7 +102,13 @@ class RoleController extends Controller
    */
   public function edit($id)
   {
-    $role = Role::findOrFail($id);
+    $role = Role::find($id);
+
+    if (!$role) {
+      return redirect()
+        ->back()
+        ->with('error', 'role not found');
+    }
     $permissions = Permission::all();
     return view('content.admin.roles.edit-role', compact('role', 'permissions'));
   }
@@ -101,7 +125,13 @@ class RoleController extends Controller
       'permissions.*' => 'integer|exists:permissions,id',
     ]);
 
-    $role = Role::findOrFail($id);
+    $role = Role::find($id);
+
+    if (!$role) {
+      return redirect()
+        ->back()
+        ->with('error', 'role not found');
+    }
 
     $role->update($data);
 
@@ -119,7 +149,13 @@ class RoleController extends Controller
    */
   public function delete($id)
   {
-    $role = Role::findOrFail($id);
+    $role = Role::find($id);
+
+    if (!$role) {
+      return redirect()
+        ->back()
+        ->with('error', 'role not found');
+    }
     $role->delete();
 
     return response()->json(['success' => 'Role deleted successfully.']);

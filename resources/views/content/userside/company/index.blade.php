@@ -97,22 +97,25 @@
         </div>
     @endif
     <div class="row justify-content-center mt-3">
-        <div class="col-md-4">
-            <form method="GET" action="{{ route('userside-company') }}">
-                @csrf
-                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
-                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
-                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                            aria-describedby="basic-addon1" value="{{ request()->input('search') }}"/>
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-1 text-center">
-            <a href="{{ route('userside-company') }}" class="btn btn-secondary">Reset</a>
-        </div>
+      <div class="col-md-4">
+          <form method="GET" action="{{ route('userside-company') }}">
+              @csrf
+              <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                  <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
+                      <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                      <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
+                          aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                      <button type="submit" class="btn btn-primary">Search</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="col-md-1 text-center">
+          <form method="GET" action="{{ route('userside-company') }}">
+              @csrf
+              <button type="submit" class="btn btn-secondary">Reset</button>
+          </form>
+      </div>
     </div>
 
     <div class="card w-100 mt-5">
@@ -136,41 +139,47 @@
           </div>
       </div>
       <table class="table" style="text-align: center">
-          <thead
-              style="background: linear-gradient(to right, #9e96f2 22.16%, rgba(133, 123, 245, 0.7) 76.47%); text-align: center">
-              <tr>
-                                <th>Name</th>
-                                <th>Owner Name</th>
-                                <th>Industry</th>
-                                @if($permissionsArray['edit'] || $permissionsArray['delete'])
-                                <th>Actions</th>
-                                @else
-                                <th></th>
-                                @endif
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($company as $comp)
-                                <tr>
-                                    <td>{{ $comp->name }}</td>
-                                    <td>{{ $comp->owner_name }}</td>
-                                    <td>{{ $comp->industry }}</td>
-                                    <td>
-                                      @if($permissionsArray['edit'] || $permissionsArray['edit'])
-                                      <div class="dropdown">
-                                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                              <i class="ti ti-dots-vertical"></i>
-                                          </button>
-                                          <div class="dropdown-menu">
-                                              <!-- Edit Button based on Access -->
-                                              @if ($permissionsArray['edit'])
-                                                  <a class="dropdown-item" href="{{ route('edit-company', ['id' => $comp->id]) }}">
-                                                      <i class="ti ti-pencil me-1"></i> Edit
-                                                  </a>
-                                              @endif
-                                              <!-- Delete Button based on Access -->
-                                              @if ($permissionsArray['delete'])
-                                              <form id="deleteCompanyForm{{ $comp->id }}" method="POST"
+        <thead style="background: linear-gradient(to right, #9e96f2 22.16%, rgba(133, 123, 245, 0.7) 76.47%); text-align: center">
+            <tr>
+                <th>Name</th>
+                <th>Owner Name</th>
+                <th>Industry</th>
+                <th>Address</th>
+                @if($permissionsArray['edit'] || $permissionsArray['delete'])
+                    <th>Actions</th>
+                @else
+                    <th></th>
+                @endif
+            </tr>
+        </thead>
+        <tbody>
+            @if($company->isEmpty())
+                <tr>
+                    <td colspan="5" class="text-center">No data available..</td>
+                </tr>
+            @else
+                @foreach($company as $comp)
+                    <tr>
+                        <td>{{ $comp->name }}</td>
+                        <td>{{ $comp->owner_name }}</td>
+                        <td>{{ $comp->industry }}</td>
+                        <td>{{ $comp->address }}</td>
+                        <td>
+                            @if($permissionsArray['edit'] || $permissionsArray['delete'])
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="ti ti-dots-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <!-- Edit Button based on Access -->
+                                        @if ($permissionsArray['edit'])
+                                            <a class="dropdown-item" href="{{ route('edit-company', ['id' => $comp->id]) }}">
+                                                <i class="ti ti-pencil me-1"></i> Edit
+                                            </a>
+                                        @endif
+                                        <!-- Delete Button based on Access -->
+                                        @if ($permissionsArray['delete'])
+                                            <form id="deleteCompanyForm{{ $comp->id }}" method="POST"
                                                 action="{{ route('delete-company', ['id' => $comp->id]) }}">
                                                 @csrf
                                                 <!-- Delete button trigger modal -->
@@ -179,15 +188,16 @@
                                                 </button>
                                             </form>
                                         @endif
-                                          </div>
-                                      </div>
-                                      @endif
-                                  </td>
+                                    </div>
+                                </div>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+        </tbody>
+    </table>
 
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
                 <div class="row justify-content-center">
                   <div class="col-md-6">
