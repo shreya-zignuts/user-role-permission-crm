@@ -4,7 +4,7 @@
       "url": "/admin",
       "name": "Home",
       "icon": "menu-icon tf-icons ti ti-smart-home",
-      "slug": "pages-home"
+      "slug": "admin-dashboard"
     },
     {
       "url": "/admin/modules",

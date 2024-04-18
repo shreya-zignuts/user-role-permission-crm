@@ -137,11 +137,11 @@ class ForgotPasswordController extends Controller
 
     if ($user->id === 1) {
       return redirect()
-        ->route('pages-home')
+        ->route('admin-dashboard')
         ->with('success', 'Admin successfully logged in');
     } else {
       return redirect()
-        ->route('pages-userside')
+        ->route('user-dashboard')
         ->with('success', 'User successfully logged in');
     }
   }

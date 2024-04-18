@@ -316,7 +316,7 @@
                         </div>
                         <div class="text-center mt-4">
                             <button type="submit" class="btn btn-primary">Reset Password</button>
-                            <a href="{{ route('pages-userside') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
+                            <a href="{{ route('user-dashboard') }}" class="btn btn-secondary">{{ __('Cancel') }}</a>
                         </div>
                     </form>
                 </div>
@@ -371,7 +371,7 @@
 
                         <div class="pt-4">
                             <button type="submit" class="btn btn-primary me-sm-3 me-1">Update</button>
-                            <a href="{{ route('pages-userside') }}" class="btn btn-label-secondary">Cancel</a>
+                            <a href="{{ route('user-dashboard') }}" class="btn btn-label-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>

@@ -53,7 +53,7 @@ Route::middleware(['auth', 'permission', 'admin.check'])
     //   'auth-register-basic'
     // );
 
-    Route::get('/', $controller_path . '\admin\AdminController@index')->name('pages-home');
+    Route::get('/', $controller_path . '\admin\AdminController@index')->name('admin-dashboard');
 
     Route::prefix('modules')->group(function () use ($controller_path) {
       Route::get('/', $controller_path . '\admin\ModuleController@index')->name('pages-modules');
@@ -107,7 +107,7 @@ Route::middleware(['auth', 'permission', 'admin.check'])
 
 Route::middleware(['auth', 'user.check'])->group(function () use ($controller_path) {
   Route::prefix('userside')->group(function () use ($controller_path) {
-    Route::get('/', $controller_path . '\user\UserSideController@index')->name('pages-userside');
+    Route::get('/', $controller_path . '\user\UserSideController@index')->name('user-dashboard');
     Route::get('/users-modules', $controller_path . '\user\UserSideController@showModules')->name('users-modules');
     Route::get('/edit/{id}', $controller_path . '\user\UserSideController@edit')->name('edit-user-profile');
     Route::post('/update/{id}', $controller_path . '\user\UserSideController@update')->name('update-user-profile');

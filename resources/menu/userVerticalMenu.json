@@ -4,8 +4,7 @@
       "url": "/userside",
       "name": "Home",
       "icon": "menu-icon tf-icons ti ti-smart-home",
-      "slug": "pages-userside"
+      "slug": "user-dashboard"
     }
   ]
 }
- 

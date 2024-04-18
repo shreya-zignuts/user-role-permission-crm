@@ -52,7 +52,7 @@ class UserSideController extends Controller
     ]);
 
     return redirect()
-      ->route('pages-userside')
+      ->route('user-dashboard')
       ->with('success', 'User updated successfully.');
   }
 
@@ -79,7 +79,7 @@ class UserSideController extends Controller
     Auth::login($user);
 
     return redirect()
-      ->route('pages-userside')
+      ->route('user-dashboard')
       ->with('success', 'Password Reset Successfull');
   }
 }
