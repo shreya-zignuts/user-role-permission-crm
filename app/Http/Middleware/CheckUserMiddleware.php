@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminCheckMiddleware
+class CheckUserMiddleware
 {
   /**
    * Handle an incoming request.
@@ -16,7 +15,7 @@ class AdminCheckMiddleware
    */
   public function handle($request, Closure $next)
   {
-    if ($request->user() && $request->user()->id == 1) {
+    if ($request->user() && $request->user()->id !== 1) {
       return $next($request);
     }
 
