@@ -116,7 +116,7 @@
               </div>
           </form>
       </div>
-      <div class="col-md-1 text-center">
+      <div class="col-md-2 text-center">
           <form method="GET" action="{{ route('userside-notes') }}">
               @csrf
               <button type="submit" class="btn btn-secondary">Reset</button>
@@ -126,7 +126,7 @@
 
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-header">Activity Logs <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            <h5 class="card-header">Notes <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     class="mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round"
                     class="icon icon-tabler icons-tabler-outline icon-tabler-users">

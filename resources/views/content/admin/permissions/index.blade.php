@@ -84,7 +84,7 @@
 
 
 <div class="row justify-content-center mt-3">
-  <div class="col-md-4">
+  <div class="col-md-6">
       <form method="GET" action="{{ route('pages-permissions') }}">
           @csrf
           <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">

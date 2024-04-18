@@ -19,18 +19,6 @@ class ActivityLogController extends Controller
     $moduleCode = 'ACT';
     $permissionsArray = Auth::user()->getModulePermissions($user, $moduleCode);
 
-    // $search = $request->search;
-    // $filter = $request->filter;
-
-    // $activityLog = ActivityLog::query()
-    //   ->when($search, function ($query) use ($search) {
-    //     $query->where('title', 'like', '%' . $search . '%');
-    //   })
-    //   ->when($filter && $filter !== 'all', function ($query) use ($filter) {
-    //     $query->where('is_active', $filter === 'active');
-    //   })
-    //   ->paginate(5);
-
     $activityLog = ActivityLog::query()
       ->when($request->filled(['search', 'filter']), function ($query) use ($request) {
         // Apply search filter if search query is present

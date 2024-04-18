@@ -14,9 +14,6 @@ class LoginBasic extends Controller
 {
   public function index(Request $request)
   {
-    $email = $request->cookie('remember_token')
-      ? User::where('remember_token', $request->cookie('remember_token'))->value('email')
-      : null;
     $pageConfigs = ['myLayout' => 'blank'];
 
     return view('content.authentications.auth-login-basic', ['pageConfigs' => $pageConfigs]);
