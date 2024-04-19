@@ -31,38 +31,40 @@
                 @endif
 
                 @if (session('success'))
-                <div class="bs-toast toast toast-ex animate__animated my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
-                  <div class="toast-header">
-                    <i class="ti ti-bell ti-xs me-2"></i>
-                    <div class="me-auto fw-semibold">Bootstrap</div>
-                    <small class="text-muted">11 mins ago</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                  </div>
-                  <div class="toast-body">
-                    {{ session('success') }}
-                  </div>
-                </div>
+                    <div class="bs-toast toast toast-ex animate__animated my-2" role="alert" aria-live="assertive"
+                        aria-atomic="true" data-bs-delay="2000">
+                        <div class="toast-header">
+                            <i class="ti ti-bell ti-xs me-2"></i>
+                            <div class="me-auto fw-semibold">Bootstrap</div>
+                            <small class="text-muted">11 mins ago</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            {{ session('success') }}
+                        </div>
+                    </div>
                 @endif
-                <h5 class="mt-2 h4">Create People</h5>
+                <h5 class="mt-2 h4">Create People <img
+                  src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png"
+                  width="27px" class="mb-1" alt=""></h5>
                 <form class="mt-1" method="POST" action="{{ route('store-people') }}">
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label" for="name">Name</label>
-                            <input type="text" id="name" name="name" class="form-control"
-                                placeholder="John" />
+                            <input type="text" id="name" name="name" class="form-control" placeholder="John" />
                             @error('name')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-6">
-                          <label class="form-label" for="designation">Designation</label>
-                          <input type="text" id="designation" name="designation" class="form-control"
-                              placeholder="John" />
-                          @error('designation')
-                              <div class="text-danger">{{ $message }}</div>
-                          @enderror
-                      </div>
+                            <label class="form-label" for="designation">Designation</label>
+                            <input type="text" id="designation" name="designation" class="form-control"
+                                placeholder="John" />
+                            @error('designation')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="col-md-12">
                             <label class="form-label" for="address">Address</label>
                             <textarea id="address" name="address" class="form-control" placeholder="123 Main St"></textarea>
@@ -90,16 +92,16 @@
                             @enderror
                         </div>
 
-                        </div>
                     </div>
-
-                    <div class="pt-4">
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Create</button>
-                        <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
-                        aria-label="Close"><a href="{{ route('userside-people')}}">Cancel</a></button>
-                    </div>
-                </form>
             </div>
+
+            <div class="pt-4">
+                <button type="submit" class="btn btn-primary me-sm-3 me-1">Create</button>
+                <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
+                    aria-label="Close"><a href="{{ route('userside-people') }}">Cancel</a></button>
+            </div>
+            </form>
         </div>
+    </div>
     </div>
 @endsection

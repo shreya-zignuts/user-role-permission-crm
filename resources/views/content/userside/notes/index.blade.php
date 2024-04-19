@@ -103,38 +103,35 @@
         </div>
     @endif
     <div class="row justify-content-center mt-3">
-      <div class="col-md-4">
-          <form method="GET" action="{{ route('userside-notes') }}">
-              @csrf
-              <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
-                  <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
-                      <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
-                      <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                          aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
-                      <button type="submit" class="btn btn-primary">Search</button>
-                  </div>
-              </div>
-          </form>
-      </div>
-      <div class="col-md-2 text-center">
-          <form method="GET" action="{{ route('userside-notes') }}">
-              @csrf
-              <button type="submit" class="btn btn-secondary">Reset</button>
-          </form>
-      </div>
+        <div class="col-md-4">
+            <form method="GET" action="{{ route('userside-notes') }}">
+                @csrf
+                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
+                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
+                            aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2 text-center">
+            <form method="GET" action="{{ route('userside-notes') }}">
+                @csrf
+                <button type="submit" class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
     </div>
 
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="card-header">Notes <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    class="mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-note">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                    <path d="M13 20l7 -7" />
+                    <path d="M13 20v-6a1 1 0 0 1 1 -1h6v-7a2 2 0 0 0 -2 -2h-12a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7" />
                 </svg></h5>
             <div class="card-body text-end mt-4">
                 {{-- @dd($peopleModule->pivot->add_access) --}}
@@ -201,7 +198,7 @@
 
                         </tr>
                     @endforeach
-                    @endif
+                @endif
             </tbody>
         </table>
     </div>

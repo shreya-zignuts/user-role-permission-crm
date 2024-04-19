@@ -3,11 +3,12 @@
 @section('title', 'Create Permission')
 
 @section('content')
-
     <div class="d-flex justify-content-center mt-3">
         <div class="modal-content p-3 p-md-5 w-75">
             <div class="modal-body">
-                <h3 class="text-center">Create Permission</h3>
+                <h3 class="text-center">Create Permission <img
+                  src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png"
+                  width="27px" class="mb-1" alt=""></h3>
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         @foreach ($errors->all() as $error)
@@ -47,20 +48,39 @@
                                             <tr data-module-code="{{ $module->code }}">
                                                 <td><strong>{{ $module->name }}</strong></td>
                                                 <td>
-                                                    <input type="hidden" name="permissions[{{ $module->code }}][add_access]" value="0">
-                                                    <input type="checkbox" class="module-permission-checkbox add-permission-checkbox" name="permissions[{{ $module->code }}][add_access]" value="1" onclick="checkAccess(this, '{{ $module->code }}', 'add')">
+                                                    <input type="hidden"
+                                                        name="permissions[{{ $module->code }}][add_access]" value="0">
+                                                    <input type="checkbox"
+                                                        class="module-permission-checkbox add-permission-checkbox"
+                                                        name="permissions[{{ $module->code }}][add_access]" value="1"
+                                                        onclick="checkAccess(this, '{{ $module->code }}', 'add')">
                                                 </td>
                                                 <td>
-                                                    <input type="hidden" name="permissions[{{ $module->code }}][view_access]" value="0">
-                                                    <input type="checkbox" class="module-permission-checkbox main-module-view-checkbox" name="permissions[{{ $module->code }}][view_access]" value="1" onclick="checkMainModuleView(this, '{{ $module->code }}', 'view')">
+                                                    <input type="hidden"
+                                                        name="permissions[{{ $module->code }}][view_access]" value="0">
+                                                    <input type="checkbox"
+                                                        class="module-permission-checkbox main-module-view-checkbox"
+                                                        name="permissions[{{ $module->code }}][view_access]" value="1"
+                                                        onclick="checkMainModuleView(this, '{{ $module->code }}', 'view')">
                                                 </td>
                                                 <td>
-                                                    <input type="hidden" name="permissions[{{ $module->code }}][edit_access]" value="0">
-                                                    <input type="checkbox" class="module-permission-checkbox edit-permission-checkbox" name="permissions[{{ $module->code }}][edit_access]" value="1" onclick="checkAccess(this, '{{ $module->code }}', 'edit')">
+                                                    <input type="hidden"
+                                                        name="permissions[{{ $module->code }}][edit_access]"
+                                                        value="0">
+                                                    <input type="checkbox"
+                                                        class="module-permission-checkbox edit-permission-checkbox"
+                                                        name="permissions[{{ $module->code }}][edit_access]" value="1"
+                                                        onclick="checkAccess(this, '{{ $module->code }}', 'edit')">
                                                 </td>
                                                 <td>
-                                                    <input type="hidden" name="permissions[{{ $module->code }}][delete_access]" value="0">
-                                                    <input type="checkbox" class="module-permission-checkbox delete-permission-checkbox" name="permissions[{{ $module->code }}][delete_access]" value="1" onclick="checkAccess(this, '{{ $module->code }}', 'delete')">
+                                                    <input type="hidden"
+                                                        name="permissions[{{ $module->code }}][delete_access]"
+                                                        value="0">
+                                                    <input type="checkbox"
+                                                        class="module-permission-checkbox delete-permission-checkbox"
+                                                        name="permissions[{{ $module->code }}][delete_access]"
+                                                        value="1"
+                                                        onclick="checkAccess(this, '{{ $module->code }}', 'delete')">
                                                 </td>
                                             </tr>
                                             <!-- Submodule permissions -->
@@ -68,20 +88,44 @@
                                                 <tr>
                                                     <td>&nbsp;&nbsp;&nbsp;&nbsp;{{ $submodule->name }}</td>
                                                     <td>
-                                                        <input type="hidden" name="permissions[{{ $submodule->code }}][add_access]" value="0">
-                                                        <input type="checkbox" class="module-permission-checkbox add-permission-checkbox" name="permissions[{{ $submodule->code }}][add_access]" value="1" onclick="checkAccess(this, '{{ $module->code }}', 'add')">
+                                                        <input type="hidden"
+                                                            name="permissions[{{ $submodule->code }}][add_access]"
+                                                            value="0">
+                                                        <input type="checkbox"
+                                                            class="module-permission-checkbox add-permission-checkbox"
+                                                            name="permissions[{{ $submodule->code }}][add_access]"
+                                                            value="1"
+                                                            onclick="checkAccess(this, '{{ $module->code }}', 'add')">
                                                     </td>
                                                     <td>
-                                                        <input type="hidden" name="permissions[{{ $submodule->code }}][view_access]" value="0">
-                                                        <input type="checkbox" class="module-permission-checkbox main-module-view-checkbox" name="permissions[{{ $submodule->code }}][view_access]" value="1" onclick="checkMainModuleView(this, '{{ $module->code }}', 'view')">
+                                                        <input type="hidden"
+                                                            name="permissions[{{ $submodule->code }}][view_access]"
+                                                            value="0">
+                                                        <input type="checkbox"
+                                                            class="module-permission-checkbox main-module-view-checkbox"
+                                                            name="permissions[{{ $submodule->code }}][view_access]"
+                                                            value="1"
+                                                            onclick="checkMainModuleView(this, '{{ $module->code }}', 'view')">
                                                     </td>
                                                     <td>
-                                                        <input type="hidden" name="permissions[{{ $submodule->code }}][edit_access]" value="0">
-                                                        <input type="checkbox" class="module-permission-checkbox edit-permission-checkbox" name="permissions[{{ $submodule->code }}][edit_access]" value="1" onclick="checkAccess(this, '{{ $module->code }}', 'edit')">
+                                                        <input type="hidden"
+                                                            name="permissions[{{ $submodule->code }}][edit_access]"
+                                                            value="0">
+                                                        <input type="checkbox"
+                                                            class="module-permission-checkbox edit-permission-checkbox"
+                                                            name="permissions[{{ $submodule->code }}][edit_access]"
+                                                            value="1"
+                                                            onclick="checkAccess(this, '{{ $module->code }}', 'edit')">
                                                     </td>
                                                     <td>
-                                                        <input type="hidden" name="permissions[{{ $submodule->code }}][delete_access]" value="0">
-                                                        <input type="checkbox" class="module-permission-checkbox delete-permission-checkbox" name="permissions[{{ $submodule->code }}][delete_access]" value="1" onclick="checkAccess(this, '{{ $module->code }}', 'delete')">
+                                                        <input type="hidden"
+                                                            name="permissions[{{ $submodule->code }}][delete_access]"
+                                                            value="0">
+                                                        <input type="checkbox"
+                                                            class="module-permission-checkbox delete-permission-checkbox"
+                                                            name="permissions[{{ $submodule->code }}][delete_access]"
+                                                            value="1"
+                                                            onclick="checkAccess(this, '{{ $module->code }}', 'delete')">
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -98,8 +142,10 @@
                         <!-- Permission table -->
                     </div>
                     <div class="col-12 text-center mt-4">
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light" id="type-success">Create</button>
-                        <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal" aria-label="Close"><a href="{{ route('pages-permissions') }}">Cancel</a></button>
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light"
+                            id="type-success">Create</button>
+                        <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
+                            aria-label="Close"><a href="{{ route('pages-permissions') }}">Cancel</a></button>
                     </div>
                 </form>
                 <!-- End of form -->
@@ -120,7 +166,8 @@
             let editCheckboxes = parentRow.querySelectorAll('.edit-permission-checkbox:checked');
             let deleteCheckboxes = parentRow.querySelectorAll('.delete-permission-checkbox:checked');
 
-            viewCheckbox.checked = addCheckboxes.length > 0 || editCheckboxes.length > 0 || deleteCheckboxes.length > 0 || viewCheckbox.checked;
+            viewCheckbox.checked = addCheckboxes.length > 0 || editCheckboxes.length > 0 || deleteCheckboxes.length > 0 ||
+                viewCheckbox.checked;
             addCheckbox.checked = addCheckboxes.length > 0 || addCheckbox.checked;
             editCheckbox.checked = editCheckboxes.length > 0 || editCheckbox.checked;
             deleteCheckbox.checked = deleteCheckboxes.length > 0 || deleteCheckbox.checked;

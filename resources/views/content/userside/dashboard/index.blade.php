@@ -169,7 +169,7 @@
                             Name:</span> <span>{{ $user->first_name }} {{ $user->last_name }}</span></li>
                     <li class="d-flex align-items-center mb-3"><i class="ti ti-check"></i><span
                             class="fw-bold mx-2">Status:
-                              @if($user->is_active === 1)
+                              @if ($user->is_active === 1)
                                <span class="badge bg-label-success">Active</span>
                               @else
                               <span class="badge bg-label-danger">Deactive</span>
@@ -197,70 +197,70 @@
 
 
     <div class="row">
-      <!-- About User -->
-      <div class="col-md-6">
-          <div class="card w-100">
-              <div class="card-body">
-                  <small class="card-text text-uppercase">About</small>
-                  <ul class="list-unstyled mb-4 mt-3">
-                      <li class="d-flex align-items-center mb-3">
-                          <i class="ti ti-user"></i>
-                          <span class="fw-bold mx-2">Full Name:</span>
-                          <span>{{ $user->first_name }} {{ $user->last_name }}</span>
-                      </li>
-                      <li class="d-flex align-items-center mb-3">
-                          <i class="ti ti-check"></i>
-                          <span class="fw-bold mx-2">Status:</span>
-                          <span>
-                              @if($user->is_active === 1)
-                                  <span class="badge bg-label-success">Active</span>
-                              @else
-                                  <span class="badge bg-label-danger">Deactive</span>
-                              @endif
-                          </span>
-                      </li>
-                      <li class="d-flex align-items-center mb-3">
-                          <i class="ti ti-crown"></i>
-                          <span class="fw-bold mx-2">Role:</span>
-                          <span>
-                              <td>
-                                  @foreach ($user->roles as $role)
-                                      <span>{{ $role->name }} </span>
-                                  @endforeach
-                              </td>
-                          </span>
-                      </li>
-                  </ul>
-              </div>
-          </div>
-      </div>
+        <!-- About User -->
+        <div class="col-md-6">
+            <div class="card w-100">
+                <div class="card-body">
+                    <small class="card-text text-uppercase">About</small>
+                    <ul class="list-unstyled mb-4 mt-3">
+                        <li class="d-flex align-items-center mb-3">
+                            <i class="ti ti-user"></i>
+                            <span class="fw-bold mx-2">Full Name:</span>
+                            <span>{{ $user->first_name }} {{ $user->last_name }}</span>
+                        </li>
+                        <li class="d-flex align-items-center mb-3">
+                            <i class="ti ti-check"></i>
+                            <span class="fw-bold mx-2">Status:</span>
+                            <span>
+                                @if ($user->is_active === 1)
+                                    <span class="badge bg-label-success">Active</span>
+                                @else
+                                    <span class="badge bg-label-danger">Deactive</span>
+                                @endif
+                            </span>
+                        </li>
+                        <li class="d-flex align-items-center mb-3">
+                            <i class="ti ti-crown"></i>
+                            <span class="fw-bold mx-2">Role:</span>
+                            <span>
+                                <td>
+                                    @foreach ($user->roles as $role)
+                                        <span>{{ $role->name }} </span>
+                                    @endforeach
+                                </td>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-      <!-- Contact User -->
-      <div class="col-md-6">
-          <div class="card w-100">
-              <div class="card-body">
-                  <small class="card-text text-uppercase">Contacts</small>
-                  <ul class="list-unstyled mb-4 mt-3">
-                      <li class="d-flex align-items-center mb-3">
-                          <i class="ti ti-phone-call"></i>
-                          <span class="fw-bold mx-2">Contact:</span>
-                          <span>{{ $user->phone_number }}</span>
-                      </li>
-                      <li class="d-flex align-items-center mb-3">
-                          <i class="ti ti-mail"></i>
-                          <span class="fw-bold mx-2">Email:</span>
-                          <span>{{ $user->email }}</span>
-                      </li>
-                      <li class="d-flex align-items-center mb-3">
-                        <i class="ti ti-mail"></i>
-                        <span class="fw-bold mx-2">Address:</span>
-                        <span>{{ $user->address }}</span>
-                    </li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-  </div>
+        <!-- Contact User -->
+        <div class="col-md-6">
+            <div class="card w-100">
+                <div class="card-body">
+                    <small class="card-text text-uppercase">Contacts</small>
+                    <ul class="list-unstyled mb-4 mt-3">
+                        <li class="d-flex align-items-center mb-3">
+                            <i class="ti ti-phone-call"></i>
+                            <span class="fw-bold mx-2">Contact:</span>
+                            <span>{{ $user->phone_number }}</span>
+                        </li>
+                        <li class="d-flex align-items-center mb-3">
+                            <i class="ti ti-mail"></i>
+                            <span class="fw-bold mx-2">Email:</span>
+                            <span>{{ $user->email }}</span>
+                        </li>
+                        <li class="d-flex align-items-center mb-3">
+                            <i class="ti ti-mail"></i>
+                            <span class="fw-bold mx-2">Address:</span>
+                            <span>{{ $user->address }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -364,8 +364,9 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="phone">Phone No</label>
-                                <input type="text" id="phone_number" name="phone_number" class="form-control phone-mask"
-                                    placeholder="123-456-7890" aria-label="123-456-7890" value="{{ $user->phone_number }}" />
+                                <input type="text" id="phone_number" name="phone_number"
+                                    class="form-control phone-mask" placeholder="123-456-7890" aria-label="123-456-7890"
+                                    value="{{ $user->phone_number }}" />
                             </div>
                         </div>
 

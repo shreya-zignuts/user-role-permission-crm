@@ -21,11 +21,6 @@ Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@
 Route::post('/auth/login-basic', $controller_path . '\authentications\LoginBasic@login')->name('login');
 Route::post('/logout', $controller_path . '\authentications\LoginBasic@logout')->name('logout');
 
-// Route::prefix('forgotpassword')->group(function () use ($controller_path) {
-//   Route::get('/form', $controller_path . '\UserController@showForgotForm')->name('forgot-password-form');
-//   Route::post('/update', $controller_path . '\UserController@sendResetLinkEmail')->name('send-mail');
-// });
-
 Route::prefix('password')->group(function () use ($controller_path) {
   Route::get('/reset', $controller_path . '\admin\UserController@showResetForm')->name('password.reset');
   Route::post('/reset', $controller_path . '\admin\UserController@resetPassword')->name('password.update');

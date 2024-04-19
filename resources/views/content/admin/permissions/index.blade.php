@@ -228,7 +228,7 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Changed!',
-                                text: 'Toggle status for role is changed',
+                                text: 'Toggle status for permission is changed',
                                 customClass: {
                                     confirmButton: 'btn btn-success'
                                 }

@@ -45,7 +45,7 @@
                         <h4 class="pt-2">Reset Password 🔒</h4>
                         {{-- <p class="mb-4">for <span class="fw-bold"><span>{{ $email }}</span> --}}
                         </span></p>
-                        <form action="{{ route('password.update') }}" method="POST">
+                        <form action="{{ route('forgot.password.reset') }}" method="POST">
                             @csrf
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="email">for email</label>

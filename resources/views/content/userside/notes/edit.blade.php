@@ -63,7 +63,9 @@
                         @endforeach
                     </div>
                 @endif
-                <h5 class="mt-2 h4">Edit Note</h5>
+                <h5 class="mt-2 h4">Edit Note <img
+                  src="https://cdn-icons-png.freepik.com/256/683/683305.png?semt=ais_hybrid"
+                  width="25px" class="mb-1" alt=""></h5>
                 <form class="mt-1" method="POST" action="{{ route('update-notes', $notes->id) }}">
                     @csrf
                     <div class="row g-3">
@@ -72,11 +74,11 @@
                             <label for="title" class="form-label">{{ __('Title') }}</label>
                             <input id="title" type="text" class="form-control" name="title"
                                 value="{{ old('title', $notes->title) }}"
-                                @error('title')">
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                                @error('title')>
+                                  <span class="invalid-feedback" role="alert">
+                                      <strong>{{ $message }}</strong>
+                                  </span>
+                              @enderror
                                 </div>
                             <div class="col-md-12 mt-3">
                                 <label class="form-label" for="description">Description</label>

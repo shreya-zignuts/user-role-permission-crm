@@ -261,6 +261,7 @@ class UserController extends Controller
    */
   public function resetPassword(Request $request)
   {
+    // dd('hello');
     $request->validate([
       'email' => 'required|email',
       'password' => 'required|string|min:8|confirmed',

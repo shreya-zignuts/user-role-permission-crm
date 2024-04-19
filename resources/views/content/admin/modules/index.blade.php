@@ -6,57 +6,62 @@
     <!-- Search form -->
 
     @if (session('error'))
-<div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-  <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-      <i class="ti ti-bell ti-xs me-2"></i>
-      <div class="me-auto fw-semibold">Error</div>
-      <?php
-        date_default_timezone_set('Asia/Kolkata');
-        ?>
-      <small class="text-muted"><?= date('h:i A'); ?></small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-  <div class="toast-body" style="padding: 10px; color: #333;">
-    {{ session('error') }}
-  </div>
-</div>
+        <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true"
+            data-bs-delay="2000"
+            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                <i class="ti ti-bell ti-xs me-2"></i>
+                <div class="me-auto fw-semibold">Error</div>
+                <?php
+                date_default_timezone_set('Asia/Kolkata');
+                ?>
+                <small class="text-muted"><?= date('h:i A') ?></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" style="padding: 10px; color: #333;">
+                {{ session('error') }}
+            </div>
+        </div>
 
-<script>
-    // Show toast message
-    document.addEventListener('DOMContentLoaded', function () {
-        var toastEl = document.querySelector('.toast');
-        var toast = new bootstrap.Toast(toastEl);
-        toast.show();
-    });
-</script>
-@endif
+        <script>
+            // Show toast message
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+    @endif
 
-@if (session('success'))
-<div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-  <div class="toast-header bg-success text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-      <i class="ti ti-bell ti-xs me-2"></i>
-      <div class="me-auto fw-semibold">Success</div>
-      <?php
-        date_default_timezone_set('Asia/Kolkata');
-        ?>
-      <small class="text-muted"><?= date(' h:i A'); ?></small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-  <div class="toast-body" style="padding: 10px; color: #333;">
-    {{ session('success') }}
-  </div>
-</div>
+    @if (session('success'))
+        <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-delay="2000"
+            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <div class="toast-header bg-success text-white"
+                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                <i class="ti ti-bell ti-xs me-2"></i>
+                <div class="me-auto fw-semibold">Success</div>
+                <?php
+                date_default_timezone_set('Asia/Kolkata');
+                ?>
+                <small class="text-muted"><?= date(' h:i A') ?></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" style="padding: 10px; color: #333;">
+                {{ session('success') }}
+            </div>
+        </div>
 
-<script>
-    // Show toast message
-    document.addEventListener('DOMContentLoaded', function () {
-        var toastEl = document.querySelector('.toast');
-        var toast = new bootstrap.Toast(toastEl);
-        toast.show();
-    });
-</script>
-@endif
-      <div class="row justify-content-center mt-3">
+        <script>
+            // Show toast message
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+    @endif
+    <div class="row justify-content-center mt-3">
         <div class="col-md-6">
             <form method="GET" action="{{ route('pages-modules') }}">
                 @csrf
@@ -66,9 +71,12 @@
                         <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
                             aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
                         <select class="form-select" id="inputGroupSelect04" name="filter">
-                            <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All Modules</option>
-                            <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active Modules</option>
-                            <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>Inactive Modules</option>
+                            <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All Modules
+                            </option>
+                            <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active
+                                Modules</option>
+                            <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>
+                                Inactive Modules</option>
                         </select>
                         <button type="submit" class="btn btn-primary">Search & Filter</button>
                     </div>
@@ -81,43 +89,7 @@
                 <button type="submit" class="btn btn-secondary">Reset</button>
             </form>
         </div>
-      </div>
-
-    {{-- <div class="row justify-content-center mt-3">
-        <div class="col-md-4">
-            <form method="GET" action="{{ route('pages-modules') }}">
-                @csrf
-                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
-                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
-                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                            aria-describedby="basic-addon1" />
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-        <div class="col-md-1 text-center">
-            <a href="{{ route('pages-modules') }}" class="btn btn-secondary">Reset</a>
-        </div>
-        <div class="col-md-4">
-            <form action="{{ route('pages-modules') }}" method="GET">
-                <div class="input-group">
-
-                    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"
-                        name="filter">
-                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>All Modules</option>
-                        <option value="active" {{ $filter == 'active' ? 'selected' : '' }}>Active Modules</option>
-                        <option value="inactive" {{ $filter == 'inactive' ? 'selected' : '' }}>Inactive Modules
-                        </option>
-                    </select>
-                    <button class="btn btn-primary" type="submit">Filter</button>
-                </div>
-            </form>
-        </div>
-    </div> --}}
-
+    </div>
 
     <div class="card w-100 mt-5">
         <h5 class="card-header">Modules <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="mb-1"
@@ -158,7 +130,8 @@
                                 <form method="POST" action="{{ route('module-status', ['moduleId' => $module->code]) }}">
                                     @csrf
                                     <label class="switch">
-                                        <input type="checkbox" class="switch-input" name="is_active" {{ $module->is_active ? 'checked' : '' }}>
+                                        <input type="checkbox" class="switch-input" name="is_active"
+                                            {{ $module->is_active ? 'checked' : '' }}>
                                         <span class="switch-toggle-slider">
                                             <span class="switch-on"></span>
                                             <span class="switch-off"></span>
@@ -188,17 +161,21 @@
                                                 <td>{{ $submodule->name }}</td>
                                                 <td>{{ $submodule->description }}</td>
                                                 <td>
-                                                  <form method="get" action="{{ route('module-status', ['moduleId' => $submodule->code]) }}">
-                                                    @csrf
-                                                    <label class="switch">
-                                                        <input data-id="{{ $submodule->code }}" class="toggle-class switch-input" type="checkbox" name="is_active"
-                                                               data-toggle="toggle" data-onstyle="success" {{ $module->is_active && $submodule->is_active ? 'checked' : '' }}>
-                                                        <span class="switch-toggle-slider">
-                                                            <span class="switch-on"></span>
-                                                            <span class="switch-off"></span>
-                                                        </span>
-                                                    </label>
-                                                </form>
+                                                    <form method="get"
+                                                        action="{{ route('module-status', ['moduleId' => $submodule->code]) }}">
+                                                        @csrf
+                                                        <label class="switch">
+                                                            <input data-id="{{ $submodule->code }}"
+                                                                class="toggle-class switch-input" type="checkbox"
+                                                                name="is_active" data-toggle="toggle"
+                                                                data-onstyle="success"
+                                                                {{ $module->is_active && $submodule->is_active ? 'checked' : '' }}>
+                                                            <span class="switch-toggle-slider">
+                                                                <span class="switch-on"></span>
+                                                                <span class="switch-off"></span>
+                                                            </span>
+                                                        </label>
+                                                    </form>
                                                 </td>
                                                 <td><a
                                                         href="{{ route('edit-module', ['moduleId' => $submodule->code]) }}"><img
@@ -224,62 +201,63 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-      $('.switch-input').change(function() {
-          var status = $(this).prop('checked') ? 1 : 0;
-          var id = $(this).closest('form').attr('action').split('/').pop(); // Get the module ID from the form action URL
+        $('.switch-input').change(function() {
+            var status = $(this).prop('checked') ? 1 : 0;
+            var id = $(this).closest('form').attr('action').split('/')
+                .pop(); // Get the module ID from the form action URL
 
-      Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, toggle it!',
-            customClass: {
-                confirmButton: 'btn btn-primary me-3',
-                cancelButton: 'btn btn-label-secondary'
-            },
-            buttonsStyling: false
-        }).then(function(result) {
-            if (result.isConfirmed) {
-                $.ajax({
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, toggle it!',
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
 
-                  type: "GET",
-              dataType: "json",
-              url: "/admin/modules/change-status/" + id,
-              data: {
-                  'is_active': status
-              },
+                        type: "GET",
+                        dataType: "json",
+                        url: "/admin/modules/change-status/" + id,
+                        data: {
+                            'is_active': status
+                        },
 
-                    success: function(data) {
-                        console.log(data.success)
+                        success: function(data) {
+                            console.log(data.success)
 
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Changed!',
-                            text: 'Toggle status for user is changed',
-                            customClass: {
-                                confirmButton: 'btn btn-success'
-                            }
-                        }).then(function() {
-                            window.location.reload();
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                            customClass: {
-                                confirmButton: 'btn btn-danger'
-                            }
-                        });
-                    }
-                });
-            }
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Changed!',
+                                text: 'Toggle status for modules is changed',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         });
-      });
-  </script>
+    </script>
 
     </script>
 @endsection

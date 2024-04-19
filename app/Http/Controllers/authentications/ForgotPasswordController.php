@@ -85,15 +85,24 @@ class ForgotPasswordController extends Controller
       ->first();
 
     // dd($existingToken);
+
+    // dd($existingToken);
     if ($existingToken) {
       $pageConfigs = ['myLayout' => 'blank'];
       return view('content.authentications.reset-forgot-password', compact('email', 'pageConfigs'));
+    } else {
+      $pageConfigs = ['myLayout' => 'blank'];
+
+      // dd('here');
+      Session::flash('success', 'Already sent link for reset password');
+      return view('content.authentications.auth-login-basic', compact('pageConfigs'));
     }
 
-    $pageConfigs = ['myLayout' => 'blank'];
+    // $pageConfigs = ['myLayout' => 'blank'];
 
-    Session::flash('success', 'Already sent link for reset password');
-    return view('content.authentications.auth-login-basic', compact('pageConfigs'));
+    // // dd('here');
+    // Session::flash('success', 'Already sent link for reset password');
+    // return view('content.authentications.auth-login-basic', compact('pageConfigs'));
   }
 
   /**
@@ -110,6 +119,7 @@ class ForgotPasswordController extends Controller
 
     $user = User::where('email', $email)->first();
 
+    // dd($user);
     if ($user) {
       // Check if there is an existing token
       $existingToken = DB::table('password_reset_tokens')
@@ -123,26 +133,19 @@ class ForgotPasswordController extends Controller
           ->delete();
       }
 
-      // Additional logic if needed after deleting the token
+      // Update password and status
+      $user->password = Hash::make($request->password);
+      $user->status = 'A'; // Assuming 'A' means active status
+      $user->save();
+
+      return redirect()
+        ->route('login')
+        ->with('success', 'Changed Password Successfully');
     } else {
       // User not found
-      return ['status' => 'error', 'message' => 'User not found.'];
-    }
-
-    $user->password = Hash::make($request->password);
-    $user->status = 'A';
-    $user->save();
-
-    Auth::login($user);
-
-    if ($user->id === 1) {
       return redirect()
-        ->route('admin-dashboard')
-        ->with('success', 'Admin successfully logged in');
-    } else {
-      return redirect()
-        ->route('user-dashboard')
-        ->with('success', 'User successfully logged in');
+        ->route('login')
+        ->with('error', 'User not found.');
     }
   }
 }

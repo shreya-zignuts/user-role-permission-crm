@@ -31,8 +31,10 @@ class RedirectIfNotAuthenticated
           ->tokens()
           ->count() === 0
       ) {
-        Auth::logout();
-        return redirect()->route('login');
+        // Auth::logout();
+        return redirect()
+          ->route('login')
+          ->with('error', 'Forecefully Logout');
       }
     }
     return $next($request);

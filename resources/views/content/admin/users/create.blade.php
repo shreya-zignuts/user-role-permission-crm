@@ -30,20 +30,9 @@
                     </div>
                 @endif
 
-                @if (session('success'))
-                <div class="bs-toast toast toast-ex animate__animated my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
-                  <div class="toast-header">
-                    <i class="ti ti-bell ti-xs me-2"></i>
-                    <div class="me-auto fw-semibold">Bootstrap</div>
-                    <small class="text-muted">11 mins ago</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                  </div>
-                  <div class="toast-body">
-                    {{ session('success') }}
-                  </div>
-                </div>
-                @endif
-                <h5 class="mt-2">User Management</h5>
+                <h5 class="mt-2">User Management <img
+                  src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png"
+                  width="27px" class="mb-1" alt=""></h5>
                 <form class="mt-1" method="POST" action="{{ route('store-user') }}">
                     @csrf
                     <input type="hidden" name="send_invitation_email" value="1">
@@ -94,23 +83,23 @@
                         <div class="col-md-12">
                             <label class="form-label" for="roles">Roles</label>
                             @php
-                        $activeRolesExist = false;
-                    @endphp
+                                $activeRolesExist = false;
+                            @endphp
                             <select id="roles" name="roles[]" class="selectpicker w-100" data-style="btn-default"
                                 multiple data-icon-base="ti" data-tick-icon="ti-check text-white">
                                 @foreach ($roles as $role)
                                     @if ($role->is_active)
-                                    @php $activeRolesExist = true; @endphp
+                                        @php $activeRolesExist = true; @endphp
                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                        @elseif(!$role->is_active)
-                                        @endif
+                                    @elseif(!$role->is_active)
+                                    @endif
                                 @endforeach
                             </select>
                             @if (!$activeRolesExist)
-                        <div class="alert alert-danger mt-2">
-                          <li>No roles are active.</li>
-                        </div>
-                    @endif
+                                <div class="alert alert-danger mt-2">
+                                    <li>No roles are active.</li>
+                                </div>
+                            @endif
 
                         </div>
                     </div>
@@ -118,7 +107,7 @@
                     <div class="pt-4">
                         <button type="submit" class="btn btn-primary me-sm-3 me-1">Send Invite</button>
                         <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
-                              aria-label="Close"><a href="{{ route('pages-users')}}">Cancel</a></button>
+                            aria-label="Close"><a href="{{ route('pages-users') }}">Cancel</a></button>
                     </div>
                 </form>
             </div>

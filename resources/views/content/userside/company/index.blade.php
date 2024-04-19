@@ -37,57 +37,63 @@
 @endsection
 
 @section('content')
-@if (session('error'))
-<div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-  <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-      <i class="ti ti-bell ti-xs me-2"></i>
-      <div class="me-auto fw-semibold">Error</div>
-      <?php
-        date_default_timezone_set('Asia/Kolkata');
-        ?>
-      <small class="text-muted"><?= date('h:i A'); ?></small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-  <div class="toast-body" style="padding: 10px; color: #333;">
-    {{ session('error') }}
-  </div>
-</div>
+    @if (session('error'))
+        <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-delay="2000"
+            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <div class="toast-header bg-danger text-white"
+                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                <i class="ti ti-bell ti-xs me-2"></i>
+                <div class="me-auto fw-semibold">Error</div>
+                <?php
+                date_default_timezone_set('Asia/Kolkata');
+                ?>
+                <small class="text-muted"><?= date('h:i A') ?></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" style="padding: 10px; color: #333;">
+                {{ session('error') }}
+            </div>
+        </div>
 
-<script>
-    // Show toast message
-    document.addEventListener('DOMContentLoaded', function () {
-        var toastEl = document.querySelector('.toast');
-        var toast = new bootstrap.Toast(toastEl);
-        toast.show();
-    });
-</script>
-@endif
+        <script>
+            // Show toast message
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+    @endif
 
-@if (session('success'))
-<div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000" style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-  <div class="toast-header bg-success text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-      <i class="ti ti-bell ti-xs me-2"></i>
-      <div class="me-auto fw-semibold">Success</div>
-      <?php
-        date_default_timezone_set('Asia/Kolkata');
-        ?>
-      <small class="text-muted"><?= date(' h:i A'); ?></small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-  <div class="toast-body" style="padding: 10px; color: #333;">
-    {{ session('success') }}
-  </div>
-</div>
+    @if (session('success'))
+        <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-delay="2000"
+            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <div class="toast-header bg-success text-white"
+                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                <i class="ti ti-bell ti-xs me-2"></i>
+                <div class="me-auto fw-semibold">Success</div>
+                <?php
+                date_default_timezone_set('Asia/Kolkata');
+                ?>
+                <small class="text-muted"><?= date(' h:i A') ?></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" style="padding: 10px; color: #333;">
+                {{ session('success') }}
+            </div>
+        </div>
 
-<script>
-    // Show toast message
-    document.addEventListener('DOMContentLoaded', function () {
-        var toastEl = document.querySelector('.toast');
-        var toast = new bootstrap.Toast(toastEl);
-        toast.show();
-    });
-</script>
-@endif
+        <script>
+            // Show toast message
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastEl = document.querySelector('.toast');
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            });
+        </script>
+    @endif
 
     @if ($errors && $errors->any())
         <div class="alert alert-danger">
@@ -97,120 +103,123 @@
         </div>
     @endif
     <div class="row justify-content-center mt-3">
-      <div class="col-md-4">
-          <form method="GET" action="{{ route('userside-company') }}">
-              @csrf
-              <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
-                  <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
-                      <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
-                      <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                          aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
-                      <button type="submit" class="btn btn-primary">Search</button>
-                  </div>
-              </div>
-          </form>
-      </div>
-      <div class="col-md-2 text-center">
-          <form method="GET" action="{{ route('userside-company') }}">
-              @csrf
-              <button type="submit" class="btn btn-secondary">Reset</button>
-          </form>
-      </div>
-    </div>
-
-    <div class="card w-100 mt-5">
-      <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-header">Company <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  class="mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round"
-                  class="icon icon-tabler icons-tabler-outline icon-tabler-users">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                  <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                  <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-              </svg></h5>
-          <div class="card-body text-end mt-4">
-            {{-- @dd($peopleModule->pivot->add_access) --}}
-
-            @if ($permissionsArray['add'])
-            <a href="{{ route('create-company')}}" class="btn btn-primary">Add Company</a>
-        @endif
-          </div>
-      </div>
-      <table class="table" style="text-align: center">
-        <thead style="background: linear-gradient(to right, #9e96f2 22.16%, rgba(133, 123, 245, 0.7) 76.47%); text-align: center">
-            <tr>
-                <th>Name</th>
-                <th>Owner Name</th>
-                <th>Industry</th>
-                <th>Address</th>
-                @if($permissionsArray['edit'] || $permissionsArray['delete'])
-                    <th>Actions</th>
-                @else
-                    <th></th>
-                @endif
-            </tr>
-        </thead>
-        <tbody>
-            @if($company->isEmpty())
-                <tr>
-                    <td colspan="5" class="text-center">No data available..</td>
-                </tr>
-            @else
-                @foreach($company as $comp)
-                    <tr>
-                        <td>{{ $comp->name }}</td>
-                        <td>{{ $comp->owner_name }}</td>
-                        <td>{{ $comp->industry }}</td>
-                        <td>{{ $comp->address }}</td>
-                        <td>
-                            @if($permissionsArray['edit'] || $permissionsArray['delete'])
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="ti ti-dots-vertical"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <!-- Edit Button based on Access -->
-                                        @if ($permissionsArray['edit'])
-                                            <a class="dropdown-item" href="{{ route('edit-company', ['id' => $comp->id]) }}">
-                                                <i class="ti ti-pencil me-1"></i> Edit
-                                            </a>
-                                        @endif
-                                        <!-- Delete Button based on Access -->
-                                        @if ($permissionsArray['delete'])
-                                            <form id="deleteCompanyForm{{ $comp->id }}" method="POST"
-                                                action="{{ route('delete-company', ['id' => $comp->id]) }}">
-                                                @csrf
-                                                <!-- Delete button trigger modal -->
-                                                <button class="dropdown-item delete-company" data-id="{{ $comp->id }}">
-                                                    <i class="ti ti-trash me-1"></i> Delete
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-            @endif
-        </tbody>
-    </table>
-
+        <div class="col-md-4">
+            <form method="GET" action="{{ route('userside-company') }}">
+                @csrf
+                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
+                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
+                            aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
                 </div>
-                <div class="row justify-content-center">
-                  <div class="col-md-6">
-                      <!-- Pagination links -->
-                      {{ $company->links('pagination::bootstrap-5') }}
-                  </div>
-              </div>
-            </div>
+            </form>
+        </div>
+        <div class="col-md-2 text-center">
+            <form method="GET" action="{{ route('userside-company') }}">
+                @csrf
+                <button type="submit" class="btn btn-secondary">Reset</button>
+            </form>
         </div>
     </div>
 
+    <div class="card w-100 mt-5">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-header">Company <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    class="mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                </svg></h5>
+            <div class="card-body text-end mt-4">
+                {{-- @dd($peopleModule->pivot->add_access) --}}
+
+                @if ($permissionsArray['add'])
+                    <a href="{{ route('create-company') }}" class="btn btn-primary">Add Company</a>
+                @endif
+            </div>
+        </div>
+        <table class="table" style="text-align: center">
+            <thead
+                style="background: linear-gradient(to right, #9e96f2 22.16%, rgba(133, 123, 245, 0.7) 76.47%); text-align: center">
+                <tr>
+                    <th>Name</th>
+                    <th>Owner Name</th>
+                    <th>Industry</th>
+                    <th>Address</th>
+                    @if ($permissionsArray['edit'] || $permissionsArray['delete'])
+                        <th>Actions</th>
+                    @else
+                        <th></th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody>
+                @if ($company->isEmpty())
+                    <tr>
+                        <td colspan="5" class="text-center">No data available..</td>
+                    </tr>
+                @else
+                    @foreach ($company as $comp)
+                        <tr>
+                            <td>{{ $comp->name }}</td>
+                            <td>{{ $comp->owner_name }}</td>
+                            <td>{{ $comp->industry }}</td>
+                            <td>{{ $comp->address }}</td>
+                            <td>
+                                @if ($permissionsArray['edit'] || $permissionsArray['delete'])
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                            data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <!-- Edit Button based on Access -->
+                                            @if ($permissionsArray['edit'])
+                                                <a class="dropdown-item"
+                                                    href="{{ route('edit-company', ['id' => $comp->id]) }}">
+                                                    <i class="ti ti-pencil me-1"></i> Edit
+                                                </a>
+                                            @endif
+                                            <!-- Delete Button based on Access -->
+                                            @if ($permissionsArray['delete'])
+                                                <form id="deleteCompanyForm{{ $comp->id }}" method="POST"
+                                                    action="{{ route('delete-company', ['id' => $comp->id]) }}">
+                                                    @csrf
+                                                    <!-- Delete button trigger modal -->
+                                                    <button class="dropdown-item delete-company"
+                                                        data-id="{{ $comp->id }}">
+                                                        <i class="ti ti-trash me-1"></i> Delete
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+            </tbody>
+        </table>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Pagination links -->
+            {{ $company->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function() {

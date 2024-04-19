@@ -96,30 +96,33 @@
         </script>
     @endif
     <div class="row justify-content-center mt-3">
-      <div class="col-md-6">
-          <form method="GET" action="{{ route('pages-roles') }}">
-              @csrf
-              <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
-                  <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
-                      <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
-                      <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                          aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
-                      <select class="form-select" id="inputGroupSelect04" name="filter">
-                          <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All roles</option>
-                          <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active roles</option>
-                          <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>Inactive roles</option>
-                      </select>
-                      <button type="submit" class="btn btn-primary">Search & Filter</button>
-                  </div>
-              </div>
-          </form>
-      </div>
-      <div class="col-md-1 text-center">
-          <form method="GET" action="{{ route('pages-roles') }}">
-              @csrf
-              <button type="submit" class="btn btn-secondary">Reset</button>
-          </form>
-      </div>
+        <div class="col-md-6">
+            <form method="GET" action="{{ route('pages-roles') }}">
+                @csrf
+                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
+                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
+                            aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                        <select class="form-select" id="inputGroupSelect04" name="filter">
+                            <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All roles
+                            </option>
+                            <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active
+                                roles</option>
+                            <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>
+                                Inactive roles</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Search & Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-1 text-center">
+            <form method="GET" action="{{ route('pages-roles') }}">
+                @csrf
+                <button type="submit" class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
     </div>
 
     <div class="card w-100 mt-5">
@@ -156,7 +159,7 @@
                             <td>{{ $role->name }}</td>
                             <td>{{ $role->description }}</td>
                             <td>
-                                <form method="get" action="{{ route('per-status', ['id' => $role->id]) }}">
+                                <form method="get" action="{{ route('role-status', ['id' => $role->id]) }}">
                                     @csrf
                                     <label class="switch">
                                         <input data-id="{{ $role->id }}" class="switch-input" type="checkbox"

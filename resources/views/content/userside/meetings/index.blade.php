@@ -109,30 +109,33 @@
         </div>
     @endif
     <div class="row justify-content-center mt-3">
-      <div class="col-md-6">
-          <form method="GET" action="{{ route('userside-meetings') }}">
-              @csrf
-              <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
-                  <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
-                      <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
-                      <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                          aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
-                      <select class="form-select" id="inputGroupSelect04" name="filter">
-                          <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All meetings</option>
-                          <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active meetings</option>
-                          <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>Inactive meetings</option>
-                      </select>
-                      <button type="submit" class="btn btn-primary">Search & Filter</button>
-                  </div>
-              </div>
-          </form>
-      </div>
-      <div class="col-md-1 text-center">
-          <form method="GET" action="{{ route('userside-meetings') }}">
-              @csrf
-              <button type="submit" class="btn btn-secondary">Reset</button>
-          </form>
-      </div>
+        <div class="col-md-6">
+            <form method="GET" action="{{ route('userside-meetings') }}">
+                @csrf
+                <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded">
+                    <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
+                        <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
+                            aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                        <select class="form-select" id="inputGroupSelect04" name="filter">
+                            <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All meetings
+                            </option>
+                            <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active
+                                meetings</option>
+                            <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>
+                                Inactive meetings</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Search & Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-1 text-center">
+            <form method="GET" action="{{ route('userside-meetings') }}">
+                @csrf
+                <button type="submit" class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
     </div>
 
     <div class="card w-100 mt-5">
@@ -170,66 +173,65 @@
                 </tr>
             </thead>
             <tbody>
-              @if($meetings->isEmpty())
-                <tr>
-                    <td colspan="6" class="text-center">No data available...</td>
-                </tr>
-            @else
-                @foreach ($meetings as $meeting)
+                @if ($meetings->isEmpty())
                     <tr>
-                        <td>{{ $meeting->title }}</td>
-                        <td>{{ $meeting->description }}</td>
-                        <td>{{ $meeting->date }}</td>
-                        <td>{{ $meeting->time }}</td>
-                        <td>
-
-                        <label class="switch">
-                        <input type="checkbox" class="switch-input"
-                                data-id="{{ $meeting->id }}"
-                                {{ $meeting->is_active ? 'checked' : '' }}
-                                data-date="{{ $meeting->date }}"
-                                data-time="{{ $meeting->time }}"
-                                data-route="{{ route('meetings-status', ['id' => $meeting->id]) }}" data-toggle="toggle">
-                                <span class="switch-toggle-slider">
-                                  <span class="meetingDate d-none">{{ $meeting->date }}</span>
-                                  <span class="meetingTime d-none">{{ $meeting->time }}</span>
-                              </span>
-                        </label>
-                        </td>
-                        <td>
-                            @if ($permissionsArray['edit'] || $permissionsArray['delete'])
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="ti ti-dots-vertical"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <!-- Edit Button based on Access -->
-                                        @if ($permissionsArray['edit'])
-                                            <a class="dropdown-item"
-                                                href="{{ route('edit-meetings', ['id' => $meeting->id]) }}">
-                                                <i class="ti ti-pencil me-1"></i> Edit
-                                            </a>
-                                        @endif
-                                        <!-- Delete Button based on Access -->
-                                        @if ($permissionsArray['delete'])
-                                            <form id="deleteMeetingForm{{ $meeting->id }}" method="POST"
-                                                action="{{ route('delete-meetings', ['id' => $meeting->id]) }}">
-                                                @csrf
-                                                <!-- Delete button trigger modal -->
-                                                <button class="dropdown-item delete-meeting"
-                                                    data-id="{{ $meeting->id }}">
-                                                    <i class="ti ti-trash me-1"></i> Delete
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endif
-                        </td>
-
+                        <td colspan="6" class="text-center">No data available...</td>
                     </tr>
-                @endforeach
+                @else
+                    @foreach ($meetings as $meeting)
+                        <tr>
+                            <td>{{ $meeting->title }}</td>
+                            <td>{{ $meeting->description }}</td>
+                            <td>{{ $meeting->date }}</td>
+                            <td>{{ $meeting->time }}</td>
+                            <td>
+
+                                <label class="switch">
+                                    <input type="checkbox" class="switch-input" data-id="{{ $meeting->id }}"
+                                        {{ $meeting->is_active ? 'checked' : '' }} data-date="{{ $meeting->date }}"
+                                        data-time="{{ $meeting->time }}"
+                                        data-route="{{ route('meetings-status', ['id' => $meeting->id]) }}"
+                                        data-toggle="toggle">
+                                    <span class="switch-toggle-slider">
+                                        <span class="meetingDate d-none">{{ $meeting->date }}</span>
+                                        <span class="meetingTime d-none">{{ $meeting->time }}</span>
+                                    </span>
+                                </label>
+                            </td>
+                            <td>
+                                @if ($permissionsArray['edit'] || $permissionsArray['delete'])
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                            data-bs-toggle="dropdown">
+                                            <i class="ti ti-dots-vertical"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <!-- Edit Button based on Access -->
+                                            @if ($permissionsArray['edit'])
+                                                <a class="dropdown-item"
+                                                    href="{{ route('edit-meetings', ['id' => $meeting->id]) }}">
+                                                    <i class="ti ti-pencil me-1"></i> Edit
+                                                </a>
+                                            @endif
+                                            <!-- Delete Button based on Access -->
+                                            @if ($permissionsArray['delete'])
+                                                <form id="deleteMeetingForm{{ $meeting->id }}" method="POST"
+                                                    action="{{ route('delete-meetings', ['id' => $meeting->id]) }}">
+                                                    @csrf
+                                                    <!-- Delete button trigger modal -->
+                                                    <button class="dropdown-item delete-meeting"
+                                                        data-id="{{ $meeting->id }}">
+                                                        <i class="ti ti-trash me-1"></i> Delete
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                            </td>
+
+                        </tr>
+                    @endforeach
                 @endif
             </tbody>
         </table>
@@ -252,8 +254,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-      var updateMeetingStatusUrl = '{{ route("meetings-status", ["id" => ":id"]) }}';
-  </script>
+        var updateMeetingStatusUrl = '{{ route('meetings-status', ['id' => ':id']) }}';
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -310,33 +312,33 @@
         });
     </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<script>
-  $(document).ready(function() {
-      $('.switch-input').each(function() {
-          var toggleSwitch = $(this);
-          var id = $(this).data('id');
-          var meetingDate = new Date(toggleSwitch.data('date') + 'T' + toggleSwitch.data('time'));
-          var isChecked = toggleSwitch.prop('checked');
-          console.log(meetingDate);
-          if (meetingDate < new Date() && isChecked) {
+    <script>
+        $(document).ready(function() {
+            $('.switch-input').each(function() {
+                var toggleSwitch = $(this);
+                var id = $(this).data('id');
+                var meetingDate = new Date(toggleSwitch.data('date') + 'T' + toggleSwitch.data('time'));
+                var isChecked = toggleSwitch.prop('checked');
+                console.log(meetingDate);
+                if (meetingDate < new Date() && isChecked) {
 
-              toggleSwitch.prop('checked', false); // Uncheck the toggle switch
-              $.ajax({
-              type: "get",
-              dataType: "json",
-              url: toggleSwitch.data('route'),
-              data: {
-                  '_token': '{{ csrf_token() }}',
-                  'status': '0',
-                  'id': id
-              }
+                    toggleSwitch.prop('checked', false); // Uncheck the toggle switch
+                    $.ajax({
+                        type: "get",
+                        dataType: "json",
+                        url: toggleSwitch.data('route'),
+                        data: {
+                            '_token': '{{ csrf_token() }}',
+                            'status': '0',
+                            'id': id
+                        }
+                    });
+                }
             });
-          }
-      });
-  });
-</script>
+        });
+    </script>
 
 
 @endsection
