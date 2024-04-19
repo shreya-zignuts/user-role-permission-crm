@@ -67,7 +67,6 @@
                     <div class="h4">Create Meeting</div>
                         <form method="POST" action="{{ route('store-meetings') }}">
                             @csrf
-                            {{-- <input type="hidden" id="status" name="status" value="{{ old('status', '0') }}"> --}}
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus placeholder="title..">

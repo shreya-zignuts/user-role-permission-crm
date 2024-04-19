@@ -21,36 +21,30 @@ class MeetingController extends Controller
     $permissionsArray = Auth::user()->getModulePermissions($user, $moduleCode);
 
     $meetings = Meeting::query()
-      ->when($request->filled(['search', 'filter']), function ($query) use ($request) {
-        // Apply search filter if search query is present
-        if ($request->filled('search')) {
-          $query->where('title', 'like', '%' . $request->input('search') . '%');
+      ->where(function ($query) use ($request) {
+        // Search logic
+
+        if ($request->input('search')) {
+          $query->where('title', 'like', "%{$request->input('search')}%");
         }
 
-        // Apply status filter if filter is selected
-        if ($request->filled('filter') && $request->input('filter') !== 'all') {
-          $query->where('status', $request->input('filter') === 'active' ? 1 : 0);
+        if ($request->input('filter') && $request->input('filter') !== 'all') {
+          $query->where('is_active', $request->input('filter') === 'active' ? '1' : '0');
         }
       })
       ->paginate(5);
 
-    $meetings->appends([$request->filled('search'), $request->filled('filter')]);
+    $meetings->appends(['search' => $request->input('search'), 'filter' => $request->input('filter')]);
     return view('content.userside.meetings.index', compact('user', 'meetings', 'permissionsArray'));
   }
 
   public function create()
   {
-    $user = Auth::user();
-
-    $userId = Auth::id();
-    // dd($userId);
-    $modules = $user->getModulesWithPermissions();
-
-    $user->modules = $modules;
+    $user = Helpers::getUserData();
 
     $meetings = Meeting::all();
 
-    return view('content.userside.meetings.create', compact('user', 'meetings', 'userId'));
+    return view('content.userside.meetings.create', compact('user', 'meetings'));
   }
 
   public function store(Request $request)
@@ -85,8 +79,6 @@ class MeetingController extends Controller
   {
     $user = Helpers::getUserData();
 
-    $userId = Auth::id();
-
     $meetings = Meeting::find($id);
 
     if (!$meetings) {
@@ -95,7 +87,7 @@ class MeetingController extends Controller
         ->with('error', 'Meeting not found');
     }
 
-    return view('content.userside.meetings.edit', compact('user', 'meetings', 'userId'));
+    return view('content.userside.meetings.edit', compact('user', 'meetings'));
   }
 
   /**

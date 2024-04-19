@@ -47,7 +47,6 @@
                 <form class="mt-1" method="POST" action="{{ route('store-people') }}">
                     @csrf
                     <div class="row g-3">
-                      <input type="hidden" id="user_id" name="user_id" value="{{ $userId }}">
                         <div class="col-md-6">
                             <label class="form-label" for="name">Name</label>
                             <input type="text" id="name" name="name" class="form-control"

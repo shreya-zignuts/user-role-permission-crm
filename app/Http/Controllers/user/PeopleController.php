@@ -19,33 +19,31 @@ class PeopleController extends Controller
     $permissionsArray = Auth::user()->getModulePermissions($user, $moduleCode);
 
     $people = People::query()
-      ->when($request->filled(['search', 'filter']), function ($query) use ($request) {
-        // Apply search filter if search query is present
-        if ($request->filled('search')) {
-          $query->where('name', 'like', '%' . $request->input('search') . '%');
+      ->where(function ($query) use ($request) {
+        // Search logic
+
+        if ($request->input('search')) {
+          $query->where('name', 'like', "%{$request->input('search')}%");
         }
 
-        // Apply status filter if filter is selected
-        if ($request->filled('filter') && $request->input('filter') !== 'all') {
-          $query->where('is_active', $request->input('filter') === 'active' ? 1 : 0);
+        if ($request->input('filter') && $request->input('filter') !== 'all') {
+          $query->where('is_active', $request->input('filter') === 'active' ? '1' : '0');
         }
       })
       ->paginate(5);
 
-    $people->appends([$request->filled('search'), $request->filled('filter')]);
+    $people->appends(['search' => $request->input('search'), 'filter' => $request->input('filter')]);
 
     return view('content.userside.people.index', compact('user', 'permissionsArray', 'people'));
   }
 
   public function create()
   {
-    $userId = Auth::id();
-    // dd($userId);
     $user = Helpers::getUserData();
 
     $people = People::all();
 
-    return view('content.userside.people.create', compact('user', 'people', 'userId'));
+    return view('content.userside.people.create', compact('user', 'people'));
   }
 
   public function store(Request $request)
@@ -70,8 +68,6 @@ class PeopleController extends Controller
   {
     $user = Helpers::getUserData();
 
-    $userId = Auth::id();
-
     $people = People::find($id);
 
     if (!$people) {
@@ -80,7 +76,7 @@ class PeopleController extends Controller
         ->with('error', 'people not found');
     }
 
-    return view('content.userside.people.edit', compact('user', 'people', 'userId'));
+    return view('content.userside.people.edit', compact('user', 'people'));
   }
 
   /**

@@ -65,7 +65,6 @@
                     @csrf
                     <div class="row g-3">
                       {{-- @dd($activityLog->name) --}}
-                      <input type="hidden" id="user_id" name="user_id" value="{{ $userId }}">
                       <div class="col-md-12">
                         <label for="title" class="form-label">{{ __('Name') }}</label>
                         <input id="name" type="text" class="form-control" name="name" value="{{ old('log', $company->name)}}">

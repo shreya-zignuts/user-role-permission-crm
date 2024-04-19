@@ -14,31 +14,38 @@ class RoleController extends Controller
    */
   public function index(Request $request)
   {
-    $search = $request->search;
-    $filter = $request->input('filter', 'all');
-
     // $roles = Role::query()
-    //   ->when($search, function ($query) use ($search) {
-    //     $query->where('name', 'like', '%' . $search . '%');
-    //   })
-    //   ->when($filter && $filter !== 'all', function ($query) use ($filter) {
-    //     $query->where('is_active', $filter === 'active');
+    //   ->when($request->filled(['search', 'filter']), function ($query) use ($request) {
+    //     // Apply search filter if search query is present
+    //     if ($request->filled('search')) {
+    //       $query->where('name', 'like', '%' . $request->input('search') . '%');
+    //     }
+
+    //     // Apply status filter if filter is selected
+    //     if ($request->filled('filter') && $request->input('filter') !== 'all') {
+    //       $query->where('is_active', $request->input('filter') === 'active' ? 1 : 0);
+    //     }
     //   })
     //   ->paginate(5);
 
+    // $roles->appends([$request->filled('search'), $request->filled('filter')]);
+
     $roles = Role::query()
-      ->when($search, function ($query) use ($search) {
-        $query->where('name', 'like', '%' . $search . '%');
-      })
-      ->when($filter && $filter !== 'all', function ($query) use ($filter) {
-        $query->where('is_active', $filter === 'active');
+      ->where(function ($query) use ($request) {
+        // Search logic
+
+        if ($request->input('search')) {
+          $query->where('name', 'like', "%{$request->input('search')}%");
+        }
+
+        if ($request->input('filter') && $request->input('filter') !== 'all') {
+          $query->where('is_active', $request->input('filter') === 'active' ? '1' : '0');
+        }
       })
       ->paginate(5);
 
-    // Append the search and filter parameters to the pagination links
-    $roles->appends(['search' => $search, 'filter' => $filter]);
-
-    return view('content.admin.roles.index', compact('roles', 'filter'));
+    $roles->appends(['search' => $request->input('search'), 'filter' => $request->input('filter')]);
+    return view('content.admin.roles.index', compact('roles'));
   }
 
   /**
@@ -46,7 +53,8 @@ class RoleController extends Controller
    */
   public function create()
   {
-    $permissions = Permission::all();
+    $permissions = Permission::where('is_active', 1)->get();
+
     return view('content.admin.roles.create', compact('permissions'));
   }
 
@@ -109,7 +117,7 @@ class RoleController extends Controller
         ->back()
         ->with('error', 'role not found');
     }
-    $permissions = Permission::all();
+    $permissions = Permission::where('is_active', 1)->get();
     return view('content.admin.roles.edit-role', compact('role', 'permissions'));
   }
 

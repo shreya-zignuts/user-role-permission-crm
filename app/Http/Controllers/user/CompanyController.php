@@ -33,13 +33,11 @@ class CompanyController extends Controller
 
   public function create()
   {
-    $userId = Auth::id();
-    // dd($userId);
     $user = Helpers::getUserData();
 
     $company = Company::all();
 
-    return view('content.userside.company.create', compact('user', 'company', 'userId'));
+    return view('content.userside.company.create', compact('user', 'company'));
   }
 
   public function store(Request $request)
@@ -63,8 +61,6 @@ class CompanyController extends Controller
   {
     $user = Helpers::getUserData();
 
-    $userId = Auth::id();
-
     $company = Company::find($id);
 
     if (!$company) {
@@ -73,7 +69,7 @@ class CompanyController extends Controller
         ->with('error', 'Company not found');
     }
 
-    return view('content.userside.company.edit', compact('user', 'company', 'userId'));
+    return view('content.userside.company.edit', compact('user', 'company'));
   }
 
   /**

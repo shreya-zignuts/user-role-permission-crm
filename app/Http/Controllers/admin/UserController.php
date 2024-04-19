@@ -30,21 +30,25 @@ class UserController extends Controller
    */
   public function index(Request $request)
   {
-    $search = $request->search;
-    $filter = $request->filter;
-
     $users = User::query()
-      ->when($search, function ($query) use ($search) {
-        $query->where('first_name', 'like', '%' . $search . '%');
-      })
-      ->when($filter && $filter !== 'all', function ($query) use ($filter) {
-        $query->where('is_active', $filter === 'active');
+      ->where(function ($query) use ($request) {
+        // Search logic
+
+        if ($request->input('search')) {
+          $query
+            ->where('first_name', 'like', "%{$request->input('search')}%")
+            ->orWhere('last_name', 'like', "%{$request->input('search')}%");
+        }
+
+        if ($request->input('filter') && $request->input('filter') !== 'all') {
+          $query->where('is_active', $request->input('filter') === 'active' ? '1' : '0');
+        }
       })
       ->paginate(5);
 
-    $users->appends(['search' => $search, 'filter' => $filter]);
+    $users->appends(['search' => $request->input('search'), 'filter' => $request->input('filter')]);
 
-    return view('content.admin.users.index', compact('users', 'filter'));
+    return view('content.admin.users.index', compact('users'));
   }
 
   /**
@@ -137,7 +141,7 @@ class UserController extends Controller
         ->back()
         ->with('error', 'user not found');
     }
-    $roles = Role::all();
+    $roles = Role::where('is_active', 1)->get();
     return view('content.admin.users.edit-user', compact('user', 'roles'));
   }
 

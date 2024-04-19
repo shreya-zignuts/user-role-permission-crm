@@ -20,33 +20,31 @@ class ActivityLogController extends Controller
     $permissionsArray = Auth::user()->getModulePermissions($user, $moduleCode);
 
     $activityLog = ActivityLog::query()
-      ->when($request->filled(['search', 'filter']), function ($query) use ($request) {
-        // Apply search filter if search query is present
-        if ($request->filled('search')) {
-          $query->where('title', 'like', '%' . $request->input('search') . '%');
+      ->where(function ($query) use ($request) {
+        // Search logic
+
+        if ($request->input('search')) {
+          $query->where('title', 'like', "%{$request->input('search')}%");
         }
 
-        // Apply status filter if filter is selected
-        if ($request->filled('filter') && $request->input('filter') !== 'all') {
-          $query->where('status', $request->input('filter') === 'active' ? 1 : 0);
+        if ($request->input('filter') && $request->input('filter') !== 'all') {
+          $query->where('is_active', $request->input('filter') === 'active' ? '1' : '0');
         }
       })
       ->paginate(5);
 
-    $activityLog->appends([$request->filled('search'), $request->filled('filter')]);
+    $activityLog->appends(['search' => $request->input('search'), 'filter' => $request->input('filter')]);
 
     return view('content.userside.activityLogs.index', compact('user', 'permissionsArray', 'activityLog'));
   }
 
   public function create()
   {
-    $userId = Auth::id();
-    // dd($userId);
     $user = Helpers::getUserData();
 
     $activityLog = ActivityLog::all();
 
-    return view('content.userside.activityLogs.create', compact('user', 'activityLog', 'userId'));
+    return view('content.userside.activityLogs.create', compact('user', 'activityLog'));
   }
 
   public function store(Request $request)
@@ -79,8 +77,6 @@ class ActivityLogController extends Controller
   {
     $user = Helpers::getUserData();
 
-    $userId = Auth::id();
-
     $activityLog = ActivityLog::find($id);
 
     if (!$activityLog) {
@@ -89,7 +85,7 @@ class ActivityLogController extends Controller
         ->with('error', 'Activity Log not found');
     }
 
-    return view('content.userside.activityLogs.edit', compact('user', 'activityLog', 'userId'));
+    return view('content.userside.activityLogs.edit', compact('user', 'activityLog'));
   }
 
   /**

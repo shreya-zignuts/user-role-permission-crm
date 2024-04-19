@@ -104,11 +104,11 @@
                   <div class="input-wrapper mb-3 input-group input-group-md input-group-merge">
                       <span class="input-group-text" id="basic-addon1"><i class="ti ti-search"></i></span>
                       <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
-                          aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
+                          aria-describedby="basic-addon1" value="{{ request()->input('search') }}" />
                       <select class="form-select" id="inputGroupSelect04" name="filter">
-                          <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All activityLogs</option>
-                          <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active activityLogs</option>
-                          <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>Inactive activityLogs</option>
+                          <option value="all" {{ request()->input('filter') == 'all' ? 'selected' : '' }}>All activityLogs</option>
+                          <option value="active" {{ request()->input('filter') == 'active' ? 'selected' : '' }}>Active activityLogs</option>
+                          <option value="inactive" {{ request()->input('filter') == 'inactive' ? 'selected' : '' }}>Inactive activityLogs</option>
                       </select>
                       <button type="submit" class="btn btn-primary">Search & Filter</button>
                   </div>
@@ -180,9 +180,29 @@
                         </td>
                         <td>
                             @if($permissionsArray['edit'] || $permissionsArray['delete'])
-                                <div class="dropdown">
-                                    <!-- Dropdown menu content -->
-                                </div>
+                            <div class="dropdown">
+                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                  <i class="ti ti-dots-vertical"></i>
+                              </button>
+                            <div class="dropdown-menu">
+                              <!-- Edit Button based on Access -->
+                              @if ($permissionsArray['edit'])
+                                  <a class="dropdown-item" href="{{ route('edit-activityLogs', ['id' => $activity->id]) }}">
+                                      <i class="ti ti-pencil me-1"></i> Edit
+                                  </a>
+                              @endif
+                              <!-- Delete Button based on Access -->
+                              @if ($permissionsArray['delete'])
+                                  <form id="deleteActivityLogForm{{ $activity->id }}" method="POST"
+                                      action="{{ route('delete-activityLogs', ['id' => $activity->id]) }}">
+                                      @csrf
+                                      <!-- Delete button trigger modal -->
+                                      <button class="dropdown-item delete-activityLog" data-id="{{ $activity->id }}">
+                                          <i class="ti ti-trash me-1"></i> Delete
+                                      </button>
+                                  </form>
+                              @endif
+                          </div>
                             @endif
                         </td>
                     </tr>

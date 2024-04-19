@@ -65,7 +65,6 @@
                     @csrf
                     <div class="row g-3">
                       {{-- @dd($activityLog->name) --}}
-                      <input type="hidden" id="user_id" name="user_id" value="{{ $userId }}">
                       <div class="col-md-12">
                         <label for="title" class="form-label">Name</label>
                         <input id="name" type="text" class="form-control" name="name" placeholder="name.. ">
@@ -87,9 +86,9 @@
                         <div class="col-md-12">
                             <label class="form-label" for="industry">Industry</label>
                             <textarea id="industry" name="industry" class="form-control" placeholder="industry.. "></textarea>
-                            @error('industry')
+                            {{-- @error('industry')
                                 <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            @enderror --}}
                         </div>
                         <div class="col-md-12">
                           <label class="form-label" for="address">Address</label>

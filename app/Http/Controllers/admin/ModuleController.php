@@ -15,8 +15,6 @@ class ModuleController extends Controller
   {
     $query = Module::query()->whereNull('parent_code');
 
-    $filter = $request->input('filter', 'all');
-
     if ($request->filled('search')) {
       $searchQuery = $request->search;
 
@@ -27,15 +25,13 @@ class ModuleController extends Controller
         });
     }
 
-    if ($filter === 'active') {
-      $query->where('is_active', true);
-    } elseif ($filter === 'inactive') {
-      $query->where('is_active', false);
+    if ($request->input('filter') && $request->input('filter') !== 'all') {
+      $query->where('is_active', $request->input('filter') === 'active' ? '1' : '0');
     }
 
     $modules = $query->with('submodules')->paginate(5);
 
-    return view('content.admin.modules.index', compact('filter', 'modules'));
+    return view('content.admin.modules.index', compact('modules'));
   }
 
   /**

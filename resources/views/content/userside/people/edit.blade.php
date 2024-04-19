@@ -32,8 +32,6 @@
             <h5 class="mt-2">User Management</h5>
             <form class="mt-1" method="POST" action="{{ route('update-people', $people->id) }}">
                 @csrf
-                <input type="hidden" name="user_id" value="{{ $userId }}">
-
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label" for="name">First Name</label>

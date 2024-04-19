@@ -33,13 +33,11 @@ class NotesController extends Controller
 
   public function create()
   {
-    $userId = Auth::id();
-    // dd($userId);
     $user = Helpers::getUserData();
 
     $notes = Note::all();
 
-    return view('content.userside.notes.create', compact('user', 'notes', 'userId'));
+    return view('content.userside.notes.create', compact('user', 'notes'));
   }
 
   public function store(Request $request)
@@ -61,8 +59,6 @@ class NotesController extends Controller
   {
     $user = Helpers::getUserData();
 
-    $userId = Auth::id();
-
     $notes = Note::find($id);
 
     if (!$notes) {
@@ -71,7 +67,7 @@ class NotesController extends Controller
         ->with('error', 'Note not found');
     }
 
-    return view('content.userside.notes.edit', compact('user', 'notes', 'userId'));
+    return view('content.userside.notes.edit', compact('user', 'notes'));
   }
 
   /**

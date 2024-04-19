@@ -14,19 +14,37 @@ class PermissionController extends Controller
    */
   public function index(Request $request)
   {
-    $search = $request->search;
-    $filter = $request->input('filter', 'all');
+    // $permissions = Permission::query()
+    //   ->when($request->filled(['search', 'filter']), function ($query) use ($request) {
+    //     // Apply search filter if search query is present
+    //     if ($request->filled('search')) {
+    //       $query->where('name', 'like', '%' . $request->input('search') . '%');
+    //     }
+
+    //     // Apply status filter if filter is selected
+    //     if ($request->filled('filter') && $request->input('filter') !== 'all') {
+    //       $query->where('is_active', $request->input('filter') === 'active' ? 1 : 0);
+    //     }
+    //   })
+    //   ->paginate(5);
+
+    // $permissions->appends([$request->filled('search'), $request->filled('filter')]);
 
     $permissions = Permission::query()
-      ->when($search, function ($query) use ($search) {
-        $query->where('name', 'like', '%' . $search . '%');
-      })
-      ->when($filter && $filter !== 'all', function ($query) use ($filter) {
-        $query->where('is_active', $filter === 'active');
+      ->where(function ($query) use ($request) {
+        // Search logic
+
+        if ($request->input('search')) {
+          $query->where('name', 'like', "%{$request->input('search')}%");
+        }
+
+        if ($request->input('filter') && $request->input('filter') !== 'all') {
+          $query->where('is_active', $request->input('filter') === 'active' ? '1' : '0');
+        }
       })
       ->paginate(5);
 
-    $permissions->appends(['search' => $search, 'filter' => $filter]);
+    $permissions->appends(['search' => $request->input('search'), 'filter' => $request->input('filter')]);
 
     return view('content.admin.permissions.index', compact('permissions'));
   }
@@ -140,10 +158,6 @@ class PermissionController extends Controller
     return redirect()
       ->route('pages-permissions')
       ->with('success', 'Permission updated successfully');
-
-    return redirect()
-      ->back()
-      ->with('error', 'Your error message here');
   }
 
   /**
