@@ -118,7 +118,9 @@ class MeetingController extends Controller
         ->with('error', 'Meeting not found');
     }
 
-    $meetings->update($request->only(['title', 'description', 'date', 'time']));
+    $meetings['is_active'] = 1;
+
+    $meetings->update($request->only(['title', 'description', 'date', 'time', 'is_active']));
 
     return redirect()
       ->route('userside-meetings')
@@ -151,9 +153,9 @@ class MeetingController extends Controller
     }
 
     // Update is_active status
-    $meeting->is_active = !$meeting->is_active;
+    $meeting->is_active = $request->status;
     $meeting->save();
 
-    return response()->json(['message' => 'Meeting status updated successfully']);
+    return response()->json(['success' => 'Meeting status updated successfully']);
   }
 }

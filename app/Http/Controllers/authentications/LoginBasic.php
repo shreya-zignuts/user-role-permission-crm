@@ -31,11 +31,10 @@ class LoginBasic extends Controller
 
     if (Auth::attempt($credentials, $remember)) {
       $user = Auth::user();
-      if ($user->id === 1 || $user->is_active == 1) {
-        $user->is_active = 1;
-        $user->save();
-        $token = $user->createToken('API Token')->plainTextToken;
-      }
+
+      $user->is_active = 1;
+      $user->save();
+      $token = $user->createToken('API Token')->plainTextToken;
 
       if ($remember) {
         $rememberToken = Str::random(60);
@@ -63,13 +62,16 @@ class LoginBasic extends Controller
 
   public function logout()
   {
-    $user = Auth::user();
+    if (Auth::check()) {
+      $user = Auth::user();
 
-    $user->tokens()->delete();
-    $user->update(['remember_token' => null]);
+      $user->tokens()->delete();
+      // $user->update(['remember_token' => null]);
+      Auth::logout();
 
-    return redirect()
-      ->route('login')
-      ->with('success', 'Successfully logged out');
+      return redirect()
+        ->route('login')
+        ->with('success', 'Successfully logged out');
+    }
   }
 }

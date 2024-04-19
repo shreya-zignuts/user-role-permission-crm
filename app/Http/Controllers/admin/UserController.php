@@ -314,9 +314,6 @@ class UserController extends Controller
     $user->tokens()->delete();
     // dd($user->tokens()->delete());
 
-    // $user->is_active = 0;
-    $user->save();
-
     return redirect()
       ->back()
       ->with('success', 'User Logged Out Forcefully.');

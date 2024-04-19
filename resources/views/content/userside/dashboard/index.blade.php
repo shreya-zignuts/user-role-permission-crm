@@ -225,7 +225,7 @@
                           <span>
                               <td>
                                   @foreach ($user->roles as $role)
-                                      <span>{{ $role->name }}, </span>
+                                      <span>{{ $role->name }} </span>
                                   @endforeach
                               </td>
                           </span>

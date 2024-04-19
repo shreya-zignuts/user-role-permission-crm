@@ -105,7 +105,7 @@ Route::middleware(['auth', 'permission', 'admin.check'])
     });
   });
 
-Route::middleware(['auth', 'user.check'])->group(function () use ($controller_path) {
+Route::middleware(['auth', 'user.check', 'permission'])->group(function () use ($controller_path) {
   Route::prefix('userside')->group(function () use ($controller_path) {
     Route::get('/', $controller_path . '\user\UserSideController@index')->name('user-dashboard');
     Route::get('/users-modules', $controller_path . '\user\UserSideController@showModules')->name('users-modules');

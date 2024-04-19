@@ -183,17 +183,18 @@
                         <td>{{ $meeting->time }}</td>
                         <td>
 
-                          <form method="post" action="{{ route('meetings-status', ['id' => $meeting->id]) }}">
-                            @csrf
-                            <label class="switch">
-                              <input data-id="{{ $meeting->id }}" class="switch-input" type="checkbox"
-                              data-toggle="toggle" data-onstyle="success" {{ $meeting->is_active ? 'checked' : '' }}>
+                        <label class="switch">
+                        <input type="checkbox" class="switch-input"
+                                data-id="{{ $meeting->id }}"
+                                {{ $meeting->is_active ? 'checked' : '' }}
+                                data-date="{{ $meeting->date }}"
+                                data-time="{{ $meeting->time }}"
+                                data-route="{{ route('meetings-status', ['id' => $meeting->id]) }}" data-toggle="toggle">
                                 <span class="switch-toggle-slider">
-                                    <span class="switch-on"></span>
-                                    <span class="switch-off"></span>
-                                </span>
-                            </label>
-                        </form>
+                                  <span class="meetingDate d-none">{{ $meeting->date }}</span>
+                                  <span class="meetingTime d-none">{{ $meeting->time }}</span>
+                              </span>
+                        </label>
                         </td>
                         <td>
                             @if ($permissionsArray['edit'] || $permissionsArray['delete'])
@@ -312,65 +313,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-  $('.switch-input').change(function() {
+  $(document).ready(function() {
+      $('.switch-input').each(function() {
+          var toggleSwitch = $(this);
+          var id = $(this).data('id');
+          var meetingDate = new Date(toggleSwitch.data('date') + 'T' + toggleSwitch.data('time'));
+          var isChecked = toggleSwitch.prop('checked');
+          console.log(meetingDate);
+          if (meetingDate < new Date() && isChecked) {
 
-      var status = $(this).prop('checked') == true ? 1 : 0;
-      var id = $(this).data('id');
-
-      Swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, toggle it!',
-          customClass: {
-              confirmButton: 'btn btn-primary me-3',
-              cancelButton: 'btn btn-label-secondary'
-          },
-          buttonsStyling: false
-      }).then(function(result) {
-          if (result.isConfirmed) {
+              toggleSwitch.prop('checked', false); // Uncheck the toggle switch
               $.ajax({
-
-                  type: "GET",
-                  dataType: "json",
-                  url: "/userside/modules/meeting/change-status/" + id,
-                  data: {
-                      'is_active': status,
-                      'id': id
-                  },
-
-                  success: function(data) {
-                      console.log(data.success)
-
-                      Swal.fire({
-                          icon: 'success',
-                          title: 'Changed!',
-                          text: 'Toggle status for activity log is changed',
-                          customClass: {
-                              confirmButton: 'btn btn-success'
-                          }
-                      }).then(function() {
-                          window.location.reload();
-                      });
-                  },
-                  error: function(xhr, status, error) {
-                      console.error(xhr.responseText);
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: 'Something went wrong!',
-                          customClass: {
-                              confirmButton: 'btn btn-danger'
-                          }
-                      });
-                  }
-              });
+              type: "get",
+              dataType: "json",
+              url: toggleSwitch.data('route'),
+              data: {
+                  '_token': '{{ csrf_token() }}',
+                  'status': '0',
+                  'id': id
+              }
+            });
           }
       });
-
-
-  })
+  });
 </script>
+
 
 @endsection
