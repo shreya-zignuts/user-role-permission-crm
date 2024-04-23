@@ -56,21 +56,32 @@ class UserSideController extends Controller
       ->with('success', 'User updated successfully.');
   }
 
+  /**
+   * Reset password from user side by user
+   */
   public function resetPassword(Request $request)
   {
     $request->validate([
       'email' => 'required|email',
+      'current_password' => 'required|string',
       'password' => 'required|string|min:8|confirmed',
     ]);
 
     $email = $request->email;
+    $currentPassword = $request->current_password;
 
     $user = User::where('email', $email)->first();
 
     if (!$user) {
       return redirect()
         ->back()
-        ->with('error', 'User not exists.');
+        ->with('error', 'User does not exist.');
+    }
+
+    if (!Hash::check($currentPassword, $user->password)) {
+      return redirect()
+        ->back()
+        ->with('error', 'Current password is incorrect.');
     }
 
     $user->password = Hash::make($request->password);
@@ -79,7 +90,7 @@ class UserSideController extends Controller
     Auth::login($user);
 
     return redirect()
-      ->route('user-dashboard')
-      ->with('success', 'Password Reset Successfull');
+      ->route('login')
+      ->with('success', 'Password reset successful.');
   }
 }
