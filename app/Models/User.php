@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Passport\Token;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -67,24 +68,24 @@ class User extends Authenticatable
     return $this->belongsTo(User::class, 'updated_by');
   }
 
-  // public function getModulesWithPermissions()
-  // {
-  //   $modules = collect();
-  //   foreach ($this->roles as $role) {
-  //     foreach ($role->permissions as $permission) {
-  //       $modules = $modules->merge(
-  //         $permission->modules->filter(function ($module) {
-  //           return $module->pivot->add_access ||
-  //             $module->pivot->view_access ||
-  //             $module->pivot->edit_access ||
-  //             $module->pivot->delete_access;
-  //         })
-  //       );
-  //     }
-  //   }
+  protected static function booted()
+  {
+    // Set "created_by" and "updated_by" values when creating a new record
+    static::creating(function ($model) {
+      $user = Auth::user();
+      if ($user) {
+        $model->created_by = $user->id;
+      }
+    });
 
-  //   return $modules->unique('code');
-  // }
+    // Set "updated_by" value when updating an existing record
+    static::updating(function ($model) {
+      $user = Auth::user();
+      if ($user) {
+        $model->updated_by = $user->id;
+      }
+    });
+  }
 
   public function getModulesWithPermissions()
   {
@@ -108,37 +109,6 @@ class User extends Authenticatable
     // Ensure unique modules based on code
     return $modules->unique('code');
   }
-
-  // public function getModulesWithPermissions()
-  // {
-  //   $modules = collect();
-
-  //   foreach ($this->roles as $role) {
-  //     foreach ($role->permissions as $permission) {
-  //       // Retrieve modules and submodules with permissions
-  //       $modules = $modules->merge(
-  //         $permission
-  //           ->modules()
-  //           ->with([
-  //             'submodules' => function ($query) use ($permission) {
-  //               $query->whereHas('permissions', function ($subQuery) use ($permission) {
-  //                 $subQuery->where('permission_id', $permission->id)->where(function ($q) {
-  //                   $q->where('add_access', 1)
-  //                     ->orWhere('view_access', 1)
-  //                     ->orWhere('edit_access', 1)
-  //                     ->orWhere('delete_access', 1);
-  //                 });
-  //               });
-  //             },
-  //           ])
-  //           ->get()
-  //       );
-  //     }
-  //   }
-
-  //   // Return unique modules with permitted submodules
-  //   return $modules->unique('code');
-  // }
 
   public static function getModulePermissions($user, $moduleCode)
   {

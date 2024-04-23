@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Module;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,5 +52,24 @@ class Permission extends Model
     return $this->modules()
       ->where('module_code', $moduleCode)
       ->value($accessColumnName) == 1;
+  }
+
+  protected static function booted()
+  {
+    // Set "created_by" and "updated_by" values when creating a new record
+    static::creating(function ($model) {
+      $user = Auth::user();
+      if ($user) {
+        $model->created_by = $user->id;
+      }
+    });
+
+    // Set "updated_by" value when updating an existing record
+    static::updating(function ($model) {
+      $user = Auth::user();
+      if ($user) {
+        $model->updated_by = $user->id;
+      }
+    });
   }
 }

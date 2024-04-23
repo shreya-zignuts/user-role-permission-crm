@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
-  use HasFactory,SoftDeletes;
+  use HasFactory, SoftDeletes;
 
   protected $fillable = ['name', 'owner_name', 'industry', 'address', 'user_id'];
 
@@ -25,5 +26,24 @@ class Company extends Model
   public function updatedBy()
   {
     return $this->belongsTo(User::class, 'updated_by');
+  }
+
+  protected static function booted()
+  {
+    // Set "created_by" and "updated_by" values when creating a new record
+    static::creating(function ($model) {
+      $user = Auth::user();
+      if ($user) {
+        $model->created_by = $user->id;
+      }
+    });
+
+    // Set "updated_by" value when updating an existing record
+    static::updating(function ($model) {
+      $user = Auth::user();
+      if ($user) {
+        $model->updated_by = $user->id;
+      }
+    });
   }
 }

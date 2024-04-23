@@ -117,9 +117,6 @@
                                 <h4>{{ $user->first_name }}</h4>
                                 <ul
                                     class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                                    {{-- <li class="list-inline-item">
-                      <i class='ti ti-map-pin'></i> {{ $user->address}}
-                    </li> --}}
                                     @php
                                         if ($user->is_active == 1) {
                                             echo '<li class="list-inline-item">
@@ -135,12 +132,6 @@
                                 </ul>
                             </div>
                             <div>
-                                {{-- <a href="{{ route('edit-user-profile', ['id' => $user->id]) }}" class="btn btn-primary">
-                                    <i class='ti ti-edit me-1'></i>Edit Profile
-                                </a> --}}
-                                {{-- <a href="{{ route('edit-user-profile', ['id' => $user->id]) }}" class="btn btn-primary">
-                    <i class='ti ti-edit me-1'></i>Edit Password
-                  </a> --}}
                                 <a href="#" data-bs-target="#addProfileModal" data-bs-toggle="modal"
                                     class="btn text-nowrap btn-primary" data-user-email="{{ $user->email }}"
                                     onclick="setUserDetails('{{ $user->id }}', '{{ $user->email }}')">
@@ -159,42 +150,6 @@
             </div>
         </div>
     </div>
-    {{-- <div class="row">
-        <!-- About User -->
-        <div class="card mb-4 w-100">
-            <div class="card-body ">
-                <small class="card-text text-uppercase">About</small>
-                <ul class="list-unstyled mb-4 mt-3">
-                    <li class="d-flex align-items-center mb-3"><i class="ti ti-user"></i><span class="fw-bold mx-2">Full
-                            Name:</span> <span>{{ $user->first_name }} {{ $user->last_name }}</span></li>
-                    <li class="d-flex align-items-center mb-3"><i class="ti ti-check"></i><span
-                            class="fw-bold mx-2">Status:
-                              @if ($user->is_active === 1)
-                               <span class="badge bg-label-success">Active</span>
-                              @else
-                              <span class="badge bg-label-danger">Deactive</span>
-                                @endif
-                              </span></li>
-                    <li class="d-flex align-items-center mb-3"><i class="ti ti-crown"></i><span
-                            class="fw-bold mx-2">Role:</span> <span>
-                              <td>
-                                    @foreach ($user->roles as $role)
-                                        <span>{{ $role->name }}, </span>
-                                    @endforeach
-                            </td></span></li>
-                </ul>
-                <small class="card-text text-uppercase">Contacts</small>
-                <ul class="list-unstyled mb-4 mt-3">
-                    <li class="d-flex align-items-center mb-3"><i class="ti ti-phone-call"></i><span
-                            class="fw-bold mx-2">Contact:</span> <span>{{ $user->phone_number }}</span></li>
-                    <li class="d-flex align-items-center mb-3"><i class="ti ti-mail"></i><span
-                            class="fw-bold mx-2">Email:</span> <span>{{ $user->email }}</span></li>
-                </ul>
-
-            </div>
-        </div>
-    </div> --}}
-
 
     <div class="row">
         <!-- About User -->
