@@ -358,7 +358,7 @@
                                 <div class="input-group input-group-merge">
                                     <input type="email" id="email" name="email" class="form-control"
                                         placeholder="john.doe" aria-label="john.doe" aria-describedby="emailSuffix"
-                                        value="{{ $user->email }}" />
+                                        value="{{ $user->email }}" readonly style="background-color: rgb(227, 225, 225)"/>
                                     <span class="input-group-text" id="emailSuffix">@gmail.com</span>
                                 </div>
                             </div>
