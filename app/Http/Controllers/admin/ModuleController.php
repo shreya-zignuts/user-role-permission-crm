@@ -37,15 +37,11 @@ class ModuleController extends Controller
       // dd($isActive);
       $query->where('is_active', $isActive);
 
-      // Apply condition to submodules based on is_active column
       $query->with([
         'submodules' => function ($query) use ($isActive) {
           $query->where('is_active', $isActive);
         },
       ]);
-    } else {
-      // Include all submodules by default when no filter is applied
-      $query->with('submodules');
     }
 
     $modules = $query->get();
