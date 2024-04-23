@@ -14,22 +14,6 @@ class RoleController extends Controller
    */
   public function index(Request $request)
   {
-    // $roles = Role::query()
-    //   ->when($request->filled(['search', 'filter']), function ($query) use ($request) {
-    //     // Apply search filter if search query is present
-    //     if ($request->filled('search')) {
-    //       $query->where('name', 'like', '%' . $request->input('search') . '%');
-    //     }
-
-    //     // Apply status filter if filter is selected
-    //     if ($request->filled('filter') && $request->input('filter') !== 'all') {
-    //       $query->where('is_active', $request->input('filter') === 'active' ? 1 : 0);
-    //     }
-    //   })
-    //   ->paginate(5);
-
-    // $roles->appends([$request->filled('search'), $request->filled('filter')]);
-
     $roles = Role::query()
       ->where(function ($query) use ($request) {
         // Search logic

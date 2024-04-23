@@ -25,11 +25,30 @@ class ModuleController extends Controller
         });
     }
 
+    // if ($request->input('filter') && $request->input('filter') !== 'all') {
+    //   $query->where('is_active', $request->input('filter') === 'active' ? '1' : '0');
+    // }
+
+    // $modules = $query->with('submodules')->paginate(5);
+
     if ($request->input('filter') && $request->input('filter') !== 'all') {
-      $query->where('is_active', $request->input('filter') === 'active' ? '1' : '0');
+      $isActive = $request->input('filter') === 'active' ? '1' : '0';
+
+      // dd($isActive);
+      $query->where('is_active', $isActive);
+
+      // Apply condition to submodules based on is_active column
+      $query->with([
+        'submodules' => function ($query) use ($isActive) {
+          $query->where('is_active', $isActive);
+        },
+      ]);
+    } else {
+      // Include all submodules by default when no filter is applied
+      $query->with('submodules');
     }
 
-    $modules = $query->with('submodules')->paginate(5);
+    $modules = $query->get();
 
     return view('content.admin.modules.index', compact('modules'));
   }

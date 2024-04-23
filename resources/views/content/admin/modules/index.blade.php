@@ -143,6 +143,7 @@
                                         src="https://cdn-icons-png.flaticon.com/512/6543/6543495.png" width="30px"
                                         alt=""></a></td>
                         </tr>
+
                         <tr>
                             <td colspan="5" class="collapse" id="module_{{ $module->code }}">
                                 <table class="table">
@@ -156,6 +157,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                      @if ($module->is_active && $module->submodules->where('is_active', true)->isEmpty() && $module->submodules->isEmpty())
+                    <tr>
+                        <td colspan="5" class="text-center font-weight-bold">No active submodules for this module.</td>
+                    </tr>
+                @endif
                                         @foreach ($module->submodules as $submodule)
                                             <tr style="text-align: center">
                                                 <td>{{ $submodule->name }}</td>
@@ -190,11 +196,6 @@
                     @endforeach
                 @endif
             </table>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            {{ $modules->links('pagination::bootstrap-5') }}
         </div>
     </div>
 
