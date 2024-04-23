@@ -101,20 +101,34 @@
     <div class="row mt-0">
         <div class="col-12">
             <div class="card w-100">
-                <div class="user-profile-header-banner">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQalBxRsDShn2VxCkK0ReLHxKit4x1zN-Xw1a4SaOKMjw&s"
+                {{-- <div class="user-profile-header-banner">
+                    <img src="https://t4.ftcdn.net/jpg/02/50/21/71/360_F_250217162_4yeIXJusO52Rk1QJVSltZcwMUj7SOn7I.jpg"
                         alt="Banner image" class="rounded-top">
+                </div> --}}
+
+                <div class="user-profile-header-banner position-relative">
+                    <img src="{{ asset('assets/img/pages/userbackground.webp')}}"
+                        alt="Banner image" class="rounded-top">
+                    <div id="quoteOverlay" class="position-absolute top-50 start-50 translate-middle text-center"
+                        style="font-size: 3rem; font-family: 'Segoe UI', sans-serif; color: #c5c3dc; text-shadow: 2px 2px 4px rgba(60, 46, 216, 0.71);">
+                        <?php
+                        $quotes = ['dream big', 'stay focused', 'never give up', 'work hard', 'believe', 'stay positive','keep smiling', 'keep going', 'you got this', 'fearless', 'take risks'];
+
+                        // Select a random quote from the array
+                        $randomQuote = $quotes[array_rand($quotes)];
+                        echo "<script>const randomQuote = \"$randomQuote\";</script>";
+                        ?></div>
                 </div>
-                <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-3">
                     <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                        <img src="https://www.pngitem.com/pimgs/m/248-2483089_ubud-monkey-forest-flat-design-flat-icon-person.png"
-                            alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                        <img src="{{ asset('assets/img/avatars/9.png')}}"
+                            alt="user image" class="d-block ms-0 ms-sm-4 rounded rounded-circle user-profile-img mt-5 mb-1" height="auto">
                     </div>
                     <div class="flex-grow-1 mt-3 mt-sm-5">
                         <div
                             class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
-                            <div class="user-profile-info">
-                                <h4>{{ $user->first_name }}</h4>
+                            <div class="user-profile-info mt-3">
+                                <h4>{{ $user->first_name }} {{ $user->last_name }}</h4>
                                 <ul
                                     class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                     @php
@@ -132,12 +146,12 @@
                                 </ul>
                             </div>
                             <div>
-                                <a href="#" data-bs-target="#addProfileModal" data-bs-toggle="modal"
+                                <a href="" data-bs-target="#addProfileModal" data-bs-toggle="modal"
                                     class="btn text-nowrap btn-primary" data-user-email="{{ $user->email }}"
                                     onclick="setUserDetails('{{ $user->id }}', '{{ $user->email }}')">
                                     <i class='ti ti-edit me-1'></i>Edit Profile
                                 </a>
-                                <a href="#" data-bs-target="#addRoleModal" data-bs-toggle="modal"
+                                <a href="" data-bs-target="#addRoleModal" data-bs-toggle="modal"
                                     class="btn text-nowrap btn-primary reset-password-btn"
                                     data-user-email="{{ $user->email }}"
                                     onclick="setUserDetails('{{ $user->id }}', '{{ $user->email }}')">
@@ -226,7 +240,7 @@
                 <div class="modal-body">
                     <div class="text-center mb-4">
                         <h3 class="role-title mb-2">Set New Password</h3>
-                        <p class="text-muted">Set password for user</p>
+                        <p class="text-muted">Set your new password</p>
                     </div>
                     <form method="POST" action="{{ route('user-reset-password') }}">
                         @csrf
@@ -287,7 +301,6 @@
                     <form method="POST" action="{{ route('update-user-profile', $user->id) }}">
                         @csrf
                         {{-- User Personal Info --}}
-                        <h6 class="text-center h6">Your Personal Info</h6>
                         <div class="row g-3 mt-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="first_name">First Name</label>
@@ -308,7 +321,7 @@
                                 <div class="input-group input-group-merge">
                                     <input type="email" id="email" name="email" class="form-control"
                                         placeholder="john.doe" aria-label="john.doe" aria-describedby="emailSuffix"
-                                        value="{{ $user->email }}" readonly style="background-color: rgb(227, 225, 225)"/>
+                                        value="{{ $user->email }}" readonly style="background-color: #f7f2f2" />
                                     <span class="input-group-text" id="emailSuffix">@gmail.com</span>
                                 </div>
                             </div>
@@ -320,8 +333,8 @@
                             </div>
                         </div>
 
-                        <div class="pt-4">
-                            <button type="submit" class="btn btn-primary me-sm-3 me-1">Update</button>
+                        <div class="mt-5 text-center">
+                            <button class="btn btn-primary">Update</button>
                             <a href="{{ route('user-dashboard') }}" class="btn btn-label-secondary">Cancel</a>
                         </div>
                     </form>
@@ -335,6 +348,14 @@
             document.getElementById('userId').value = userId;
             document.getElementById('userEmail').value = userEmail;
         }
+    </script>
+
+    <script>
+        // Display random quote in the banner overlay
+        document.addEventListener('DOMContentLoaded', function() {
+            const quoteOverlay = document.getElementById('quoteOverlay');
+            quoteOverlay.innerHTML = `<p class="quote-text">${randomQuote}</p>`;
+        });
     </script>
 
 @endsection

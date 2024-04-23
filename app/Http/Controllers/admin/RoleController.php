@@ -127,9 +127,9 @@ class RoleController extends Controller
 
     $role->update($data);
 
-    $roles = $request->input('roles', []);
+    $permissions = $request->input('permissions', []);
 
-    $role->permissions()->sync($roles);
+    $role->permissions()->sync($permissions);
 
     return redirect()
       ->route('pages-roles')
