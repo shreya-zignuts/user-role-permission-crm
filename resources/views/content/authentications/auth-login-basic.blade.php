@@ -146,7 +146,7 @@
                             </div>
                             <div class="mb-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                    <input class="form-check-input" type="checkbox" id="remember" name="remember" {{ $rememberChecked ? 'checked' : '' }}>
                                     <label class="form-check-label" for="remember">
                                         Remember Me
                                     </label>
@@ -161,4 +161,15 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+              function validateForm() {
+                  const rememberCheckbox = document.getElementById('remember');
+                  if (!rememberCheckbox.checked) {
+                      alert('Remember Me functionality disabled.');
+                      return false; // Prevent form submission
+                  }
+                  return true; // Allow form submission
+              }
+          </script>
         @endsection

@@ -98,7 +98,7 @@
     @endif
 
     <!-- Header -->
-    <div class="row mt-0">
+    <div class="row">
         <div class="col-12">
             <div class="card w-100">
                 {{-- <div class="user-profile-header-banner">
@@ -165,7 +165,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-3">
         <!-- About User -->
         <div class="col-md-6">
             <div class="card w-100">
@@ -247,7 +247,7 @@
                         <input type="hidden" name="id" id="userId" class="form-control">
                         <div class="mb-3 form-password-toggle">
                             <input type="hidden" name="email" id="userEmail" class="form-control" required autofocus
-                                readonly
+                                disabled
                                 style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 0.375rem 0.75rem; line-height: 1.5; background-color: #e9ecef; opacity: 1;">
                         </div>
                         <div class="mb-3">
@@ -321,7 +321,7 @@
                                 <div class="input-group input-group-merge">
                                     <input type="email" id="email" name="email" class="form-control"
                                         placeholder="john.doe" aria-label="john.doe" aria-describedby="emailSuffix"
-                                        value="{{ $user->email }}" readonly style="background-color: #f7f2f2" />
+                                        value="{{ $user->email }}" disabled />
                                     <span class="input-group-text" id="emailSuffix">@gmail.com</span>
                                 </div>
                             </div>

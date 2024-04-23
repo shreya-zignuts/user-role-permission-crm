@@ -252,8 +252,7 @@
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="email">Email</label>
                                 <input type="email" name="email" id="userEmail" class="form-control" required
-                                    autofocus readonly
-                                    style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 0.375rem 0.75rem; line-height: 1.5; background-color: #e9ecef; opacity: 1;">
+                                    autofocus disabled/>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">New Password</label>

@@ -16,7 +16,12 @@ class LoginBasic extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
 
-    return view('content.authentications.auth-login-basic', ['pageConfigs' => $pageConfigs]);
+    $rememberChecked = session()->has('login.remember') ? true : false;
+
+    return view('content.authentications.auth-login-basic', [
+      'pageConfigs' => $pageConfigs,
+      'rememberChecked' => $rememberChecked,
+    ]);
   }
 
   public function login(Request $request)
@@ -27,6 +32,10 @@ class LoginBasic extends Controller
     ]);
 
     $credentials = $request->only('email', 'password');
+
+    $rememberChecked = $request->has('remember') ? true : false;
+    session(['login.remember' => $rememberChecked]);
+
     $remember = $request->remember;
 
     if (Auth::attempt($credentials, $remember)) {

@@ -8,13 +8,16 @@
 
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/cards-statistics.js') }}"></script>
+
 @endsection
 
 @section('content')
+
     @if (session('error'))
         <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true"
             data-bs-delay="2000"
@@ -79,8 +82,8 @@
 
     <div class="row">
         <div class="col-lg-6 col-sm-6 mb-4">
-            <div class="card h-100 text-center">
-                <div class="card-body pb-0">
+            <div class="card h-px-250 text-center w-px-500">
+                <div class="card-body pb-0 mt-5">
                     <div class="card-icon">
                         <div class="user-count-container d-flex flex-column align-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -104,8 +107,8 @@
 
         <!-- Quarterly Sales -->
         <div class="col-lg-6 col-sm-6 mb-4">
-            <div class="card h-100 text-center">
-                <div class="card-body pb-0">
+          <div class="card h-px-250 text-center w-px-500">
+            <div class="card-body pb-0 mt-5">
                     <div class="card-icon">
                         <div class="user-count-container d-flex flex-column align-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -129,8 +132,8 @@
 
         <!-- Order Received -->
         <div class="col-lg-6 col-sm-6 mb-4">
-            <div class="card h-100 text-center">
-                <div class="card-body pb-0">
+          <div class="card h-px-250 text-center w-px-500">
+            <div class="card-body pb-0 mt-5">
                     <div class="card-icon">
                         <div class="user-count-container d-flex flex-column align-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -154,8 +157,8 @@
 
         <!-- Revenue Generated -->
         <div class="col-lg-6 col-sm-6 mb-4">
-            <div class="card h-100 text-center">
-                <div class="card-body pb-0">
+          <div class="card h-px-250 text-center w-px-500">
+            <div class="card-body pb-0 mt-5">
                     <div class="card-icon">
                         <div class="user-count-container d-flex flex-column align-items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -177,4 +180,7 @@
             </div>
         </div>
     </div>
+
+
+
 @endsection
