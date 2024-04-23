@@ -111,11 +111,11 @@
                             aria-describedby="basic-addon1" value="{{ request()->input('search') }}" />
                         <select class="form-select" id="inputGroupSelect04" name="filter">
                             <option value="all" {{ request()->input('filter') == 'all' ? 'selected' : '' }}>All
-                                activityLogs</option>
+                                User</option>
                             <option value="active" {{ request()->input('filter') == 'active' ? 'selected' : '' }}>Active
-                                activityLogs</option>
+                                User</option>
                             <option value="inactive" {{ request()->input('filter') == 'inactive' ? 'selected' : '' }}>
-                                Inactive activityLogs</option>
+                                Inactive User</option>
                         </select>
                         <button type="submit" class="btn btn-primary">Search & Filter</button>
                     </div>

@@ -105,12 +105,12 @@
                         <input type="text" class="form-control" placeholder="Search" name="search" aria-label="Search"
                             aria-describedby="basic-addon1" value="{{ request()->query('search') }}" />
                         <select class="form-select" id="inputGroupSelect04" name="filter">
-                            <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All roles
+                            <option value="all" {{ request()->query('filter') == 'all' ? 'selected' : '' }}>All Roles
                             </option>
                             <option value="active" {{ request()->query('filter') == 'active' ? 'selected' : '' }}>Active
-                                roles</option>
+                                Roles</option>
                             <option value="inactive" {{ request()->query('filter') == 'inactive' ? 'selected' : '' }}>
-                                Inactive roles</option>
+                                Inactive Roles</option>
                         </select>
                         <button type="submit" class="btn btn-primary">Search & Filter</button>
                     </div>
