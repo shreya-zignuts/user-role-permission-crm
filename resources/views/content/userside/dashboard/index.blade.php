@@ -101,10 +101,6 @@
     <div class="row">
         <div class="col-12">
             <div class="card w-100">
-                {{-- <div class="user-profile-header-banner">
-                    <img src="https://t4.ftcdn.net/jpg/02/50/21/71/360_F_250217162_4yeIXJusO52Rk1QJVSltZcwMUj7SOn7I.jpg"
-                        alt="Banner image" class="rounded-top">
-                </div> --}}
 
                 <div class="user-profile-header-banner position-relative">
                     <img src="{{ asset('assets/img/pages/userbackground.webp')}}"
@@ -351,7 +347,6 @@
     </script>
 
     <script>
-        // Display random quote in the banner overlay
         document.addEventListener('DOMContentLoaded', function() {
             const quoteOverlay = document.getElementById('quoteOverlay');
             quoteOverlay.innerHTML = `<p class="quote-text">${randomQuote}</p>`;
