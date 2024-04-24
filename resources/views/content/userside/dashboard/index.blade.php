@@ -100,7 +100,7 @@
     <!-- Header -->
     <div class="row">
         <div class="col-12">
-            <div class="card w-100">
+            <div class="card w-100 mt-4">
 
                 <div class="user-profile-header-banner position-relative">
                     <img src="{{ asset('assets/img/pages/userbackground.webp') }}" alt="Banner image" class="rounded-top">
@@ -163,7 +163,7 @@
     <div class="row mt-3">
         <!-- About User -->
         <div class="col-md-6">
-            <div class="card w-100">
+            <div class="card w-100 h-100 mt-2">
                 <div class="card-body">
                     <small class="card-text text-uppercase">About</small>
                     <ul class="list-unstyled mb-4 mt-3">
@@ -201,7 +201,7 @@
 
         <!-- Contact User -->
         <div class="col-md-6">
-            <div class="card w-100">
+            <div class="card w-100 h-100 mt-2">
                 <div class="card-body">
                     <small class="card-text text-uppercase">Contacts</small>
                     <ul class="list-unstyled mb-4 mt-3">
@@ -216,10 +216,11 @@
                             <span>{{ $user->email }}</span>
                         </li>
                         <li class="d-flex align-items-center mb-3">
-                            <i class="ti ti-mail"></i>
-                            <span class="fw-bold mx-2">Address:</span>
-                            <span>{{ $user->address }}</span>
-                        </li>
+                          <i class="ti ti-home"></i>
+                          <span class="fw-bold mx-2">Address:</span>
+                          <span>{{ $user->address }}</span>
+                      </li>
+
                     </ul>
                 </div>
             </div>
