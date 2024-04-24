@@ -25,8 +25,8 @@
         <div class="modal-content p-3 p-md-5 align-content-center w-50">
             <div class="modal-body">
                 <h3 class="text-center mb-4">Create Role <img
-                  src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png"
-                  width="27px" class="mb-1" alt=""></h3>
+                        src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png" width="27px" class="mb-1"
+                        alt=""></h3>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">

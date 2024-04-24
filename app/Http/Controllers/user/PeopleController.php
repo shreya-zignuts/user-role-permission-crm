@@ -61,7 +61,7 @@ class PeopleController extends Controller
 
     return redirect()
       ->route('userside-people')
-      ->with('success', 'User created successfully.');
+      ->with('success', 'People created successfully.');
   }
 
   public function edit($id)
@@ -104,7 +104,7 @@ class PeopleController extends Controller
 
     return redirect()
       ->route('userside-people')
-      ->with('success', 'User updated successfully.');
+      ->with('success', 'People updated successfully.');
   }
 
   public function delete($id)
@@ -120,7 +120,7 @@ class PeopleController extends Controller
 
     return redirect()
       ->route('userside-people')
-      ->with('success', 'User deleted successfully');
+      ->with('success', 'People deleted successfully');
   }
 
   public function toggleStatus(Request $request, $id)

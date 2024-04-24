@@ -30,9 +30,8 @@
                     </div>
                 @endif
 
-                <h5 class="mt-2">User Management <img
-                  src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png"
-                  width="27px" class="mb-1" alt=""></h5>
+                <h5 class="mt-2">User Management <img src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png"
+                        width="27px" class="mb-1" alt=""></h5>
                 <form class="mt-1" method="POST" action="{{ route('store-user') }}">
                     @csrf
                     <input type="hidden" name="send_invitation_email" value="1">

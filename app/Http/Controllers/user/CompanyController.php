@@ -54,7 +54,7 @@ class CompanyController extends Controller
 
     return redirect()
       ->route('userside-company')
-      ->with('success', 'User created successfully.');
+      ->with('success', 'Company created successfully.');
   }
 
   public function edit($id)
@@ -96,7 +96,7 @@ class CompanyController extends Controller
 
     return redirect()
       ->route('userside-company')
-      ->with('success', 'User updated successfully.');
+      ->with('success', 'Company updated successfully.');
   }
 
   public function delete($id)
@@ -112,6 +112,6 @@ class CompanyController extends Controller
 
     return redirect()
       ->route('userside-company')
-      ->with('success', 'User deleted successfully');
+      ->with('success', 'Company deleted successfully');
   }
 }

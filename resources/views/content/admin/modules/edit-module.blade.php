@@ -27,6 +27,7 @@
 @endsection
 
 @section('content')
+
 <div class="container mt-5"> <!-- Added mt-5 for margin top -->
   <div class="row justify-content-center">
       <div class="col-md-8"> <!-- Adjusted column width to md-8 -->

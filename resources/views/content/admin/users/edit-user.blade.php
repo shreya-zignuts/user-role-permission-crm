@@ -17,12 +17,21 @@
 @endsection
 
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="d-flex justify-content-center mt-3">
         <div class="modal-content p-3 p-md-5 w-75 align-content-center">
             <div class="modal-body">
-                <h3>Edit User <img
-                  src="https://cdn-icons-png.freepik.com/256/683/683305.png?semt=ais_hybrid"
-                  width="25px" class="mb-1" alt=""></h3>
+                <h3>Edit User <img src="https://cdn-icons-png.freepik.com/256/683/683305.png?semt=ais_hybrid" width="25px"
+                        class="mb-1" alt=""></h3>
 
                 <form method="POST" action="{{ route('update-user', $user->id) }}">
                     @csrf
@@ -46,7 +55,7 @@
                             <div class="input-group input-group-merge">
                                 <input type="email" id="email" name="email" class="form-control"
                                     placeholder="john.doe" aria-label="john.doe" aria-describedby="emailSuffix"
-                                    value="{{ $user->email }}" disabled/>
+                                    value="{{ $user->email }}" disabled />
                                 <span class="input-group-text" id="emailSuffix">@gmail.com</span>
                             </div>
                         </div>

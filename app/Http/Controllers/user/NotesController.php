@@ -52,7 +52,7 @@ class NotesController extends Controller
 
     return redirect()
       ->route('userside-notes')
-      ->with('success', 'User created successfully.');
+      ->with('success', 'Note created successfully.');
   }
 
   public function edit($id)
@@ -92,7 +92,7 @@ class NotesController extends Controller
 
     return redirect()
       ->route('userside-notes')
-      ->with('success', 'User updated successfully.');
+      ->with('success', 'Note updated successfully.');
   }
 
   public function delete($id)
@@ -108,6 +108,6 @@ class NotesController extends Controller
 
     return redirect()
       ->route('userside-notes')
-      ->with('success', 'User deleted successfully');
+      ->with('success', 'Note deleted successfully');
   }
 }

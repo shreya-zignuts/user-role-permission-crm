@@ -38,7 +38,7 @@
 
 @section('content')
     @if (session('error'))
-        <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive"
+        <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000"
             style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
             <div class="toast-header bg-danger text-white"
@@ -67,7 +67,7 @@
     @endif
 
     @if (session('success'))
-        <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive"
+        <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000"
             style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
             <div class="toast-header bg-success text-white"

@@ -30,23 +30,8 @@
                     </div>
                 @endif
 
-                @if (session('success'))
-                    <div class="bs-toast toast toast-ex animate__animated my-2" role="alert" aria-live="assertive"
-                        aria-atomic="true" data-bs-delay="2000">
-                        <div class="toast-header">
-                            <i class="ti ti-bell ti-xs me-2"></i>
-                            <div class="me-auto fw-semibold">Bootstrap</div>
-                            <small class="text-muted">11 mins ago</small>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body">
-                            {{ session('success') }}
-                        </div>
-                    </div>
-                @endif
-                <h5 class="mt-2 h4">Create People <img
-                  src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png"
-                  width="27px" class="mb-1" alt=""></h5>
+                <h5 class="mt-2 h4">Create People <img src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png"
+                        width="27px" class="mb-1" alt=""></h5>
                 <form class="mt-1" method="POST" action="{{ route('store-people') }}">
                     @csrf
                     <div class="row g-3">
