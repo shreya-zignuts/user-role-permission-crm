@@ -150,7 +150,7 @@ $navbarDetached = ($navbarDetached ?? '');
                 <div class="dropdown-divider"></div>
               </li>
               @if (Auth::check())
-              <li>
+              {{-- <li>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                   <i class='ti ti-logout me-2'></i>
                   <span class="align-middle">Logout</span>
@@ -158,7 +158,16 @@ $navbarDetached = ($navbarDetached ?? '');
               </li>
               <form method="POST" id="logout-form" action="{{ route('logout') }}">
                 @csrf
-              </form>
+              </form> --}}
+              <li>
+                <a class="dropdown-item" href="#" onclick="confirmLogout(event)">
+                    <i class='ti ti-logout me-2'></i>
+                    <span class="align-middle">Logout</span>
+                </a>
+            </li>
+            <form method="POST" id="logout-form" action="{{ route('logout') }}">
+                @csrf
+            </form>
               @else
               <li>
                 <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : url('auth/login-basic') }}">
@@ -176,5 +185,122 @@ $navbarDetached = ($navbarDetached ?? '');
       @if(!isset($navbarDetached))
     </div>
     @endif
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{{-- <script>
+    function confirmLogout(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Logout',
+            text: 'Are you sure you want to logout?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logout-form').submit();
+            }
+        });
+    }
+</script> --}}
+{{-- <script>
+  function confirmLogout(event) {
+      event.preventDefault();
+      Swal.fire({
+          title: 'Logout',
+          text: 'Are you sure you want to logout?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#7367f0',
+          cancelButtonColor: '#f1f1f2',
+          confirmButtonText: 'Yes, logout!'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              // Perform AJAX logout request
+              $.ajax({
+                  url: "{{ route('logout') }}",
+                  method: 'POST',
+                  data: {_token: "{{ csrf_token() }}"},
+                  success: function(response) {
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'Logged Out!',
+                          text: 'You have been successfully logged out.',
+                          showConfirmButton: false,
+                          timer: 1300,
+                          timerProgressBar: true
+                      }).then(function() {
+                          // Redirect or reload page after successful logout
+                          window.location.reload();
+                      });
+                  },
+                  error: function(xhr, status, error) {
+                      console.error(xhr.responseText);
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Something went wrong!',
+                          confirmButtonColor: '#d33'
+                      });
+                  }
+              });
+          }
+      });
+  }
+</script> --}}
+
+<script>
+  function confirmLogout(event) {
+      event.preventDefault();
+      Swal.fire({
+          title: 'Logout',
+          text: 'Are you sure you want to logout?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#7367f0',
+          cancelButtonColor: '#f1f1f2',
+          confirmButtonText: 'Yes, logout!',
+          cancelButtonText: 'Cancel',
+          customClass: {
+              confirmButton: 'btn btn-primary me-3',
+              cancelButton: 'btn btn-secondary'
+          },
+          buttonsStyling: false
+      }).then((result) => {
+          if (result.isConfirmed) {
+              $.ajax({
+                  url: "{{ route('logout') }}",
+                  method: 'POST',
+                  data: {_token: "{{ csrf_token() }}"},
+                  success: function(response) {
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'Logged Out!',
+                          text: 'You have been successfully logged out.',
+                          showConfirmButton: false,
+                          timer: 1300,
+                          timerProgressBar: true
+                      }).then(function() {
+                          // Redirect or reload page after successful logout
+                          window.location.reload();
+                      });
+                  },
+                  error: function(xhr, status, error) {
+                      console.error(xhr.responseText);
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Something went wrong!',
+                          confirmButtonColor: '#d33'
+                      });
+                  }
+              });
+          }
+      });
+  }
+</script>
+
   </nav>
   <!-- / Navbar -->
