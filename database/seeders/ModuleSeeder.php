@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Module;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -14,7 +15,7 @@ class ModuleSeeder extends Seeder
   public function run(): void
   {
     // Seed data for main modules
-    DB::table('modules')->insert([
+    $modules = [
       [
         'code' => 'ACC',
         'name' => 'Account',
@@ -86,12 +87,30 @@ class ModuleSeeder extends Seeder
         'name' => 'People',
         'description' => 'Submodule for contact module',
         'parent_code' => 'CNT',
-        'is_active' => 1,
+        'is_active' => 0,
         'created_at' => now(),
         'updated_at' => now(),
         'url' => '/userside/modules/people',
         'slug' => 'userside-people',
       ],
-    ]);
+    ];
+
+    foreach ($modules as $module) {
+      Module::updateOrCreate(
+        [
+          'code' => $module['code'],
+        ],
+        [
+          'name' => $module['name'],
+          'description' => $module['description'],
+          'is_active' => $module['is_active'],
+          'parent_code' => $module['parent_code'],
+          'url' => $module['url'],
+          'slug' => $module['slug'],
+        ]
+      );
+    }
+
+    Module::whereNotIn('code', array_column($modules, 'code'))->delete();
   }
 }
