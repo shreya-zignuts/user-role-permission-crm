@@ -66,7 +66,7 @@ class LoginBasic extends Controller
       } else {
         return redirect()
           ->route('user-dashboard')
-          ->with('success', 'User successfully logged in');
+          ->with('success', 'WELCOME, logged in successfull');
       }
     }
 
