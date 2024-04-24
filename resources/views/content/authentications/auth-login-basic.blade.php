@@ -162,14 +162,5 @@
                 </div>
             </div>
 
-            <script>
-              function validateForm() {
-                  const rememberCheckbox = document.getElementById('remember');
-                  if (!rememberCheckbox.checked) {
-                      alert('Remember Me functionality disabled.');
-                      return false; // Prevent form submission
-                  }
-                  return true; // Allow form submission
-              }
-          </script>
+
         @endsection

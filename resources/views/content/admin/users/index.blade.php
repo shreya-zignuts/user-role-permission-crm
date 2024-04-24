@@ -213,13 +213,24 @@
                                                     width="20px" alt="">
                                                 &nbsp; New Password
                                             </a>
-                                            <form action="{{ route('logout.user', ['id' => $user->id]) }}"
+                                            {{-- <form action="{{ route('logout.user', ['id' => $user->id]) }}"
                                                 method="post">
                                                 @csrf
 
                                                 <button type="submit" class="dropdown-item text-left"><img
                                                         src="https://cdn-icons-png.flaticon.com/128/3889/3889524.png"
                                                         width="16px" alt="">&nbsp; Force Logout</button>
+                                            </form> --}}
+
+                                            <form id="forceLogoutForm"
+                                                action="{{ route('logout.user', ['id' => $user->id]) }}" method="post">
+                                                @csrf
+                                                <button type="button"
+                                                    class="dropdown-item text-left logout-user">
+                                                    <img src="https://cdn-icons-png.flaticon.com/128/3889/3889524.png"
+                                                        width="16px" alt="">
+                                                    &nbsp; Force Logout
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -252,7 +263,7 @@
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="email">Email</label>
                                 <input type="email" name="email" id="userEmail" class="form-control" required
-                                    autofocus disabled/>
+                                    autofocus disabled />
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">New Password</label>
@@ -356,7 +367,6 @@
 
             })
         </script>
-        <!-- Include SweetAlert library -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
@@ -389,7 +399,7 @@
                                     Swal.fire({
                                         icon: 'success',
                                         title: 'Deleted!',
-                                        text: 'Your role has been deleted.',
+                                        text: 'Your user has been deleted.',
                                         customClass: {
                                             confirmButton: 'btn btn-success'
                                         }
@@ -414,5 +424,61 @@
                 });
             });
         </script>
+
+<script>
+  $(document).ready(function() {
+      $('.logout-user').click(function(e) {
+          e.preventDefault();
+
+          var form = $(this).closest('form');
+          var id = $(this).data('id');
+
+          // Use SweetAlert for delete confirmation
+          Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Yes, do it!',
+              customClass: {
+                  confirmButton: 'btn btn-primary me-3',
+                  cancelButton: 'btn btn-label-secondary'
+              },
+              buttonsStyling: false
+          }).then(function(result) {
+              if (result.isConfirmed) {
+                  $.ajax({
+                      url: form.attr('action'),
+                      method: 'POST',
+                      data: form.serialize(),
+                      success: function(response) {
+                          Swal.fire({
+                              icon: 'success',
+                              title: 'Forcefully Logout !!',
+                              text: 'User has been successfully logged out.',
+                              customClass: {
+                                  confirmButton: 'btn btn-success'
+                              }
+                          }).then(function() {
+                              window.location.reload();
+                          });
+                      },
+                      error: function(xhr, status, error) {
+                          console.error(xhr.responseText);
+                          Swal.fire({
+                              icon: 'error',
+                              title: 'Oops...',
+                              text: 'Something went wrong!',
+                              customClass: {
+                                  confirmButton: 'btn btn-danger'
+                              }
+                          });
+                      }
+                  });
+              }
+          });
+      });
+  });
+</script>
 
     @endsection

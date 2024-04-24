@@ -16,11 +16,11 @@ class LoginBasic extends Controller
   {
     $pageConfigs = ['myLayout' => 'blank'];
 
-    $rememberChecked = session()->has('login.remember') ? true : false;
+    $rememberChecked = session()->get('login.remember');
 
     return view('content.authentications.auth-login-basic', [
       'pageConfigs' => $pageConfigs,
-      'rememberChecked' => $rememberChecked,
+      'rememberChecked' => $rememberChecked ?? null,
     ]);
   }
 
@@ -53,6 +53,10 @@ class LoginBasic extends Controller
         auth()
           ->user()
           ->update(['remember_token' => hash('sha256', $rememberToken)]);
+      } else {
+        Cookie::queue(Cookie::forget('remember_token'));
+        Cookie::queue(Cookie::forget('remember_email'));
+        Cookie::queue(Cookie::forget('remember_password'));
       }
 
       if ($user->id === 1) {
