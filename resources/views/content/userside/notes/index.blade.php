@@ -163,7 +163,17 @@
                     @foreach ($notes as $note)
                         <tr>
                             <td>{{ $note->title }}</td>
-                            <td>{{ $note->description }}</td>
+                            <td style="max-width: 150px;">
+                                <div class="toggle-address" data-full="{{ $note->description }}">
+                                    @php
+                                        $truncatedAddress = \Illuminate\Support\Str::limit($note->description, 30, '');
+                                    @endphp
+                                    {{ $truncatedAddress }}
+                                    @if (strlen($note->description) > 30)
+                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
+                                    @endif
+                                </div>
+                            </td>
                             <td>
                                 @if ($permissionsArray['edit'] || $permissionsArray['delete'])
                                     <div class="dropdown">

@@ -225,7 +225,6 @@
                             timer: 1300,
                             timerProgressBar: true
                         }).then(function() {
-                            // Redirect or reload page after successful logout
                             window.location.reload();
                         });
                     },

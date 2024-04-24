@@ -13,7 +13,7 @@ return new class extends Migration {
     Schema::create('meetings', function (Blueprint $table) {
       $table->id();
       $table->string('title', 64);
-      $table->string('description', 64)->nullable();
+      $table->string('description', 256)->nullable();
       $table->date('date');
       $table->time('time');
       $table->tinyInteger('is_active')->default(1);

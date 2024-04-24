@@ -95,7 +95,7 @@ class ForgotPasswordController extends Controller
 
       // dd('here');
       Session::flash('success', 'Already sent link for reset password');
-      return view('content.authentications.auth-login-basic', compact('pageConfigs'));
+      return redirect()->route('auth-login-basic');
     }
 
     // $pageConfigs = ['myLayout' => 'blank'];

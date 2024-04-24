@@ -181,7 +181,21 @@
                     @foreach ($meetings as $meeting)
                         <tr>
                             <td>{{ $meeting->title }}</td>
-                            <td>{{ $meeting->description }}</td>
+                            <td style="max-width: 150px;">
+                                <div class="toggle-address" data-full="{{ $meeting->description }}">
+                                    @php
+                                        $truncatedAddress = \Illuminate\Support\Str::limit(
+                                            $meeting->description,
+                                            30,
+                                            '',
+                                        );
+                                    @endphp
+                                    {{ $truncatedAddress }}
+                                    @if (strlen($meeting->description) > 30)
+                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
+                                    @endif
+                                </div>
+                            </td>
                             <td>{{ $meeting->date }}</td>
                             <td>{{ $meeting->time }}</td>
                             <td>

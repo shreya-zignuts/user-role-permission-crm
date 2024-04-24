@@ -146,7 +146,7 @@
                             </div>
                             <div class="mb-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember" name="remember" {{ $rememberChecked ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" id="remember" name="remember"  {{ $rememberChecked ? 'checked' : '' }}>
                                     <label class="form-check-label" for="remember">
                                         Remember Me
                                     </label>

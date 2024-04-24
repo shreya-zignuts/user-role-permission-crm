@@ -144,7 +144,17 @@
                         <tr>
                             <td></td>
                             <td>{{ $permission->name }}</td>
-                            <td>{{ $permission->description }}</td>
+                          <td style="max-width: 150px;">
+                            <div class="toggle-address" data-full="{{ $permission->description }}">
+                                @php
+                                    $truncatedAddress = \Illuminate\Support\Str::limit($permission->description, 30, '');
+                                @endphp
+                                {{ $truncatedAddress }}
+                                @if (strlen($permission->description) > 30)
+                                    <span class="toggle-icon" style="cursor: pointer;">▼</span>
+                                @endif
+                            </div>
+                        </td>
                             <td>
                               <form method="get" action="{{ route('per-status', ['id' => $permission->id]) }}">
                                 @csrf

@@ -157,7 +157,17 @@
                     @foreach ($roles as $role)
                         <tr>
                             <td>{{ $role->name }}</td>
-                            <td>{{ $role->description }}</td>
+                            <td style="max-width: 150px;">
+                                <div class="toggle-address" data-full="{{ $role->description }}">
+                                    @php
+                                        $truncatedAddress = \Illuminate\Support\Str::limit($role->description, 30, '');
+                                    @endphp
+                                    {{ $truncatedAddress }}
+                                    @if (strlen($role->description) > 30)
+                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
+                                    @endif
+                                </div>
+                            </td>
                             <td>
                                 <form method="get" action="{{ route('role-status', ['id' => $role->id]) }}">
                                     @csrf

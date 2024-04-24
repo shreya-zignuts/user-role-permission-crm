@@ -13,7 +13,7 @@ return new class extends Migration {
     Schema::create('notes', function (Blueprint $table) {
       $table->id();
       $table->string('title', 64);
-      $table->string('description', 64)->nullable();
+      $table->string('description')->nullable();
       $table->unsignedBigInteger('user_id');
       $table
         ->foreign('user_id')

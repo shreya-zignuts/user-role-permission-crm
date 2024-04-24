@@ -126,9 +126,10 @@
 
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-header">Company <svg class="mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-building-factory-2">
+            <h5 class="card-header">Company <svg class="mb-2" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-building-factory-2">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M3 21h18" />
                     <path d="M5 21v-12l5 4v-4l5 4h4" />
@@ -170,7 +171,17 @@
                             <td>{{ $comp->name }}</td>
                             <td>{{ $comp->owner_name }}</td>
                             <td>{{ $comp->industry }}</td>
-                            <td>{{ $comp->address }}</td>
+                            <td style="max-width: 150px;">
+                                <div class="toggle-address" data-full="{{ $comp->address }}">
+                                    @php
+                                        $truncatedAddress = \Illuminate\Support\Str::limit($comp->address, 30, '');
+                                    @endphp
+                                    {{ $truncatedAddress }}
+                                    @if (strlen($comp->address) > 30)
+                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
+                                    @endif
+                                </div>
+                            </td>
                             <td>
                                 @if ($permissionsArray['edit'] || $permissionsArray['delete'])
                                     <div class="dropdown">

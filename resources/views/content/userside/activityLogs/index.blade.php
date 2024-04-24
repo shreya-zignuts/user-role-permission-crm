@@ -133,9 +133,10 @@
     </div>
     <div class="card w-100 mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-header">Activity Logs <svg xmlns="http://www.w3.org/2000/svg" class="mb-1" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-notes">
+            <h5 class="card-header">Activity Logs <svg xmlns="http://www.w3.org/2000/svg" class="mb-1" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-notes">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
                     <path d="M9 7l6 0" />
@@ -173,7 +174,17 @@
                     @foreach ($activityLog as $activity)
                         <tr>
                             <td>{{ $activity->title }}</td>
-                            <td>{{ $activity->log }}</td>
+                            <td style="max-width: 150px;">
+                                <div class="toggle-address" data-full="{{ $activity->log }}">
+                                    @php
+                                        $truncatedAddress = \Illuminate\Support\Str::limit($activity->log, 30, '');
+                                    @endphp
+                                    {{ $truncatedAddress }}
+                                    @if (strlen($activity->log) > 30)
+                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
+                                    @endif
+                                </div>
+                            </td>
                             <td>
                                 <form method="get"
                                     action="{{ route('activityLogs-status', ['id' => $activity->id]) }}">
@@ -357,4 +368,5 @@
             });
         });
     </script>
+
 @endsection

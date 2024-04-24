@@ -243,10 +243,9 @@ class UserController extends Controller
       $email = $user->email; // Retrieve the email associated with the token
 
       if ($user->status === 'A' && $user->id !== 1) {
-        $pageConfigs = ['myLayout' => 'blank'];
 
         Session::flash('success', 'Already set password');
-        return view('content.authentications.auth-login-basic', compact('pageConfigs'));
+        return redirect()->route('auth-login-basic');
       } else {
         $pageConfigs = ['myLayout' => 'blank'];
         return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
