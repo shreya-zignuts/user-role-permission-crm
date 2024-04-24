@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Tables - Basic Tables')
+@section('title', 'Module - Dashboard')
 
 @section('content')
     <!-- Search form -->

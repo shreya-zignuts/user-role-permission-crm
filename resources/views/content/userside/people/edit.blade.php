@@ -1,6 +1,6 @@
 @extends('layouts.layoutMaster')
 
-@section('title', 'Edit User')
+@section('title', 'Edit People')
 
 @section('content')
     <div class="d-flex justify-content-center mt-3">

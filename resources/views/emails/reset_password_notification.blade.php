@@ -73,6 +73,8 @@
                 <h3 style="font-size: 28px; margin-bottom: 10px; text-align: center; color: #000000;">Password Reset Notification</h3>
                 <hr style="border-top: 2px solid #4c83ee;">
                 <h5 class="card-title">Hello <span style="color: #4c83ee;">{{ $user->first_name }} {{ $user->last_name }},</span></h5>
+                <p>Your password is changed by admin..</p>
+                <h3>Your Login Details :</h3>
                 <p class="info"><strong>Email:</strong> {{ $user->email }}</p>
                 <p class="info"><strong>New Password:</strong> <span style="color: #4c83ee;">{{ $password }}</span></p>
                 <div class="login">

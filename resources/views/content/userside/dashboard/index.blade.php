@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Cards Statistics- UI elements')
+@section('title', 'User Dashboard')
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
@@ -151,7 +151,7 @@
                                     class="btn text-nowrap btn-primary reset-password-btn"
                                     data-user-email="{{ $user->email }}"
                                     onclick="setUserDetails('{{ $user->id }}', '{{ $user->email }}')">
-                                    <i class='ti ti-edit me-1'></i>New Password
+                                    <i class='ti ti-edit me-1'></i>Change Password
                                 </a>
                             </div>
                         </div>
@@ -242,10 +242,8 @@
                         @csrf
                         <input type="hidden" name="id" id="userId" class="form-control">
                         <div class="mb-3 form-password-toggle">
-                            <input type="hidden" name="email" id="userEmail" class="form-control" required autofocus
-                                disabled
-                                style="border: 1px solid #ced4da; border-radius: 0.25rem; padding: 0.375rem 0.75rem; line-height: 1.5; background-color: #e9ecef; opacity: 1;">
-                        </div>
+                          <input type="hidden" name="email" id="email" class="form-control" value="{{ $user->email }}">
+                      </div>
                         <div class="mb-3">
                             <label for="current-password" class="form-label">Current Password</label>
                             <input id="current-password" type="password"

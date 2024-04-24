@@ -3,7 +3,7 @@
 @endphp
 @extends('layouts/layoutMaster')
 
-@section('title', 'Forgot Password Basic - Pages')
+@section('title', 'Forgot Password')
 
 @section('vendor-style')
     <!-- Vendor -->
