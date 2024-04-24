@@ -88,7 +88,7 @@
                         </div>
 
                     </div>
-                    <div class="row mt-2">
+                    <div class="row mt-4">
                         <!-- Basic -->
                         <div class="col-md-6 mb-4">
                             <label for="select2Basic" class="form-label">Type</label>

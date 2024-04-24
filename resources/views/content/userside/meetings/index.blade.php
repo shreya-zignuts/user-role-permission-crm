@@ -34,6 +34,21 @@
     <script src="{{ asset('assets/js/modal-add-role.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
+    
+    {{-- toast message for meeting is over --}}
+    <div class="bs-toast toast toast-ex animate animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true"
+        data-bs-delay="2000"
+        style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); display: none;">
+        <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <i class="ti ti-bell ti-xs me-2"></i>
+            <div class="me-auto fw-semibold">Error</div>
+            <small class="text-muted"><?= date('h:i A') ?></small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" style="padding: 10px; color: #333;">
+            This meeting is over, cannot be edited.
+        </div>
+    </div>
 @endsection
 
 @section('content')
@@ -213,35 +228,35 @@
                                 </label>
                             </td>
                             <td>
-                                @if ($permissionsArray['edit'] || $permissionsArray['delete'])
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="ti ti-dots-vertical"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <!-- Edit Button based on Access -->
-                                            @if ($permissionsArray['edit'])
-                                                <a class="dropdown-item"
-                                                    href="{{ route('edit-meetings', ['id' => $meeting->id]) }}">
-                                                    <i class="ti ti-pencil me-1"></i> Edit
-                                                </a>
-                                            @endif
-                                            <!-- Delete Button based on Access -->
-                                            @if ($permissionsArray['delete'])
-                                                <form id="deleteMeetingForm{{ $meeting->id }}" method="POST"
-                                                    action="{{ route('delete-meetings', ['id' => $meeting->id]) }}">
-                                                    @csrf
-                                                    <!-- Delete button trigger modal -->
-                                                    <button class="dropdown-item delete-meeting"
-                                                        data-id="{{ $meeting->id }}">
-                                                        <i class="ti ti-trash me-1"></i> Delete
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </div>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown">
+                                        <i class="ti ti-dots-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        @if ($permissionsArray['edit'] && $meeting->is_active)
+                                            <a class="dropdown-item"
+                                                href="{{ route('edit-meetings', ['id' => $meeting->id]) }}">
+                                                <i class="ti ti-pencil me-1"></i> Edit
+                                            </a>
+                                        @elseif(!$meeting->is_active)
+                                            <div class="dropdown-item edit-inactive-meeting"
+                                                data-meeting-id="{{ $meeting->id }}">
+                                                <i class="ti ti-pencil me-1"></i> Edit
+                                            </div>
+                                        @endif
+                                        @if ($permissionsArray['delete'])
+                                            <form id="deleteMeetingForm{{ $meeting->id }}" method="POST"
+                                                action="{{ route('delete-meetings', ['id' => $meeting->id]) }}">
+                                                @csrf
+                                                <button class="dropdown-item delete-meeting"
+                                                    data-id="{{ $meeting->id }}">
+                                                    <i class="ti ti-trash me-1"></i> Delete
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
-                                @endif
+                                </div>
                             </td>
 
                         </tr>
@@ -256,21 +271,11 @@
             {{ $meetings->links('pagination::bootstrap-5') }}
         </div>
     </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-
-    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        var updateMeetingStatusUrl = '{{ route('meetings-status', ['id' => ':id']) }}';
-    </script>
-
+    {{-- script for delete sweet alert --}}
     <script>
         $(document).ready(function() {
             $('.delete-meeting').click(function(e) {
@@ -326,8 +331,7 @@
         });
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    {{-- script for toggle switch --}}
     <script>
         $(document).ready(function() {
             $('.switch-input').each(function() {
@@ -350,6 +354,21 @@
                         }
                     });
                 }
+            });
+        });
+    </script>
+
+    {{-- script for toast message - for meeting --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('.edit-inactive-meeting').click(function(e) {
+                e.preventDefault();
+
+                $('.bs-toast').fadeIn();
+
+                setTimeout(function() {
+                    $('.bs-toast').fadeOut();
+                }, 2500);
             });
         });
     </script>

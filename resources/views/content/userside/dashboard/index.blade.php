@@ -103,12 +103,11 @@
             <div class="card w-100">
 
                 <div class="user-profile-header-banner position-relative">
-                    <img src="{{ asset('assets/img/pages/userbackground.webp')}}"
-                        alt="Banner image" class="rounded-top">
+                    <img src="{{ asset('assets/img/pages/userbackground.webp') }}" alt="Banner image" class="rounded-top">
                     <div id="quoteOverlay" class="position-absolute top-50 start-50 translate-middle text-center"
                         style="font-size: 3rem; font-family: 'Segoe UI', sans-serif; color: #c5c3dc; text-shadow: 2px 2px 4px rgba(60, 46, 216, 0.71);">
                         <?php
-                        $quotes = ['dream big', 'stay focused', 'never give up', 'work hard', 'believe', 'stay positive','keep smiling', 'keep going', 'you got this', 'fearless', 'take risks'];
+                        $quotes = ['dream big', 'stay focused', 'never give up', 'work hard', 'believe', 'stay positive', 'keep smiling', 'keep going', 'you got this', 'fearless', 'take risks'];
 
                         // Select a random quote from the array
                         $randomQuote = $quotes[array_rand($quotes)];
@@ -117,8 +116,8 @@
                 </div>
                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-3">
                     <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                        <img src="{{ asset('assets/img/avatars/9.png')}}"
-                            alt="user image" class="d-block ms-0 ms-sm-4 rounded rounded-circle user-profile-img mt-5 mb-1" height="auto">
+                        <img src="{{ asset('assets/img/avatars/9.png') }}" alt="user image"
+                            class="d-block ms-0 ms-sm-4 rounded rounded-circle user-profile-img mt-5 mb-1" height="auto">
                     </div>
                     <div class="flex-grow-1 mt-3 mt-sm-5">
                         <div
@@ -242,8 +241,9 @@
                         @csrf
                         <input type="hidden" name="id" id="userId" class="form-control">
                         <div class="mb-3 form-password-toggle">
-                          <input type="hidden" name="email" id="email" class="form-control" value="{{ $user->email }}">
-                      </div>
+                            <input type="hidden" name="email" id="email" class="form-control"
+                                value="{{ $user->email }}">
+                        </div>
                         <div class="mb-3">
                             <label for="current-password" class="form-label">Current Password</label>
                             <input id="current-password" type="password"

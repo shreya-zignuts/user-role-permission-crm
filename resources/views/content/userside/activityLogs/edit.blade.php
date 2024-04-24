@@ -92,7 +92,7 @@
                     </div>
                     <div class="row">
                         <!-- Basic -->
-                        <div class="col-md-6 mb-4">
+                        <div class="col-md-6 mt-3">
                             <label for="select2Basic" class="form-label">Type</label>
                             <select id="type" name="type" class="form-select" required>
                                 <option value="C">Coding</option>

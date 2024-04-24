@@ -244,12 +244,11 @@
             {{ $people->links('pagination::bootstrap-5') }}
         </div>
     </div>
-    </div>
-    </div>
-    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    {{-- script for toggle switch --}}
     <script>
         $('.switch-input').change(function() {
 
@@ -312,8 +311,7 @@
         })
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    {{-- script for delete sweet alert --}}
     <script>
         $(document).ready(function() {
             $('.delete-person').click(function(e) {

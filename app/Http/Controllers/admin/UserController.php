@@ -243,7 +243,6 @@ class UserController extends Controller
       $email = $user->email; // Retrieve the email associated with the token
 
       if ($user->status === 'A' && $user->id !== 1) {
-
         Session::flash('success', 'Already set password');
         return redirect()->route('auth-login-basic');
       } else {
@@ -251,9 +250,10 @@ class UserController extends Controller
         return view('content.authentications.reset-password', compact('token', 'email', 'pageConfigs'));
       }
     } else {
-      return response()->view('errors.404', [], 404); // Example of a 404 error page
+      return redirect()->route('auth-login-basic')->with('error', 'User not found');
+      }
     }
-  }
+
 
   /**
    * Reset the user's password.
