@@ -26,7 +26,7 @@ class NotesController extends Controller
                     $query->where('title', 'like', '%' . $request->input('search') . '%');
                 }
             })
-            ->paginate(10);
+            ->paginate(5);
 
         $notes->appends([$request->filled('search'), $request->filled('filter')]);
 
