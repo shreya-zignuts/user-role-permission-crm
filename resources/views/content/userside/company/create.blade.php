@@ -23,35 +23,19 @@
                         <div class="col-md-12">
                             <label for="title" class="form-label">Name</label>
                             <input id="name" type="text" class="form-control" name="name" placeholder="name.. ">
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                         <div class="col-md-12">
                             <label for="owner_name" class="form-label">Owner Name</label>
                             <input id="owner_name" type="text" class="form-control" name="owner_name"
                                 placeholder="owner name.. ">
-                            @error('owner_name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="industry">Industry</label>
                             <textarea id="industry" name="industry" class="form-control" placeholder="industry.. "></textarea>
-                            {{-- @error('industry')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror --}}
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="address">Address</label>
                             <textarea id="address" name="address" class="form-control" placeholder="123 Main St"></textarea>
-                            @error('address')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="pt-4">
                             <button type="submit" class="btn btn-primary me-sm-3 me-1">Create</button>

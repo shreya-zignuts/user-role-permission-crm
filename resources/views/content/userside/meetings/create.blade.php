@@ -25,46 +25,26 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                            name="title" value="{{ old('title') }}" required autocomplete="title" autofocus
+                            name="title" value="{{ old('title') }}" autocomplete="title" autofocus
                             placeholder="title..">
-                        @error('title')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
                         <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description"
                             rows="3" placeholder="description.."></textarea>
-                        @error('description')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="date" class="form-label">Date</label>
                             <input id="date" type="text" class="form-control @error('date') is-invalid @enderror"
-                                name="date" placeholder="YYYY-MM-DD" required>
-                            @error('date')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                name="date" placeholder="YYYY-MM-DD">
                         </div>
                         <div class="col-md-6">
                             <label for="time" class="form-label">Time</label>
                             <input id="time" type="time" class="form-control @error('time') is-invalid @enderror"
-                                name="time" value="{{ old('time') }}" required>
-                            @error('time')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                name="time" value="{{ old('time') }}">
                         </div>
                     </div>
 

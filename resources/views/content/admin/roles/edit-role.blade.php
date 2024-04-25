@@ -36,8 +36,8 @@
                     @csrf
                     <div class="mb-4">
                         <label for="name" class="form-label">Role Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ $role->name }}"
-                            required>
+                        <input type="text" class="form-control" id="name" name="name"
+                            value="{{ $role->name }}">
                     </div>
                     <div class="mb-4">
                         <label for="description" class="form-label">Description</label>

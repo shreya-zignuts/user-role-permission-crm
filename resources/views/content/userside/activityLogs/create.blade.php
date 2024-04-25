@@ -23,18 +23,10 @@
                         <div class="col-md-12">
                             <label for="title" class="form-label">Title</label>
                             <input id="title" type="text" class="form-control" name="title">
-                            @error('title')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="log">Log</label>
                             <textarea id="log" name="log" class="form-control" placeholder="Log Details.."></textarea>
-                            @error('log')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
 
                     </div>
@@ -42,7 +34,7 @@
                         <!-- Basic -->
                         <div class="col-md-6 mb-4">
                             <label for="select2Basic" class="form-label">Type</label>
-                            <select id="type" name="type" class="form-select" required>
+                            <select id="type" name="type" class="form-select">
                                 <option value="C">Coding</option>
                                 <option value="M">Meeting</option>
                                 <option value="P">Playing</option>

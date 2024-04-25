@@ -24,35 +24,19 @@
                             <label for="title" class="form-label">{{ __('Name') }}</label>
                             <input id="name" type="text" class="form-control" name="name"
                                 value="{{ old('log', $company->name) }}">
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                         <div class="col-md-12">
                             <label for="owner_name" class="form-label">{{ __('Owner Name') }}</label>
                             <input id="owner_name" type="text" class="form-control" name="owner_name"
                                 value="{{ old('log', $company->owner_name) }}">
-                            @error('owner_name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="industry">Industry</label>
                             <textarea id="industry" name="industry" class="form-control" placeholder="industry.. ">{{ old('log', $company->industry) }}</textarea>
-                            @error('industry')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="address">Address</label>
                             <textarea id="address" name="address" class="form-control" placeholder="123 Main St">{{ old('address', $company->address) }}</textarea>
-                            @error('address')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="pt-4">
                             <button type="submit" class="btn btn-primary me-sm-3 me-1">Update</button>
