@@ -84,19 +84,19 @@
 
     @if (session('error'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
-            aria-atomic="true" data-bs-delay="2000"
-            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <div class="toast-header bg-danger text-white"
-                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                <i class="ti ti-bell ti-xs me-2"></i>
+            aria-atomic="true" data-bs-delay="2000">
+            <div class="toast-header">
+                <i class="ti ti-bell text-danger ti-xs me-2"></i>
                 <div class="me-auto fw-semibold">Error</div>
-                <?php
-                date_default_timezone_set('Asia/Kolkata');
-                ?>
-                <small class="text-muted"><?= date('h:i A') ?></small>
+                <small class="text-muted">
+                    <?php
+                    date_default_timezone_set('Asia/Kolkata');
+                    ?>
+                    <small class="text-muted"><?= date('h:i A') ?></small>
+                </small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div class="toast-body" style="padding: 10px; color: #333;">
+            <div class="toast-body">
                 {{ session('error') }}
             </div>
         </div>
@@ -113,19 +113,19 @@
 
     @if (session('success'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
-            aria-atomic="true" data-bs-delay="2000"
-            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <div class="toast-header bg-success text-white"
-                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                <i class="ti ti-bell ti-xs me-2"></i>
+            aria-atomic="true" data-bs-delay="2000">
+            <div class="toast-header">
+                <i class="ti ti-bell text-success ti-xs me-2"></i>
                 <div class="me-auto fw-semibold">Success</div>
-                <?php
-                date_default_timezone_set('Asia/Kolkata');
-                ?>
-                <small class="text-muted"><?= date(' h:i A') ?></small>
+                <small class="text-muted">
+                    <?php
+                    date_default_timezone_set('Asia/Kolkata');
+                    ?>
+                    <small class="text-muted"><?= date('h:i A') ?></small>
+                </small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div class="toast-body" style="padding: 10px; color: #333;">
+            <div class="toast-body">
                 {{ session('success') }}
             </div>
         </div>
@@ -139,6 +139,7 @@
             });
         </script>
     @endif
+
     <div class="row justify-content-center mt-3">
         <div class="col-md-6">
             <form method="GET" action="{{ route('pages-modules') }}">

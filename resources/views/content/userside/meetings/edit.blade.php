@@ -29,8 +29,7 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">{{ __('Title') }}</label>
                         <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
-                            name="title" value="{{ old('title', $meetings->title) }}" autocomplete="title"
-                            autofocus>
+                            name="title" value="{{ old('title', $meetings->title) }}" autocomplete="title" autofocus>
                     </div>
 
                     <div class="mb-3">
@@ -41,14 +40,14 @@
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="date" class="form-label">{{ __('Date') }}</label>
+                            <label for="date" class="form-label">Date</label>
                             <input id="date" type="text" class="form-control @error('date') is-invalid @enderror"
-                                name="date" value="{{ old('date', $meetings->date) }}" >
+                                name="date" value="{{ old('date', $meetings->date) }}">
                         </div>
                         <div class="col-md-6">
                             <label for="time" class="form-label">{{ __('Time') }}</label>
                             <input id="time" type="time" class="form-control @error('time') is-invalid @enderror"
-                                name="time" value="{{ old('time', $meetings->time) }}" >
+                                name="time" value="{{ old('time', $meetings->time) }}">
                         </div>
                     </div>
 
@@ -64,4 +63,17 @@
         </div>
     </div>
 
+    <script>
+        $(function() {
+            $("#date").datepicker({
+                minDate: 0, // Restrict to today onwards
+                dateFormat: 'yy-mm-dd', // Date format expected by Laravel
+                autoclose: true, // Optional: Close the datepicker when a date is selected
+                beforeShow: function(input, inst) {
+                    // Display the date format as placeholder when the datepicker is shown
+                    $(this).attr("placeholder", "YYYY-MM-DD");
+                }
+            });
+        });
+    </script>
 @endsection

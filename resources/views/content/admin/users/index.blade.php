@@ -223,19 +223,19 @@
 
     @if (session('error'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
-            aria-atomic="true" data-bs-delay="2000"
-            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <div class="toast-header bg-danger text-white"
-                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                <i class="ti ti-bell ti-xs me-2"></i>
+            aria-atomic="true" data-bs-delay="2000">
+            <div class="toast-header">
+                <i class="ti ti-bell text-danger ti-xs me-2"></i>
                 <div class="me-auto fw-semibold">Error</div>
-                <?php
-                date_default_timezone_set('Asia/Kolkata');
-                ?>
-                <small class="text-muted"><?= date('h:i A') ?></small>
+                <small class="text-muted">
+                    <?php
+                    date_default_timezone_set('Asia/Kolkata');
+                    ?>
+                    <small class="text-muted"><?= date('h:i A') ?></small>
+                </small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div class="toast-body" style="padding: 10px; color: #333;">
+            <div class="toast-body">
                 {{ session('error') }}
             </div>
         </div>
@@ -252,19 +252,19 @@
 
     @if (session('success'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
-            aria-atomic="true" data-bs-delay="2000"
-            style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <div class="toast-header bg-success text-white"
-                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                <i class="ti ti-bell ti-xs me-2"></i>
+            aria-atomic="true" data-bs-delay="2000">
+            <div class="toast-header">
+                <i class="ti ti-bell text-success ti-xs me-2"></i>
                 <div class="me-auto fw-semibold">Success</div>
-                <?php
-                date_default_timezone_set('Asia/Kolkata');
-                ?>
-                <small class="text-muted"><?= date(' h:i A') ?></small>
+                <small class="text-muted">
+                    <?php
+                    date_default_timezone_set('Asia/Kolkata');
+                    ?>
+                    <small class="text-muted"><?= date('h:i A') ?></small>
+                </small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div class="toast-body" style="padding: 10px; color: #333;">
+            <div class="toast-body">
                 {{ session('success') }}
             </div>
         </div>
@@ -278,7 +278,6 @@
             });
         </script>
     @endif
-
     @if ($errors && $errors->any())
         <div class="alert alert-danger">
             @foreach ($errors->all() as $error)
@@ -396,18 +395,16 @@
                                                 class="btn text-nowrap dropdown-item reset-password-btn"
                                                 data-user-email="{{ $user->email }}"
                                                 onclick="setUserDetails('{{ $user->id }}', '{{ $user->email }}')">
-                                                <img src="https://cdn-icons-png.flaticon.com/128/10480/10480728.png"
-                                                    width="20px" alt="">
-                                                &nbsp; New Password
+                                                <i class="ti ti-lock me-1"></i>
+                                                &nbsp;New Password
                                             </a>
 
                                             <form id="forceLogoutForm"
                                                 action="{{ route('logout.user', ['id' => $user->id]) }}" method="post">
                                                 @csrf
                                                 <button type="button" class="dropdown-item text-left logout-user">
-                                                    <img src="https://cdn-icons-png.flaticon.com/128/3889/3889524.png"
-                                                        width="16px" alt="">
-                                                    &nbsp; Force Logout
+                                                    <i class="ti ti-home mb-1"></i>
+                                                    &nbsp;Force Logout
                                                 </button>
                                             </form>
                                         </div>

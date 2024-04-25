@@ -59,8 +59,6 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
     <script>
         $(function() {
             $("#date").datepicker({
