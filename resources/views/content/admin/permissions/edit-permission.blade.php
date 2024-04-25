@@ -21,8 +21,8 @@
         <div class="modal-content p-3 p-md-5 w-75 align-content-center">
             <div class="modal-body">
                 <h4 class="mt-1">Edit Permission <img
-                  src="https://cdn-icons-png.freepik.com/256/683/683305.png?semt=ais_hybrid"
-                  width="25px" class="mb-1" alt=""></h4>
+                        src="https://cdn-icons-png.freepik.com/256/683/683305.png?semt=ais_hybrid" width="25px"
+                        class="mb-1" alt=""></h4>
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         @foreach ($errors->all() as $error)
@@ -63,9 +63,9 @@
                                         <?php
                                         $currentModule = $permissionModules->where('code', $module->code)->first();
                                         $currentModulePermission = $currentModule->pivot;
-
+                                        
                                         // dd($currentModulePermission);
-
+                                        
                                         ?>
                                         <tr data-module-code="{{ $module->code }}">
                                             <td><strong>{{ $module->name }}</strong></td>
@@ -111,9 +111,9 @@
                                             <?php
                                             $currentSubModule = $permissionModules->where('code', $submodule->code)->first();
                                             $currentSubModulePermission = $currentSubModule->pivot;
-
+                                            
                                             // dd($currentModule, $currentSubModule);
-
+                                            
                                             ?>
                                             <tr>
                                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;{{ $submodule->name }}</td>

@@ -61,10 +61,12 @@ class ForgotPasswordController extends Controller
 
     $token = Str::random(60);
 
-    $passwordResetToken = new PasswordResetToken();
-    $passwordResetToken->email = $user->email;
-    $passwordResetToken->token = $token;
-    $passwordResetToken->created_at = now();
+    $passwordResetToken = new PasswordResetToken([
+      'email'       => $user->email,
+      'token'       => $token,
+      'created_at'  => now(),
+  ]);
+  
 
     $passwordResetToken->save();
 
@@ -84,9 +86,6 @@ class ForgotPasswordController extends Controller
       ->where('email', $email)
       ->first();
 
-    // dd($existingToken);
-
-    // dd($existingToken);
     if ($existingToken) {
       $pageConfigs = ['myLayout' => 'blank'];
       return view('content.authentications.reset-forgot-password', compact('email', 'pageConfigs'));
@@ -98,11 +97,6 @@ class ForgotPasswordController extends Controller
       return redirect()->route('auth-login-basic');
     }
 
-    // $pageConfigs = ['myLayout' => 'blank'];
-
-    // // dd('here');
-    // Session::flash('success', 'Already sent link for reset password');
-    // return view('content.authentications.auth-login-basic', compact('pageConfigs'));
   }
 
   /**
@@ -111,8 +105,8 @@ class ForgotPasswordController extends Controller
   public function resetPassword(Request $request)
   {
     $request->validate([
-      'email' => 'required|email',
-      'password' => 'required|string|min:8|confirmed',
+      'email'     => 'required|email',
+      'password'  => 'required|string|min:8|confirmed',
     ]);
 
     $email = $request->email;

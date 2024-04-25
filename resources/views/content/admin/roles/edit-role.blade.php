@@ -21,8 +21,8 @@
         <div class="modal-content p-3 p-md-5 align-content-center w-50">
             <div class="modal-body">
                 <h3 class="text-center mb-4">Edit Role <img
-                  src="https://cdn-icons-png.freepik.com/256/683/683305.png?semt=ais_hybrid"
-                  width="25px" class="mb-1" alt=""></h3>
+                        src="https://cdn-icons-png.freepik.com/256/683/683305.png?semt=ais_hybrid" width="25px"
+                        class="mb-1" alt=""></h3>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">

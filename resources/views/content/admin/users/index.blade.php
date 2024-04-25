@@ -309,7 +309,7 @@
             }
         </script>
 
-    {{-- script for toggle switch --}}
+        {{-- script for toggle switch --}}
         <script>
             $('.switch-input').change(function() {
 
@@ -429,7 +429,7 @@
             });
         </script>
 
-    {{-- script for force logout user --}}
+        {{-- script for force logout user --}}
 
         <script>
             $(document).ready(function() {

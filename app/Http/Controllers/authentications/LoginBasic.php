@@ -19,7 +19,7 @@ class LoginBasic extends Controller
     $rememberChecked = session()->get('login.remember');
 
     return view('content.authentications.auth-login-basic', [
-      'pageConfigs' => $pageConfigs,
+      'pageConfigs'     => $pageConfigs,
       'rememberChecked' => $rememberChecked ?? null,
     ]);
   }
@@ -27,8 +27,8 @@ class LoginBasic extends Controller
   public function login(Request $request)
   {
     $request->validate([
-      'email' => 'required|email',
-      'password' => 'required',
+      'email'     => 'required|email',
+      'password'  => 'required',
     ]);
 
     $credentials = $request->only('email', 'password');
@@ -79,7 +79,6 @@ class LoginBasic extends Controller
       $user = Auth::user();
 
       $user->tokens()->delete();
-      // $user->update(['remember_token' => null]);
       Auth::logout();
 
       return redirect()

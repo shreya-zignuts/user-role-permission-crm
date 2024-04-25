@@ -19,6 +19,7 @@ class AdminController extends Controller
     $activeUsersCount = User::where('is_active', true)
       ->where('id', '!=', 1)
       ->count();
+      
     return view(
       'content.admin.dashboard.index',
       compact('activeModuleCount', 'activePermissionCount', 'activeRolesCount', 'activeUsersCount')

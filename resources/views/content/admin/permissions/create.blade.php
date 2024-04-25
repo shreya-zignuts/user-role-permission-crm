@@ -7,8 +7,8 @@
         <div class="modal-content p-3 p-md-5 w-75">
             <div class="modal-body">
                 <h3 class="text-center">Create Permission <img
-                  src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png"
-                  width="27px" class="mb-1" alt=""></h3>
+                        src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png" width="27px" class="mb-1"
+                        alt=""></h3>
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         @foreach ($errors->all() as $error)

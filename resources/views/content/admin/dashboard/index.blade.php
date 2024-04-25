@@ -19,8 +19,8 @@
 @section('content')
 
     @if (session('error'))
-        <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true"
-            data-bs-delay="2000"
+        <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-delay="2000"
             style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
             <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
                 <i class="ti ti-bell ti-xs me-2"></i>
@@ -86,9 +86,9 @@
                 <div class="card-body pb-0 mt-4">
                     <div class="card-icon">
                         <div class="user-count-container d-flex flex-column align-items-center">
-                          <span class="badge bg-label-primary rounded-pill p-2">
-                            <i class='ti ti-hexagons ti-sm'></i>
-                          </span>
+                            <span class="badge bg-label-primary rounded-pill p-2">
+                                <i class='ti ti-hexagons ti-sm'></i>
+                            </span>
 
 
                             <div class="mt-2">Modules Count</div>
@@ -102,13 +102,13 @@
 
         <!-- Quarterly Sales -->
         <div class="col-lg-6 col-sm-6 mb-4">
-          <div class="card h-px-250 text-center w-px-500">
-            <div class="card-body pb-0 mt-4">
+            <div class="card h-px-250 text-center w-px-500">
+                <div class="card-body pb-0 mt-4">
                     <div class="card-icon">
                         <div class="user-count-container d-flex flex-column align-items-center">
-                          <span class="badge bg-label-danger rounded-pill p-2">
-                            <i class='ti ti-lock ti-sm'></i>
-                          </span>
+                            <span class="badge bg-label-danger rounded-pill p-2">
+                                <i class='ti ti-lock ti-sm'></i>
+                            </span>
 
 
                             <div class="mt-2">Permissions Count</div>
@@ -122,13 +122,13 @@
 
         <!-- Order Received -->
         <div class="col-lg-6 col-sm-6 mb-4">
-          <div class="card h-px-250 text-center w-px-500">
-            <div class="card-body pb-0 mt-3">
+            <div class="card h-px-250 text-center w-px-500">
+                <div class="card-body pb-0 mt-3">
                     <div class="card-icon">
                         <div class="user-count-container d-flex flex-column align-items-center">
-                          <span class="badge bg-label-warning rounded-pill p-2">
-                            <i class='ti ti-user-circle ti-sm'></i>
-                          </span>
+                            <span class="badge bg-label-warning rounded-pill p-2">
+                                <i class='ti ti-user-circle ti-sm'></i>
+                            </span>
 
                             <div class="mt-2">Roles Count</div>
                             <h5 class="card-title roles-count">{{ $activeRolesCount }}</h5>
@@ -141,13 +141,13 @@
 
         <!-- Revenue Generated -->
         <div class="col-lg-6 col-sm-6 mb-4">
-          <div class="card h-px-250 text-center w-px-500">
-            <div class="card-body pb-0 mt-3">
+            <div class="card h-px-250 text-center w-px-500">
+                <div class="card-body pb-0 mt-3">
                     <div class="card-icon">
                         <div class="user-count-container d-flex flex-column align-items-center">
-                          <span class="badge bg-label-success rounded-pill p-2">
-                            <i class='ti ti-users ti-sm'></i>
-                          </span>
+                            <span class="badge bg-label-success rounded-pill p-2">
+                                <i class='ti ti-users ti-sm'></i>
+                            </span>
 
                             <div class="mt-2">Users Count</div>
                             <h5 class="card-title user-count">{{ $activeUsersCount }}</h5>

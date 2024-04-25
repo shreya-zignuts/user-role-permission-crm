@@ -50,22 +50,17 @@ class PermissionController extends Controller
    */
   public function store(Request $request)
   {
-    // dd($request->all());
-
     $data = $request->validate([
-      'name' => 'required|string',
-      'description' => 'nullable|string',
-      'permissions' => 'array',
+      'name'          => 'required|string',
+      'description'   => 'nullable|string',
+      'permissions'   => 'array',
       'permissions.*' => 'array|nullable',
-      // 'modules' => 'array',
     ]);
 
-    // dd($request->all());
     $permission = Permission::create($data);
 
     $permissions = $request->input('permissions', []);
 
-    // dd($permissions);
     $permission->modules()->attach($permissions);
 
     return redirect()
@@ -120,7 +115,7 @@ class PermissionController extends Controller
   public function update(Request $request, $id)
   {
     $data = $request->validate([
-      'name' => 'required|string',
+      'name'        => 'required|string',
       'description' => 'nullable|string',
     ]);
     // dd($request->all());

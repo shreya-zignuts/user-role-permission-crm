@@ -48,14 +48,14 @@ class RoleController extends Controller
   public function store(Request $request)
   {
     $request->validate([
-      'name' => 'required|string|max:255',
-      'description' => 'nullable|string|max:255',
-      'permissions' => 'required|array',
+      'name'          => 'required|string|max:255',
+      'description'   => 'nullable|string|max:255',
+      'permissions'   => 'required|array',
       'permissions.*' => 'integer|exists:permissions,id',
     ]);
 
     $role = Role::create([
-      'name' => $request->name,
+      'name'        => $request->name,
       'description' => $request->description,
     ]);
 
@@ -83,9 +83,6 @@ class RoleController extends Controller
 
     $role->save();
 
-    // return redirect()
-    //   ->back()
-    //   ->with('success', 'User status toggled successfully.');
     return response()->json(['success' => 'Role status toggled successfully.']);
   }
 
@@ -111,9 +108,9 @@ class RoleController extends Controller
   public function update(Request $request, $id)
   {
     $data = $request->validate([
-      'name' => 'required|string|max:255',
-      'description' => 'nullable|string|max:255',
-      'permissions' => 'required|array',
+      'name'          => 'required|string|max:255',
+      'description'   => 'nullable|string|max:255',
+      'permissions'   => 'required|array',
       'permissions.*' => 'integer|exists:permissions,id',
     ]);
 

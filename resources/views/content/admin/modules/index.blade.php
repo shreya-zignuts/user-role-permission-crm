@@ -12,13 +12,13 @@
 @endsection
 
 @section('content')
-    <!-- Search form -->
 
     @if (session('error'))
-        <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true"
-            data-bs-delay="2000"
+        <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
+            aria-atomic="true" data-bs-delay="2000"
             style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <div class="toast-header bg-danger text-white"
+                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
                 <i class="ti ti-bell ti-xs me-2"></i>
                 <div class="me-auto fw-semibold">Error</div>
                 <?php
@@ -136,7 +136,8 @@
                             <td>{{ $module->name }}</td>
                             <td>{{ $module->description }}</td>
                             <td>
-                                <form method="POST" action="{{ route('module-status', ['moduleId' => $module->code]) }}">
+                                <form method="POST"
+                                    action="{{ route('module-status', ['moduleId' => $module->code]) }}">
                                     @csrf
                                     <label class="switch">
                                         <input type="checkbox" class="switch-input" name="is_active"
@@ -166,11 +167,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      @if ($module->is_active && $module->submodules->where('is_active', true)->isEmpty() && $module->submodules->isEmpty())
-                    <tr>
-                        <td colspan="5" class="text-center font-weight-bold">No active submodules for this module.</td>
-                    </tr>
-                @endif
+                                        @if ($module->is_active && $module->submodules->where('is_active', true)->isEmpty() && $module->submodules->isEmpty())
+                                            <tr>
+                                                <td colspan="5" class="text-center font-weight-bold">No active
+                                                    submodules for this module.</td>
+                                            </tr>
+                                        @endif
                                         @foreach ($module->submodules as $submodule)
                                             <tr style="text-align: center">
                                                 <td>{{ $submodule->name }}</td>

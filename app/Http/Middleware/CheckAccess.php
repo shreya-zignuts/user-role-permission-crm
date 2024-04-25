@@ -28,7 +28,6 @@ class CheckAccess
 
     // Check if the user has the required permission for the requested action
     if (!$permissions[$action]) {
-      // You can redirect to an error page or a suitable fallback route
       return redirect()
         ->back()
         ->with('error', 'Unauthorized Access');
