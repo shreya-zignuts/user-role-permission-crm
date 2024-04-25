@@ -324,7 +324,7 @@
             @endif
         </table>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-3">
         <div class="col-md-6">
             <!-- Pagination links -->
             {{ $permissions->links('pagination::bootstrap-5') }}
