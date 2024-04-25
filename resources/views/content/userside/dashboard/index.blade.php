@@ -4,6 +4,25 @@
 
 @section('page-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-profile.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
+@endsection
+
+@section('page-script')
+    {{-- setting user details --}}
+    <script>
+        function setUserDetails(userId, userEmail) {
+            document.getElementById('userId').value = userId;
+            document.getElementById('userEmail').value = userEmail;
+        }
+    </script>
+
+    {{-- UI for quotes --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quoteOverlay = document.getElementById('quoteOverlay');
+            quoteOverlay.innerHTML = `<p class="quote-text">${randomQuote}</p>`;
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -12,7 +31,8 @@
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000"
             style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <div class="toast-header bg-danger text-white"
+                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
                 <i class="ti ti-bell ti-xs me-2"></i>
                 <div class="me-auto fw-semibold">Error</div>
                 <?php
@@ -313,19 +333,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function setUserDetails(userId, userEmail) {
-            document.getElementById('userId').value = userId;
-            document.getElementById('userEmail').value = userEmail;
-        }
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const quoteOverlay = document.getElementById('quoteOverlay');
-            quoteOverlay.innerHTML = `<p class="quote-text">${randomQuote}</p>`;
-        });
-    </script>
 
 @endsection

@@ -24,24 +24,15 @@
                         <div class="col-md-6">
                             <label class="form-label" for="name">Name</label>
                             <input type="text" id="name" name="name" class="form-control" placeholder="John" />
-                            @error('name')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="designation">Designation</label>
                             <input type="text" id="designation" name="designation" class="form-control"
                                 placeholder="John" />
-                            @error('designation')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="address">Address</label>
                             <textarea id="address" name="address" class="form-control" placeholder="123 Main St"></textarea>
-                            @error('address')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="email">Email</label>
@@ -50,17 +41,11 @@
                                     placeholder="john.doe" aria-label="john.doe" aria-describedby="emailSuffix" />
                                 <span class="input-group-text" id="emailSuffix">@gmail.com</span>
                             </div>
-                            @error('email')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="phone">Phone No</label>
                             <input type="text" id="phone" name="phone" class="form-control phone-mask"
                                 placeholder="123-456-7890" aria-label="123-456-7890" />
-                            @error('phone')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
 
                     </div>

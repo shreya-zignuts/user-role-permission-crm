@@ -31,22 +31,12 @@
                         <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
                             name="title" value="{{ old('title', $meetings->title) }}" required autocomplete="title"
                             autofocus>
-                        @error('title')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="description" class="form-label">{{ __('Description') }}</label>
                         <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description"
                             rows="3">{{ old('description', $meetings->description) }}</textarea>
-                        @error('description')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
                     </div>
 
                     <div class="row mb-3">
@@ -54,21 +44,11 @@
                             <label for="date" class="form-label">{{ __('Date') }}</label>
                             <input id="date" type="text" class="form-control @error('date') is-invalid @enderror"
                                 name="date" value="{{ old('date', $meetings->date) }}" required>
-                            @error('date')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="time" class="form-label">{{ __('Time') }}</label>
                             <input id="time" type="time" class="form-control @error('time') is-invalid @enderror"
                                 name="time" value="{{ old('time', $meetings->time) }}" required>
-                            @error('time')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                     </div>
 
@@ -83,15 +63,5 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    <script>
-        $(function() {
-            $("#date").datepicker({
-                minDate: 0, // Restrict to today onwards
-                dateFormat: 'yy-mm-dd', // Date format expected by Laravel
-                autoclose: true // Optional: Close the datepicker when a date is selected
-            });
-        });
-    </script>
+
 @endsection

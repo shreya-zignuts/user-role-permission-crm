@@ -22,25 +22,17 @@
                         <div class="col-md-12">
                             <label for="title" class="form-label">{{ __('Title') }}</label>
                             <input id="title" type="text" class="form-control" name="title"
-                                value="{{ old('title', $notes->title) }}"
-                                @error('title')>
-                                  <span class="invalid-feedback" role="alert">
-                                      <strong>{{ $message }}</strong>
-                                  </span>
-                              @enderror
-                                </div>
-                            <div class="col-md-12 mt-3">
-                                <label class="form-label" for="description">Description</label>
-                                <textarea id="description" name="description" class="form-control" placeholder="Description.. ">{{ old('description', $notes->description) }}</textarea>
-                                @error('description')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="pt-4">
-                                <button type="submit" class="btn btn-primary me-sm-3 me-1">Update</button>
-                                <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
-                                    aria-label="Close"><a href="{{ route('userside-notes') }}">Cancel</a></button>
-                            </div>
+                                value="{{ old('title', $notes->title) }}">
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea id="description" name="description" class="form-control" placeholder="Description.. ">{{ old('description', $notes->description) }}</textarea>
+                        </div>
+                        <div class="pt-4">
+                            <button type="submit" class="btn btn-primary me-sm-3 me-1">Update</button>
+                            <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
+                                aria-label="Close"><a href="{{ route('userside-notes') }}">Cancel</a></button>
+                        </div>
                 </form>
             </div>
         </div>

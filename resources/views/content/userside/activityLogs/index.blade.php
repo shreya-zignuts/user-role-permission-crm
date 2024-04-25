@@ -34,6 +34,128 @@
     <script src="{{ asset('assets/js/modal-add-role.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    {{-- script for toggle switch --}}
+    <script>
+        function handleCheckboxChange(id) {
+            var checkbox = document.getElementById('toggleSwitch' + id);
+            var status = checkbox.checked ? 1 : 0;
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, toggle it!',
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: "/userside/modules/activityLogs/change-status/" + id,
+                        data: {
+                            'status': status,
+                            'id': id
+                        },
+                        success: function(data) {
+                            console.log(data.success);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Changed!',
+                                text: 'Toggle status for people is changed',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        @foreach ($activityLog as $activity)
+            document.getElementById('toggleSwitch{{ $activity->id }}').addEventListener('change', function() {
+                handleCheckboxChange({{ $activity->id }});
+            });
+        @endforeach
+    </script>
+
+    {{-- script for delete sweet alert --}}
+    <script>
+        $(document).ready(function() {
+            $('.delete-activityLog').click(function(e) {
+                e.preventDefault();
+
+                var form = $(this).closest('form');
+                var id = $(this).data('id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    customClass: {
+                        confirmButton: 'btn btn-primary me-3',
+                        cancelButton: 'btn btn-label-secondary'
+                    },
+                    buttonsStyling: false
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: form.attr('action'),
+                            method: 'POST',
+                            data: form.serialize(),
+                            success: function(response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Deleted!',
+                                    text: 'Your activity log has been deleted.',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    }
+                                }).then(function() {
+                                    window.location.reload();
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    customClass: {
+                                        confirmButton: 'btn btn-danger'
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -190,9 +312,9 @@
                                     action="{{ route('activityLogs-status', ['id' => $activity->id]) }}">
                                     @csrf
                                     <label class="switch">
-                                        <input data-id="{{ $activity->id }}" class="switch-input" type="checkbox"
-                                            data-toggle="toggle" data-onstyle="success"
-                                            {{ $activity->is_active ? 'checked' : '' }}>
+                                        <input data-id="{{ $activity->id }}" id="toggleSwitch{{ $activity->id }}"
+                                            class="switch-input" type="checkbox" data-toggle="toggle"
+                                            data-onstyle="success" {{ $activity->is_active ? 'checked' : '' }}>
                                         <span class="switch-toggle-slider">
                                             <span class="switch-on"></span>
                                             <span class="switch-off"></span>
@@ -236,131 +358,11 @@
             </tbody>
         </table>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-3">
         <div class="col-md-6">
             <!-- Pagination links -->
             {{ $activityLog->links('pagination::bootstrap-5') }}
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    {{-- script for toggle switch --}}
-    <script>
-        $('.switch-input').change(function() {
-
-            var status = $(this).prop('checked') == true ? 1 : 0;
-            var id = $(this).data('id');
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, toggle it!',
-                customClass: {
-                    confirmButton: 'btn btn-primary me-3',
-                    cancelButton: 'btn btn-label-secondary'
-                },
-                buttonsStyling: false
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    $.ajax({
-
-                        type: "GET",
-                        dataType: "json",
-                        url: "/userside/modules/activityLogs/change-status/" + id,
-                        data: {
-                            'status': status,
-                            'id': id
-                        },
-
-                        success: function(data) {
-                            console.log(data.success)
-
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Changed!',
-                                text: 'Toggle status for activity log is changed',
-                                customClass: {
-                                    confirmButton: 'btn btn-success'
-                                }
-                            }).then(function() {
-                                window.location.reload();
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Something went wrong!',
-                                customClass: {
-                                    confirmButton: 'btn btn-danger'
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        })
-    </script>
-
-    {{-- script for delete sweet alert --}}
-    <script>
-        $(document).ready(function() {
-            $('.delete-activityLog').click(function(e) {
-                e.preventDefault();
-
-                var form = $(this).closest('form');
-                var id = $(this).data('id');
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    customClass: {
-                        confirmButton: 'btn btn-primary me-3',
-                        cancelButton: 'btn btn-label-secondary'
-                    },
-                    buttonsStyling: false
-                }).then(function(result) {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: form.attr('action'),
-                            method: 'POST',
-                            data: form.serialize(),
-                            success: function(response) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Your activity log has been deleted.',
-                                    customClass: {
-                                        confirmButton: 'btn btn-success'
-                                    }
-                                }).then(function() {
-                                    window.location.reload();
-                                });
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(xhr.responseText);
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong!',
-                                    customClass: {
-                                        confirmButton: 'btn btn-danger'
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 
 @endsection

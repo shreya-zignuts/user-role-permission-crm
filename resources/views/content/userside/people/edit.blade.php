@@ -16,9 +16,8 @@
                     </div>
                 @endif
 
-                <h5 class="mt-2">Edit People <img
-                        src="https://cdn-icons-png.freepik.com/256/683/683305.png?semt=ais_hybrid" width="25px"
-                        class="mb-1" alt=""></h5>
+                <h5 class="mt-2">Edit People <img src="https://cdn-icons-png.freepik.com/256/683/683305.png?semt=ais_hybrid"
+                        width="25px" class="mb-1" alt=""></h5>
                 <form class="mt-1" method="POST" action="{{ route('update-people', $people->id) }}">
                     @csrf
                     <div class="row g-3">
@@ -26,24 +25,15 @@
                             <label class="form-label" for="name">First Name</label>
                             <input type="text" id="name" name="name" class="form-control" placeholder="John"
                                 value="{{ old('name', $people->name) }}">
-                            @error('name')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="designation">Designation</label>
                             <input type="text" id="designation" name="designation" class="form-control"
                                 placeholder="Designation" value="{{ old('designation', $people->designation) }}">
-                            @error('designation')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="address">Address</label>
                             <textarea id="address" name="address" class="form-control" placeholder="123 Main St">{{ old('address', $people->address) }}</textarea>
-                            @error('address')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="email">Email</label>
@@ -53,18 +43,12 @@
                                     value="{{ old('email', $people->email) }}">
                                 <span class="input-group-text" id="emailSuffix">@gmail.com</span>
                             </div>
-                            @error('email')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label" for="phone_number">Phone No</label>
                             <input type="text" id="phone_number" name="phone_number" class="form-control phone-mask"
                                 placeholder="123-456-7890" aria-label="123-456-7890"
                                 value="{{ old('phone_number', $people->phone_number) }}">
-                            @error('phone_number')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                     </div>
 

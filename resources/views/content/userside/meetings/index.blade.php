@@ -34,6 +34,8 @@
     <script src="{{ asset('assets/js/modal-add-role.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- toast message for meeting is over --}}
     <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
@@ -49,6 +51,105 @@
             This meeting is over, cannot be edited.
         </div>
     </div>
+
+    {{-- script for toast message - for meeting --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('.edit-inactive-meeting').click(function(e) {
+                e.preventDefault();
+
+                $('.bs-toast').fadeIn();
+
+                setTimeout(function() {
+                    $('.bs-toast').fadeOut();
+                }, 2500);
+            });
+        });
+    </script>
+
+    {{-- script for delete sweet alert --}}
+    <script>
+        $(document).ready(function() {
+            $('.delete-meeting').click(function(e) {
+                e.preventDefault();
+
+                var form = $(this).closest('form');
+                var id = $(this).data('id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    customClass: {
+                        confirmButton: 'btn btn-primary me-3',
+                        cancelButton: 'btn btn-label-secondary'
+                    },
+                    buttonsStyling: false
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: form.attr('action'),
+                            method: 'POST',
+                            data: form.serialize(),
+                            success: function(response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Deleted!',
+                                    text: 'Your meeting has been deleted.',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    }
+                                }).then(function() {
+                                    window.location.reload();
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    customClass: {
+                                        confirmButton: 'btn btn-danger'
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- script for toggle switch --}}
+    <script>
+        $(document).ready(function() {
+            $('.switch-input').each(function() {
+                var toggleSwitch = $(this);
+                var id = $(this).data('id');
+                var meetingDate = new Date(toggleSwitch.data('date') + 'T' + toggleSwitch.data('time'));
+                var isChecked = toggleSwitch.prop('checked');
+                console.log(meetingDate);
+                if (meetingDate < new Date() && isChecked) {
+
+                    toggleSwitch.prop('checked', false); // Uncheck the toggle switch
+                    $.ajax({
+                        type: "get",
+                        dataType: "json",
+                        url: toggleSwitch.data('route'),
+                        data: {
+                            '_token': '{{ csrf_token() }}',
+                            'status': '0',
+                            'id': id
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
 @endsection
 
 @section('content')
@@ -265,113 +366,11 @@
             </tbody>
         </table>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-md-6 mb-5 mt-0">
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-6">
             <!-- Pagination links -->
             {{ $meetings->links('pagination::bootstrap-5') }}
         </div>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    {{-- script for delete sweet alert --}}
-    <script>
-        $(document).ready(function() {
-            $('.delete-meeting').click(function(e) {
-                e.preventDefault();
-
-                var form = $(this).closest('form');
-                var id = $(this).data('id');
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    customClass: {
-                        confirmButton: 'btn btn-primary me-3',
-                        cancelButton: 'btn btn-label-secondary'
-                    },
-                    buttonsStyling: false
-                }).then(function(result) {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: form.attr('action'),
-                            method: 'POST',
-                            data: form.serialize(),
-                            success: function(response) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Your meeting has been deleted.',
-                                    customClass: {
-                                        confirmButton: 'btn btn-success'
-                                    }
-                                }).then(function() {
-                                    window.location.reload();
-                                });
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(xhr.responseText);
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong!',
-                                    customClass: {
-                                        confirmButton: 'btn btn-danger'
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-
-    {{-- script for toggle switch --}}
-    <script>
-        $(document).ready(function() {
-            $('.switch-input').each(function() {
-                var toggleSwitch = $(this);
-                var id = $(this).data('id');
-                var meetingDate = new Date(toggleSwitch.data('date') + 'T' + toggleSwitch.data('time'));
-                var isChecked = toggleSwitch.prop('checked');
-                console.log(meetingDate);
-                if (meetingDate < new Date() && isChecked) {
-
-                    toggleSwitch.prop('checked', false); // Uncheck the toggle switch
-                    $.ajax({
-                        type: "get",
-                        dataType: "json",
-                        url: toggleSwitch.data('route'),
-                        data: {
-                            '_token': '{{ csrf_token() }}',
-                            'status': '0',
-                            'id': id
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-
-    {{-- script for toast message - for meeting --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            $('.edit-inactive-meeting').click(function(e) {
-                e.preventDefault();
-
-                $('.bs-toast').fadeIn();
-
-                setTimeout(function() {
-                    $('.bs-toast').fadeOut();
-                }, 2500);
-            });
-        });
-    </script>
-
 
 @endsection
