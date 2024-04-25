@@ -169,11 +169,11 @@
                             <td>{{ $comp->owner_name }}</td>
                             <td>{{ $comp->industry }}</td>
                             <td style="max-width: 150px;">
-                                <div class="toggle-address" data-full="{{ $comp->address }}">
+                                <div class="toggle-description" data-full="{{ $comp->address }}">
                                     @php
-                                        $truncatedAddress = \Illuminate\Support\Str::limit($comp->address, 30, '');
+                                        $truncatedDescription = \Illuminate\Support\Str::limit($comp->address, 30, '');
                                     @endphp
-                                    {{ $truncatedAddress }}
+                                    {{ $truncatedDescription }}
                                     @if (strlen($comp->address) > 30)
                                         <span class="toggle-icon" style="cursor: pointer;">▼</span>
                                     @endif

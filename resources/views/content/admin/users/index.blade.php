@@ -4,34 +4,33 @@
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
 
 @endsection
 
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/tagify/tagify.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
     <script src="{{ asset('assets/js/app-access-roles.js') }}"></script>
     <script src="{{ asset('assets/js/modal-add-role.js') }}"></script>
+    <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
 @endsection
 
 @section('content')
@@ -215,14 +214,6 @@
                                                     width="20px" alt="">
                                                 &nbsp; New Password
                                             </a>
-                                            {{-- <form action="{{ route('logout.user', ['id' => $user->id]) }}"
-                                                method="post">
-                                                @csrf
-
-                                                <button type="submit" class="dropdown-item text-left"><img
-                                                        src="https://cdn-icons-png.flaticon.com/128/3889/3889524.png"
-                                                        width="16px" alt="">&nbsp; Force Logout</button>
-                                            </form> --}}
 
                                             <form id="forceLogoutForm"
                                                 action="{{ route('logout.user', ['id' => $user->id]) }}" method="post">
@@ -248,80 +239,148 @@
                 </tbody>
             </table>
         </div>
-        <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
-                <div class="modal-content p-3 p-md-5">
-                    <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                    <div class="modal-body">
-                        <div class="text-center mb-4">
-                            <h3 class="role-title mb-2">Set New Password</h3>
-                            <p class="text-muted">Set password for user</p>
-                        </div>
-                        <form method="POST" action="{{ route('reset-password') }}">
-                            @csrf
-                            <input type="hidden" name="id" id="userId" class="form-control">
-                            <div class="mb-3 form-password-toggle">
-                                <label class="form-label" for="email">Email</label>
-                                <input type="email" name="email" id="userEmail" class="form-control" required
-                                    autofocus disabled />
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">New Password</label>
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror" name="password" required
-                                    autocomplete="new-password">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="password-confirm" class="form-label">Confirm Password</label>
-                                <input id="password-confirm" type="password" class="form-control"
-                                    name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Reset Password Mail</button>
-                            </div>
-                        </form>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Pagination links -->
+            {{ $users->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+
+    <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+            <div class="modal-content p-3 p-md-5">
+                <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <h3 class="role-title mb-2">Set New Password</h3>
+                        <p class="text-muted">Set password for user</p>
                     </div>
+                    <form method="POST" action="{{ route('reset-password') }}">
+                        @csrf
+                        <input type="hidden" name="id" id="userId" class="form-control">
+                        <div class="mb-3 form-password-toggle">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" name="email" id="userEmail" class="form-control" required autofocus
+                                disabled />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password</label>
+                            <input id="password" type="password"
+                                class="form-control @error('password') is-invalid @enderror" name="password" required
+                                autocomplete="new-password">
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="password-confirm" class="form-label">Confirm Password</label>
+                            <input id="password-confirm" type="password" class="form-control"
+                                name="password_confirmation" required autocomplete="new-password">
+                        </div>
+                        <div class="pt-4 text-center">
+                            <button type="submit" class="btn btn-primary me-sm-3 me-1">Reset Password Mail</button>
+                            <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal"
+                                aria-label="Close"><a href="{{ route('pages-users') }}">Cancel</a></button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        function setUserDetails(userId, userEmail) {
+            document.getElementById('userId').value = userId;
+            document.getElementById('userEmail').value = userEmail;
+        }
+    </script>
+
+    {{-- script for toggle switch --}}
+    <script>
+        $('.switch-input').change(function() {
+
+            var status = $(this).prop('checked') == true ? 1 : 0;
+            var id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, toggle it!',
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
+
+                        type: "GET",
+                        dataType: "json",
+                        url: "/admin/users/change-status/" + id,
+                        data: {
+                            'status': status,
+                            'id': id
+                        },
+
+                        success: function(data) {
+                            console.log(data.success)
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Changed!',
+                                text: 'Toggle status for user is changed',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            }).then(function() {
+                                window.location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                }
+                            });
+                        }
+                    });
+                }
+            });
 
 
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <!-- Pagination links -->
-                {{ $users->links('pagination::bootstrap-5') }}
-            </div>
-        </div>
+        })
+    </script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {{-- script for delete sweet alert --}}
+    <script>
+        $(document).ready(function() {
+            $('.delete-user').click(function(e) {
+                e.preventDefault();
 
-        <script>
-            function setUserDetails(userId, userEmail) {
-                document.getElementById('userId').value = userId;
-                document.getElementById('userEmail').value = userEmail;
-            }
-        </script>
-
-        {{-- script for toggle switch --}}
-        <script>
-            $('.switch-input').change(function() {
-
-                var status = $(this).prop('checked') == true ? 1 : 0;
+                var form = $(this).closest('form');
                 var id = $(this).data('id');
 
+                // Use SweetAlert for delete confirmation
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes, toggle it!',
+                    confirmButtonText: 'Yes, delete it!',
                     customClass: {
                         confirmButton: 'btn btn-primary me-3',
                         cancelButton: 'btn btn-label-secondary'
@@ -330,22 +389,14 @@
                 }).then(function(result) {
                     if (result.isConfirmed) {
                         $.ajax({
-
-                            type: "GET",
-                            dataType: "json",
-                            url: "/admin/users/change-status/" + id,
-                            data: {
-                                'status': status,
-                                'id': id
-                            },
-
-                            success: function(data) {
-                                console.log(data.success)
-
+                            url: form.attr('action'),
+                            method: 'POST',
+                            data: form.serialize(),
+                            success: function(response) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Changed!',
-                                    text: 'Toggle status for user is changed',
+                                    title: 'Deleted!',
+                                    text: 'Your user has been deleted.',
                                     customClass: {
                                         confirmButton: 'btn btn-success'
                                     }
@@ -367,123 +418,65 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
 
+    {{-- script for force logout user --}}
 
-            })
-        </script>
+    <script>
+        $(document).ready(function() {
+            $('.logout-user').click(function(e) {
+                e.preventDefault();
 
-        {{-- script for delete sweet alert --}}
-        <script>
-            $(document).ready(function() {
-                $('.delete-user').click(function(e) {
-                    e.preventDefault();
+                var form = $(this).closest('form');
+                var id = $(this).data('id');
 
-                    var form = $(this).closest('form');
-                    var id = $(this).data('id');
-
-                    // Use SweetAlert for delete confirmation
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, delete it!',
-                        customClass: {
-                            confirmButton: 'btn btn-primary me-3',
-                            cancelButton: 'btn btn-label-secondary'
-                        },
-                        buttonsStyling: false
-                    }).then(function(result) {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: form.attr('action'),
-                                method: 'POST',
-                                data: form.serialize(),
-                                success: function(response) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Deleted!',
-                                        text: 'Your user has been deleted.',
-                                        customClass: {
-                                            confirmButton: 'btn btn-success'
-                                        }
-                                    }).then(function() {
-                                        window.location.reload();
-                                    });
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error(xhr.responseText);
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: 'Something went wrong!',
-                                        customClass: {
-                                            confirmButton: 'btn btn-danger'
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, do it!',
+                    customClass: {
+                        confirmButton: 'btn btn-primary me-3',
+                        cancelButton: 'btn btn-label-secondary'
+                    },
+                    buttonsStyling: false
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: form.attr('action'),
+                            method: 'POST',
+                            data: form.serialize(),
+                            success: function(response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Forcefully Logout !!',
+                                    text: 'User has been successfully logged out.',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    }
+                                }).then(function() {
+                                    window.location.reload();
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    customClass: {
+                                        confirmButton: 'btn btn-danger'
+                                    }
+                                });
+                            }
+                        });
+                    }
                 });
             });
-        </script>
+        });
+    </script>
 
-        {{-- script for force logout user --}}
-
-        <script>
-            $(document).ready(function() {
-                $('.logout-user').click(function(e) {
-                    e.preventDefault();
-
-                    var form = $(this).closest('form');
-                    var id = $(this).data('id');
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, do it!',
-                        customClass: {
-                            confirmButton: 'btn btn-primary me-3',
-                            cancelButton: 'btn btn-label-secondary'
-                        },
-                        buttonsStyling: false
-                    }).then(function(result) {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: form.attr('action'),
-                                method: 'POST',
-                                data: form.serialize(),
-                                success: function(response) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Forcefully Logout !!',
-                                        text: 'User has been successfully logged out.',
-                                        customClass: {
-                                            confirmButton: 'btn btn-success'
-                                        }
-                                    }).then(function() {
-                                        window.location.reload();
-                                    });
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error(xhr.responseText);
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: 'Something went wrong!',
-                                        customClass: {
-                                            confirmButton: 'btn btn-danger'
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-        </script>
-
-    @endsection
+@endsection

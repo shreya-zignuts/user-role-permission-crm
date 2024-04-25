@@ -176,11 +176,15 @@
                             <td>{{ $person->name }}</td>
                             <td>{{ $person->designation }}</td>
                             <td style="max-width: 150px;">
-                                <div class="toggle-address" data-full="{{ $person->address }}">
+                                <div class="toggle-description" data-full="{{ $person->address }}">
                                     @php
-                                        $truncatedAddress = \Illuminate\Support\Str::limit($person->address, 30, '');
+                                        $truncatedDescription = \Illuminate\Support\Str::limit(
+                                            $person->address,
+                                            30,
+                                            '',
+                                        );
                                     @endphp
-                                    {{ $truncatedAddress }}
+                                    {{ $truncatedDescription }}
                                     @if (strlen($person->address) > 30)
                                         <span class="toggle-icon" style="cursor: pointer;">▼</span>
                                     @endif

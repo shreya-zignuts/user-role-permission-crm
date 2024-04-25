@@ -2,7 +2,7 @@
 <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
 <!-- beautify ignore:start -->
 @if ($configData['hasCustomizer'])
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
   <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
 @endif
@@ -11,47 +11,45 @@
   <script src="{{ asset('assets/js/config.js') }}"></script>
 
 @if ($configData['hasCustomizer'])
-  <script>
+<script>
     window.templateCustomizer = new TemplateCustomizer({
-      cssPath: '',
-      themesPath: '',
-      defaultShowDropdownOnHover: {{$configData['showDropdownOnHover']}}, // true/false (for horizontal layout only)
-      displayCustomizer: {{$configData['displayCustomizer']}},
-      lang: '{{ app()->getLocale() }}',
-      pathResolver: function(path) {
-        var resolvedPaths = {
-          // Core stylesheets
-          @foreach (['core'] as $name)
-            '{{ $name }}.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/{$name}.css")) }}',
-            '{{ $name }}-dark.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/{$name}-dark.css")) }}',
-          @endforeach
+        cssPath: '',
+        themesPath: '',
+        defaultShowDropdownOnHover: {{ $configData['showDropdownOnHover'] }}, // true/false (for horizontal layout only)
+        displayCustomizer: {{ $configData['displayCustomizer'] }},
+        lang: '{{ app()->getLocale() }}',
+        pathResolver: function(path) {
+            var resolvedPaths = {
+                // Core stylesheets
+                @foreach (['core'] as $name)
+                    '{{ $name }}.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/{$name}.css")) }}',
+                    '{{ $name }}-dark.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/{$name}-dark.css")) }}',
+                @endforeach
 
-          // Themes
-          @foreach (['default', 'bordered', 'semi-dark'] as $name)
-            'theme-{{ $name }}.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/theme-{$name}.css")) }}',
-            'theme-{{ $name }}-dark.css':
-            '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/theme-{$name}-dark.css")) }}',
-          @endforeach
-        }
-        return resolvedPaths[path] || path;
-      },
-      'controls': <?php echo json_encode($configData['customizerControls']); ?>,
+                // Themes
+                @foreach (['default', 'bordered', 'semi-dark'] as $name)
+                    'theme-{{ $name }}.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/theme-{$name}.css")) }}',
+                    'theme-{{ $name }}-dark.css': '{{ asset(mix("assets/vendor/css{$configData['rtlSupport']}/theme-{$name}-dark.css")) }}',
+                @endforeach
+            }
+            return resolvedPaths[path] || path;
+        },
+        'controls': <?php echo json_encode($configData['customizerControls']); ?>,
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        $('.toggle-address').click(function () {
-            var fullAddress = $(this).data('full');
+    document.addEventListener('DOMContentLoaded', function() {
+        $('.toggle-description').click(function() {
+            var fullDescription = $(this).data('full');
             var textElement = $(this).find('.toggle-icon');
             if ($(this).hasClass('expanded')) {
                 $(this).removeClass('expanded');
-                $(this).html(fullAddress.substr(0, 30) + '<span class="toggle-icon">&nbsp;▼</span>');
+                $(this).html(fullDescription.substr(0, 30) +
+                    '<span class="toggle-icon">&nbsp;▼</span>');
             } else {
                 $(this).addClass('expanded');
-                $(this).html(fullAddress + '<span class="toggle-icon">&nbsp;▲</span>');
+                $(this).html(fullDescription + '<span class="toggle-icon">&nbsp;▲</span>');
             }
         });
     });
 </script>
-
-
 @endif

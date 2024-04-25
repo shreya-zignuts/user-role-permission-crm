@@ -36,8 +36,8 @@
     <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
 
     {{-- toast message for meeting is over --}}
-    <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive" aria-atomic="true"
-        data-bs-delay="2000"
+    <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
+        aria-atomic="true" data-bs-delay="2000"
         style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); display: none;">
         <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
             <i class="ti ti-bell ti-xs me-2"></i>
@@ -197,15 +197,15 @@
                         <tr>
                             <td>{{ $meeting->title }}</td>
                             <td style="max-width: 150px;">
-                                <div class="toggle-address" data-full="{{ $meeting->description }}">
+                                <div class="toggle-description" data-full="{{ $meeting->description }}">
                                     @php
-                                        $truncatedAddress = \Illuminate\Support\Str::limit(
+                                        $truncatedDescription = \Illuminate\Support\Str::limit(
                                             $meeting->description,
                                             30,
                                             '',
                                         );
                                     @endphp
-                                    {{ $truncatedAddress }}
+                                    {{ $truncatedDescription }}
                                     @if (strlen($meeting->description) > 30)
                                         <span class="toggle-icon" style="cursor: pointer;">▼</span>
                                     @endif

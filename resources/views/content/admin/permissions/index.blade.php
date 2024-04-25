@@ -4,26 +4,19 @@
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
 @endsection
 
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/tagify/tagify.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
 
 @endsection
@@ -154,15 +147,15 @@
                             <td></td>
                             <td>{{ $permission->name }}</td>
                             <td style="max-width: 150px;">
-                                <div class="toggle-address" data-full="{{ $permission->description }}">
+                                <div class="toggle-description" data-full="{{ $permission->description }}">
                                     @php
-                                        $truncatedAddress = \Illuminate\Support\Str::limit(
+                                        $truncatedDescription = \Illuminate\Support\Str::limit(
                                             $permission->description,
                                             30,
                                             '',
                                         );
                                     @endphp
-                                    {{ $truncatedAddress }}
+                                    {{ $truncatedDescription }}
                                     @if (strlen($permission->description) > 30)
                                         <span class="toggle-icon" style="cursor: pointer;">▼</span>
                                     @endif

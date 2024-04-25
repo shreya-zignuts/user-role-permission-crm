@@ -164,11 +164,15 @@
                         <tr>
                             <td>{{ $note->title }}</td>
                             <td style="max-width: 150px;">
-                                <div class="toggle-address" data-full="{{ $note->description }}">
+                                <div class="toggle-description" data-full="{{ $note->description }}">
                                     @php
-                                        $truncatedAddress = \Illuminate\Support\Str::limit($note->description, 30, '');
+                                        $truncatedDescription = \Illuminate\Support\Str::limit(
+                                            $note->description,
+                                            30,
+                                            '',
+                                        );
                                     @endphp
-                                    {{ $truncatedAddress }}
+                                    {{ $truncatedDescription }}
                                     @if (strlen($note->description) > 30)
                                         <span class="toggle-icon" style="cursor: pointer;">▼</span>
                                     @endif

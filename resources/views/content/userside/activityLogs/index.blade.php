@@ -175,11 +175,11 @@
                         <tr>
                             <td>{{ $activity->title }}</td>
                             <td style="max-width: 150px;">
-                                <div class="toggle-address" data-full="{{ $activity->log }}">
+                                <div class="toggle-description" data-full="{{ $activity->log }}">
                                     @php
-                                        $truncatedAddress = \Illuminate\Support\Str::limit($activity->log, 30, '');
+                                        $truncatedDescription = \Illuminate\Support\Str::limit($activity->log, 30, '');
                                     @endphp
-                                    {{ $truncatedAddress }}
+                                    {{ $truncatedDescription }}
                                     @if (strlen($activity->log) > 30)
                                         <span class="toggle-icon" style="cursor: pointer;">▼</span>
                                     @endif

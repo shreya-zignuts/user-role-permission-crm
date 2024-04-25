@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -30,8 +29,6 @@
 @endsection
 
 @section('page-script')
-    <script src="{{ asset('assets/js/app-access-roles.js') }}"></script>
-    <script src="{{ asset('assets/js/modal-add-role.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
 @endsection
@@ -158,11 +155,11 @@
                         <tr>
                             <td>{{ $role->name }}</td>
                             <td style="max-width: 150px;">
-                                <div class="toggle-address" data-full="{{ $role->description }}">
+                                <div class="toggle-description" data-full="{{ $role->description }}">
                                     @php
-                                        $truncatedAddress = \Illuminate\Support\Str::limit($role->description, 30, '');
+                                        $truncatedDescription = \Illuminate\Support\Str::limit($role->description, 30, '');
                                     @endphp
-                                    {{ $truncatedAddress }}
+                                    {{ $truncatedDescription }}
                                     @if (strlen($role->description) > 30)
                                         <span class="toggle-icon" style="cursor: pointer;">▼</span>
                                     @endif
