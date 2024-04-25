@@ -2,41 +2,17 @@
 
 @section('title', 'User - Dashboard')
 
-@section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}">
-@endsection
-
-@section('vendor-script')
-    <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-
-@endsection
-
 @section('page-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-profile.css') }}" />
 @endsection
 
-@section('page-script')
-    <script src="{{ asset('assets/js/cards-statistics.js') }}"></script>
-    <script src="{{ asset('assets/js/pages-profile.js') }}"></script>
-
-@endsection
-
 @section('content')
 
-    @php
-        $imageSrc =
-            'https://media.istockphoto.com/id/899347890/vector/online-graphical-report-icon.jpg?s=612x612&w=0&k=20&c=hmd7aTt5jfYbKHXizrqwyq1Gz0VN4Fj-hjvz4_w24qU=';
-    @endphp
     @if (session('error'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000"
             style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <div class="toast-header bg-danger text-white"
-                style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
                 <i class="ti ti-bell ti-xs me-2"></i>
                 <div class="me-auto fw-semibold">Error</div>
                 <?php
@@ -108,7 +84,7 @@
                         style="font-size: 3rem; font-family: 'Segoe UI', sans-serif; color: #c5c3dc; text-shadow: 2px 2px 4px rgba(60, 46, 216, 0.71);">
                         <?php
                         $quotes = ['dream big', 'stay focused', 'never give up', 'work hard', 'believe', 'stay positive', 'keep smiling', 'keep going', 'you got this', 'fearless', 'take risks'];
-
+                        
                         // Select a random quote from the array
                         $randomQuote = $quotes[array_rand($quotes)];
                         echo "<script>const randomQuote = \"$randomQuote\";</script>";
@@ -216,10 +192,10 @@
                             <span>{{ $user->email }}</span>
                         </li>
                         <li class="d-flex align-items-center mb-3">
-                          <i class="ti ti-home"></i>
-                          <span class="fw-bold mx-2">Address:</span>
-                          <span>{{ $user->address }}</span>
-                      </li>
+                            <i class="ti ti-home"></i>
+                            <span class="fw-bold mx-2">Address:</span>
+                            <span>{{ $user->address }}</span>
+                        </li>
 
                     </ul>
                 </div>

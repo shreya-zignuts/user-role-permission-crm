@@ -2,25 +2,9 @@
 
 @section('title', 'Edit Meeting')
 
-@section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
-@endsection
-
-@section('vendor-script')
-    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/tagify/tagify.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
-@endsection
-
 @section('page-script')
-    <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
-    <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 @endsection
 
 @section('content')
@@ -68,7 +52,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="date" class="form-label">{{ __('Date') }}</label>
-                            <input id="date" type="date" class="form-control @error('date') is-invalid @enderror"
+                            <input id="date" type="text" class="form-control @error('date') is-invalid @enderror"
                                 name="date" value="{{ old('date', $meetings->date) }}" required>
                             @error('date')
                                 <span class="invalid-feedback" role="alert">

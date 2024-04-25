@@ -2,20 +2,6 @@
 
 @section('title', 'Create People')
 
-@section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
-@endsection
-
-@section('vendor-script')
-    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
-@endsection
-
-@section('page-script')
-    <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
-@endsection
-
 @section('content')
     <div class="d-flex justify-content-center mt-3">
         <div class="modal-content p-3 p-md-5 w-75 align-content-center mt-5">

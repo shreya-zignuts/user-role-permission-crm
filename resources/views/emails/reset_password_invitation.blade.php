@@ -57,9 +57,10 @@
         .btn:hover {
             background-color: #4c83ee;
         }
-        .login{
-          margin-top: 20px;
-          text-align: center;
+
+        .login {
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -70,11 +71,13 @@
             <div class="card-body">
                 <h1 style="font-size: 28px; margin-bottom: 20px; text-align: center;">Password Reset Invitation</h1>
                 <hr style="border-top: 2px solid #4c83ee;">
-                <p class="card-title">Dear <span style="color: #4c83ee;">{{ $user->first_name }} {{ $user->last_name }},</span></p>
+                <p class="card-title">Dear <span style="color: #4c83ee;">{{ $user->first_name }}
+                        {{ $user->last_name }},</span></p>
                 <p class="info">You have been invited to reset your password. <br></p>
                 <p class="info">Please click the following link to reset your password:</p>
                 <div class="login">
-                    <a href="{{ route('password.reset', ['token' => $user->invitation_token]) }}" class="btn">Reset Password</a>
+                    <a href="{{ route('password.reset', ['token' => $user->invitation_token]) }}" class="btn">Reset
+                        Password</a>
                 </div>
                 </p>
             </div>

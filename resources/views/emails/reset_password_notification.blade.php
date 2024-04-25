@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,9 +60,9 @@
             background-color: #4c83ee;
         }
 
-        .login{
-          margin-top: 20px;
-          text-align: center;
+        .login {
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -70,13 +71,16 @@
     <div class="container">
         <div class="card email-content">
             <div class="card-body">
-                <h3 style="font-size: 28px; margin-bottom: 10px; text-align: center; color: #000000;">Password Reset Notification</h3>
+                <h3 style="font-size: 28px; margin-bottom: 10px; text-align: center; color: #000000;">Password Reset
+                    Notification</h3>
                 <hr style="border-top: 2px solid #4c83ee;">
-                <h5 class="card-title">Hello <span style="color: #4c83ee;">{{ $user->first_name }} {{ $user->last_name }},</span></h5>
+                <h5 class="card-title">Hello <span style="color: #4c83ee;">{{ $user->first_name }}
+                        {{ $user->last_name }},</span></h5>
                 <p>Your password is changed by admin..</p>
                 <h3>Your Login Details :</h3>
                 <p class="info"><strong>Email:</strong> {{ $user->email }}</p>
-                <p class="info"><strong>New Password:</strong> <span style="color: #4c83ee;">{{ $password }}</span></p>
+                <p class="info"><strong>New Password:</strong> <span
+                        style="color: #4c83ee;">{{ $password }}</span></p>
                 <div class="login">
                     <a href="{{ route('login') }}" class="btn">Log In</a>
                 </div>
@@ -84,4 +88,5 @@
         </div>
     </div>
 </body>
+
 </html>
