@@ -33,7 +33,7 @@
                     </div>
                     <div class="row mt-4">
                         <!-- Basic -->
-                        <div class="col-md-6 mb-4">
+                        <div class="col-md-6 mb-4 w-100">
                             <label for="select2Basic" class="form-label">Type</label>
                             <select id="type" name="type" class="form-select">
                                 <option value="C">Coding</option>

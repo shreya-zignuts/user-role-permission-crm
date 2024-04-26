@@ -85,78 +85,80 @@
     @endif
 
     {{-- Blade file for admin dashboard --}}
-    <div class="row">
-        <div class="col-lg-6 col-sm-6 mb-4">
-            <div class="card h-px-250 text-center w-px-500">
-                <div class="card-body pb-0 mt-4">
-                    <div class="card-icon">
-                        <div class="user-count-container d-flex flex-column align-items-center">
-                            <span class="badge bg-label-primary rounded-pill p-2">
-                                <i class='ti ti-hexagons ti-sm'></i>
-                            </span>
-
-
-                            <div class="mt-2">Modules Count</div>
-                            <h5 class="card-title module-count">{{ $activeModuleCount }}</h5>
+    
+    <div class="row g-4 mb-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div class="content-left">
+                            <span>Active Users</span>
+                            <div class="d-flex align-items-end mt-2">
+                                <h3 class="mb-0 me-2">{{ $activeModuleCount }}</h3>
+                            </div>
+                            {{-- <small>Total Users</small> --}}
                         </div>
+                        <span class="badge bg-label-primary rounded-pill p-2">
+                            <i class='ti ti-hexagons ti-sm'></i>
+                        </span>
                     </div>
                 </div>
                 <div id="subscriberGained"></div>
+
             </div>
         </div>
-
-        <!-- Quarterly Sales -->
-        <div class="col-lg-6 col-sm-6 mb-4">
-            <div class="card h-px-250 text-center w-px-500">
-                <div class="card-body pb-0 mt-4">
-                    <div class="card-icon">
-                        <div class="user-count-container d-flex flex-column align-items-center">
-                            <span class="badge bg-label-danger rounded-pill p-2">
-                                <i class='ti ti-lock ti-sm'></i>
-                            </span>
-
-
-                            <div class="mt-2">Permissions Count</div>
-                            <h5 class="card-title permission-count">{{ $activePermissionCount }}</h5>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div class="content-left">
+                            <span>Active Permissions</span>
+                            <div class="d-flex align-items-end mt-2">
+                                <h3 class="mb-0 me-2">{{ $activePermissionCount }}</h3>
+                            </div>
+                            {{-- <small>Recent analytics </small> --}}
                         </div>
+                        <span class="badge bg-label-danger rounded-pill p-2">
+                            <i class='ti ti-lock ti-sm'></i>
+                        </span>
                     </div>
                 </div>
                 <div id="quarterlySales"></div>
             </div>
         </div>
-
-        <!-- Order Received -->
-        <div class="col-lg-6 col-sm-6 mb-4">
-            <div class="card h-px-250 text-center w-px-500">
-                <div class="card-body pb-0 mt-3">
-                    <div class="card-icon">
-                        <div class="user-count-container d-flex flex-column align-items-center">
-                            <span class="badge bg-label-warning rounded-pill p-2">
-                                <i class='ti ti-user-circle ti-sm'></i>
-                            </span>
-
-                            <div class="mt-2">Roles Count</div>
-                            <h5 class="card-title roles-count">{{ $activeRolesCount }}</h5>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div class="content-left">
+                            <span>Active Roles</span>
+                            <div class="d-flex align-items-end mt-2">
+                                <h3 class="mb-0 me-2">{{ $activeRolesCount }}</h3>
+                            </div>
+                            {{-- <small>Recent analytics</small> --}}
                         </div>
+                        <span class="badge bg-label-warning rounded-pill p-2">
+                            <i class='ti ti-user-circle ti-sm'></i>
+                        </span>
                     </div>
                 </div>
                 <div id="orderReceived"></div>
             </div>
         </div>
-
-        <!-- Revenue Generated -->
-        <div class="col-lg-6 col-sm-6 mb-4">
-            <div class="card h-px-250 text-center w-px-500">
-                <div class="card-body pb-0 mt-3">
-                    <div class="card-icon">
-                        <div class="user-count-container d-flex flex-column align-items-center">
-                            <span class="badge bg-label-success rounded-pill p-2">
-                                <i class='ti ti-users ti-sm'></i>
-                            </span>
-
-                            <div class="mt-2">Users Count</div>
-                            <h5 class="card-title user-count">{{ $activeUsersCount }}</h5>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div class="content-left">
+                            <span>Active Users</span>
+                            <div class="d-flex align-items-end mt-2">
+                                <h3 class="mb-0 me-2">{{ $activeUsersCount }}</h3>
+                            </div>
+                            {{-- <small>Recent analytics</small> --}}
                         </div>
+                        <span class="badge bg-label-success rounded-pill p-2">
+                            <i class='ti ti-users ti-sm'></i>
+                        </span>
                     </div>
                 </div>
                 <div id="revenueGenerated"></div>

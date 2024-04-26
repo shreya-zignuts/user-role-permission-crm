@@ -101,7 +101,7 @@
                             @if (!isset($module['parent_code']))
                                 <li class="menu-item">
                                     <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
-                                        class="menu-link menu-toggle">
+                                        class="menu-link toggle-menu">
                                         @isset($module->icon)
                                             <i class="{{ $module->icon }}"></i>
                                         @endisset
@@ -144,7 +144,7 @@
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
                     $(document).ready(function() {
-                        $('.menu-toggle').click(function(e) {
+                        $('.toggle-menu').click(function(e) {
                             e.preventDefault();
                             var $submenu = $(this).next('.submenu');
                             if (!$submenu.is(':visible')) {

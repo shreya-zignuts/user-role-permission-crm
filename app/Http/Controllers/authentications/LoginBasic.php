@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
+
 
 class LoginBasic extends Controller
 {
@@ -81,9 +83,10 @@ class LoginBasic extends Controller
       $user->tokens()->delete();
       Auth::logout();
 
+      Session::flash('success', 'Already sent link for reset password');
+
       return redirect()
-        ->route('login')
-        ->with('success', 'Successfully logged out');
+        ->route('login');
     }
   }
 }
