@@ -194,7 +194,6 @@
                     <path d="M14 17h1" />
                 </svg></h5>
             <div class="card-body text-end mt-4">
-                {{-- @dd($peopleModule->pivot->add_access) --}}
 
                 @if ($permissionsArray['add'])
                     <a href="{{ route('create-company') }}" class="btn btn-primary">Add Company</a>
@@ -227,16 +226,9 @@
                             <td>{{ $comp->name }}</td>
                             <td>{{ $comp->owner_name }}</td>
                             <td>{{ $comp->industry }}</td>
-                            <td style="max-width: 150px;">
-                                <div class="toggle-description" data-full="{{ $comp->address }}">
-                                    @php
-                                        $truncatedDescription = \Illuminate\Support\Str::limit($comp->address, 30, '');
-                                    @endphp
-                                    {{ $truncatedDescription }}
-                                    @if (strlen($comp->address) > 30)
-                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
-                                    @endif
-                                </div>
+                            <td data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="tooltip-primary"
+                                @if (strlen($comp->address) > 20) title="{{ $comp->address }}" @endif>
+                                {{ \Illuminate\Support\Str::limit($comp->address, 20) }}
                             </td>
                             <td>
                                 @if ($permissionsArray['edit'] || $permissionsArray['delete'])

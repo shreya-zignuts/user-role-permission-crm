@@ -349,7 +349,7 @@
                             <tr>
                                 <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                                 <td>
-                                    @if ($user->roles->count() <= 2)
+                                    {{-- @if ($user->roles->count() <= 2)
                                         @foreach ($user->roles as $role)
                                             <span class="badge bg-primary">{{ $role->name }}</span>
                                         @endforeach
@@ -358,7 +358,24 @@
                                             <span class="badge bg-primary">{{ $role->name }}</span>
                                         @endforeach
                                         +{{ $user->roles->count() - 2 }}
+                                    @endif --}}
+                                    @if ($user->roles->count() <= 2)
+                                        @foreach ($user->roles as $role)
+                                            <span class="badge bg-primary">{{ $role->name }}</span>
+                                        @endforeach
+                                    @else
+                                        @foreach ($user->roles->take(2) as $role)
+                                            <span class="badge bg-primary">{{ $role->name }}</span>
+                                        @endforeach
+                                        <span data-bs-toggle="tooltip" data-bs-placement="right"
+                                            data-bs-custom-class="tooltip-primary"
+                                            title="
+                                                @foreach ($user->roles->skip(2) as $role)
+                                                {{ $role->name }}@if (!$loop->last),@endif @endforeach">
+                                            +{{ $user->roles->count() - 2 }}
+                                        </span>
                                     @endif
+
                                 </td>
                                 <td>
                                     <form method="get" action="{{ route('user-status', ['id' => $user->id]) }}">

@@ -296,16 +296,9 @@
                     @foreach ($activityLog as $activity)
                         <tr>
                             <td>{{ $activity->title }}</td>
-                            <td style="max-width: 150px;">
-                                <div class="toggle-description" data-full="{{ $activity->log }}">
-                                    @php
-                                        $truncatedDescription = \Illuminate\Support\Str::limit($activity->log, 30, '');
-                                    @endphp
-                                    {{ $truncatedDescription }}
-                                    @if (strlen($activity->log) > 30)
-                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
-                                    @endif
-                                </div>
+                            <td data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="tooltip-primary"
+                                @if (strlen($activity->log) > 20) title="{{ $activity->log }}" @endif>
+                                {{ \Illuminate\Support\Str::limit($activity->log, 20) }}
                             </td>
                             <td>
                                 <form method="get"

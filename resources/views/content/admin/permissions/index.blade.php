@@ -266,36 +266,24 @@
                         <tr>
                             <td></td>
                             <td>{{ $permission->name }}</td>
-                            <td style="max-width: 150px;">
-                                <div class="toggle-description" data-full="{{ $permission->description }}">
-                                    @php
-                                        $truncatedDescription = \Illuminate\Support\Str::limit(
-                                            $permission->description,
-                                            30,
-                                            '',
-                                        );
-                                    @endphp
-                                    {{ $truncatedDescription }}
-                                    @if (strlen($permission->description) > 30)
-                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
-                                    @endif
-                                </div>
+                            <td data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="tooltip-primary"
+                                @if (strlen($permission->description) > 20) title="{{ $permission->description }}" @endif>
+                                {{ \Illuminate\Support\Str::limit($permission->description, 20) }}
                             </td>
                             <td>
-                                <form method="get" action="{{ route('per-status', ['id' => $permission->id]) }}">
-                                    @csrf
-                                    <input type="hidden" name="is_active"
-                                        value="{{ $permission->is_active ? '0' : '1' }}">
-                                    <label class="switch">
-                                        <input data-id="{{ $permission->id }}" class="toggle-class switch-input"
-                                            type="checkbox" name="is_active" data-toggle="toggle" data-onstyle="success"
-                                            {{ $permission->is_active ? 'checked' : '' }}>
-                                        <span class="switch-toggle-slider">
-                                            <span class="switch-on"></span>
-                                            <span class="switch-off"></span>
-                                        </span>
-                                    </label>
-                                </form>
+                            <form method="get" action="{{ route('per-status', ['id' => $permission->id]) }}">
+                                @csrf
+                                <input type="hidden" name="is_active" value="{{ $permission->is_active ? '0' : '1' }}">
+                                <label class="switch">
+                                    <input data-id="{{ $permission->id }}" class="toggle-class switch-input"
+                                        type="checkbox" name="is_active" data-toggle="toggle" data-onstyle="success"
+                                        {{ $permission->is_active ? 'checked' : '' }}>
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on"></span>
+                                        <span class="switch-off"></span>
+                                    </span>
+                                </label>
+                            </form>
                             </td>
                             <td>
                                 <div class="dropdown">

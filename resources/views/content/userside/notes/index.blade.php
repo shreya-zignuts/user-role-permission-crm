@@ -205,7 +205,7 @@
                 style="background: linear-gradient(to right, #9e96f2 22.16%, rgba(133, 123, 245, 0.7) 76.47%); text-align: center">
                 <tr>
                     <th>Name</th>
-                    <th>log</th>
+                    <th>Description</th>
                     @if ($permissionsArray['edit'] || $permissionsArray['delete'])
                         <th>Actions</th>
                     @else
@@ -222,20 +222,9 @@
                     @foreach ($notes as $note)
                         <tr>
                             <td>{{ $note->title }}</td>
-                            <td style="max-width: 150px;">
-                                <div class="toggle-description" data-full="{{ $note->description }}">
-                                    @php
-                                        $truncatedDescription = \Illuminate\Support\Str::limit(
-                                            $note->description,
-                                            30,
-                                            '',
-                                        );
-                                    @endphp
-                                    {{ $truncatedDescription }}
-                                    @if (strlen($note->description) > 30)
-                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
-                                    @endif
-                                </div>
+                            <td data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="tooltip-primary"
+                                @if (strlen($note->description) > 20) title="{{ $note->description }}" @endif>
+                                {{ \Illuminate\Support\Str::limit($note->description, 20) }}
                             </td>
                             <td>
                                 @if ($permissionsArray['edit'] || $permissionsArray['delete'])

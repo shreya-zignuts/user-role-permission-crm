@@ -299,20 +299,9 @@
                         <tr>
                             <td>{{ $person->name }}</td>
                             <td>{{ $person->designation }}</td>
-                            <td style="max-width: 150px;">
-                                <div class="toggle-description" data-full="{{ $person->address }}">
-                                    @php
-                                        $truncatedDescription = \Illuminate\Support\Str::limit(
-                                            $person->address,
-                                            30,
-                                            '',
-                                        );
-                                    @endphp
-                                    {{ $truncatedDescription }}
-                                    @if (strlen($person->address) > 30)
-                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
-                                    @endif
-                                </div>
+                            <td data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="tooltip-primary"
+                                @if (strlen($person->address) > 20) title="{{ $person->address }}" @endif>
+                                {{ \Illuminate\Support\Str::limit($person->address, 20) }}
                             </td>
                             <td>
                                 <form method="get" id="toggleSwitch{{ $person->id }}"

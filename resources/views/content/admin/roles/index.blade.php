@@ -278,20 +278,9 @@
                     @foreach ($roles as $role)
                         <tr>
                             <td>{{ $role->name }}</td>
-                            <td style="max-width: 150px;">
-                                <div class="toggle-description" data-full="{{ $role->description }}">
-                                    @php
-                                        $truncatedDescription = \Illuminate\Support\Str::limit(
-                                            $role->description,
-                                            30,
-                                            '',
-                                        );
-                                    @endphp
-                                    {{ $truncatedDescription }}
-                                    @if (strlen($role->description) > 30)
-                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
-                                    @endif
-                                </div>
+                            <td data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="tooltip-primary"
+                                @if (strlen($role->description) > 20) title="{{ $role->description }}" @endif>
+                                {{ \Illuminate\Support\Str::limit($role->description, 20) }}
                             </td>
                             <td>
                                 <form method="get" action="{{ route('role-status', ['id' => $role->id]) }}">

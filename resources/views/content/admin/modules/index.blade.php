@@ -204,7 +204,11 @@
                                 </button>
                             </td>
                             <td>{{ $module->name }}</td>
-                            <td>{{ $module->description }}</td>
+                            <td data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                data-bs-custom-class="tooltip-primary"
+                                @if (strlen($module->description) > 20) title="{{ $module->description }}" @endif>
+                                {{ \Illuminate\Support\Str::limit($module->description, 20) }}
+                            </td>
                             <td>
                                 <form method="POST"
                                     action="{{ route('module-status', ['moduleId' => $module->code]) }}">
@@ -246,7 +250,11 @@
                                         @foreach ($module->submodules as $submodule)
                                             <tr style="text-align: center">
                                                 <td>{{ $submodule->name }}</td>
-                                                <td>{{ $submodule->description }}</td>
+                                                <td data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                    data-bs-custom-class="tooltip-primary"
+                                                    @if (strlen($submodule->description) > 20) title="{{ $submodule->description }}" @endif>
+                                                    {{ \Illuminate\Support\Str::limit($submodule->description, 20) }}
+                                                </td>
                                                 <td>
                                                     <form method="get"
                                                         action="{{ route('module-status', ['moduleId' => $submodule->code]) }}">

@@ -320,20 +320,10 @@
                     @foreach ($meetings as $meeting)
                         <tr>
                             <td>{{ $meeting->title }}</td>
-                            <td style="max-width: 150px;">
-                                <div class="toggle-description" data-full="{{ $meeting->description }}">
-                                    @php
-                                        $truncatedDescription = \Illuminate\Support\Str::limit(
-                                            $meeting->description,
-                                            30,
-                                            '',
-                                        );
-                                    @endphp
-                                    {{ $truncatedDescription }}
-                                    @if (strlen($meeting->description) > 30)
-                                        <span class="toggle-icon" style="cursor: pointer;">▼</span>
-                                    @endif
-                                </div>
+                            <td data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                data-bs-custom-class="tooltip-primary"
+                                @if (strlen($meeting->description) > 20) title="{{ $meeting->description }}" @endif>
+                                {{ \Illuminate\Support\Str::limit($meeting->description, 20) }}
                             </td>
                             <td>{{ $meeting->date }}</td>
                             <td>{{ $meeting->time }}</td>
