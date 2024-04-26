@@ -221,12 +221,13 @@
 
 @section('content')
 
+    {{-- Error message using toast --}}
     @if (session('error'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
             <div class="toast-header">
                 <i class="ti ti-bell text-danger ti-xs me-2"></i>
-                <div class="me-auto fw-semibold">Error</div>
+                <div class="me-autofw-semibold">Error</div>
                 <small class="text-muted">
                     <?php
                     date_default_timezone_set('Asia/Kolkata');
@@ -250,6 +251,7 @@
         </script>
     @endif
 
+    {{-- Success message using toast --}}
     @if (session('success'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
@@ -278,13 +280,8 @@
             });
         </script>
     @endif
-    @if ($errors && $errors->any())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </div>
-    @endif
+
+    {{-- Blade file for users section --}}
 
     <div class="row justify-content-center mt-3">
         <div class="col-md-6">
@@ -349,16 +346,6 @@
                             <tr>
                                 <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                                 <td>
-                                    {{-- @if ($user->roles->count() <= 2)
-                                        @foreach ($user->roles as $role)
-                                            <span class="badge bg-primary">{{ $role->name }}</span>
-                                        @endforeach
-                                    @else
-                                        @foreach ($user->roles->take(2) as $role)
-                                            <span class="badge bg-primary">{{ $role->name }}</span>
-                                        @endforeach
-                                        +{{ $user->roles->count() - 2 }}
-                                    @endif --}}
                                     @if ($user->roles->count() <= 2)
                                         @foreach ($user->roles as $role)
                                             <span class="badge bg-primary">{{ $role->name }}</span>
@@ -402,7 +389,6 @@
                                             <form id="deleteUserForm{{ $user->id }}" method="POST"
                                                 action="{{ route('delete-user', ['id' => $user->id]) }}">
                                                 @csrf
-                                                <!-- Delete button trigger modal -->
                                                 <button class="dropdown-item delete-user" data-id="{{ $user->id }}">
                                                     <i class="ti ti-trash me-1"></i> Delete
                                                 </button>

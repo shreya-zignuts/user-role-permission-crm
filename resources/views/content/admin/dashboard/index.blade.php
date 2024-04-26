@@ -4,6 +4,12 @@
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -18,12 +24,13 @@
 
 @section('content')
 
+    {{-- Error message using toast --}}
     @if (session('error'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
             <div class="toast-header">
                 <i class="ti ti-bell text-danger ti-xs me-2"></i>
-                <div class="me-auto fw-semibold">Error</div>
+                <div class="me-autofw-semibold">Error</div>
                 <small class="text-muted">
                     <?php
                     date_default_timezone_set('Asia/Kolkata');
@@ -47,6 +54,7 @@
         </script>
     @endif
 
+    {{-- Success message using toast --}}
     @if (session('success'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
@@ -76,11 +84,7 @@
         </script>
     @endif
 
-    @php
-        $imageSrc =
-            'https://media.istockphoto.com/id/899347890/vector/online-graphical-report-icon.jpg?s=612x612&w=0&k=20&c=hmd7aTt5jfYbKHXizrqwyq1Gz0VN4Fj-hjvz4_w24qU=';
-    @endphp
-
+    {{-- Blade file for admin dashboard --}}
     <div class="row">
         <div class="col-lg-6 col-sm-6 mb-4">
             <div class="card h-px-250 text-center w-px-500">

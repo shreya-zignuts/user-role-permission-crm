@@ -39,16 +39,20 @@
 
     {{-- toast message for meeting is over --}}
     <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
-        aria-atomic="true" data-bs-delay="2000"
-        style="position: fixed; top: 20px; right: 20px; width: 300px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); display: none;">
-        <div class="toast-header bg-danger text-white" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-            <i class="ti ti-bell ti-xs me-2"></i>
+        aria-atomic="true" data-bs-delay="2000">
+        <div class="toast-header">
+            <i class="ti ti-bell text-danger ti-xs me-2"></i>
             <div class="me-auto fw-semibold">Error</div>
-            <small class="text-muted"><?= date('h:i A') ?></small>
+            <small class="text-muted">
+                <?php
+                date_default_timezone_set('Asia/Kolkata');
+                ?>
+                <small class="text-muted"><?= date('h:i A') ?></small>
+            </small>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body" style="padding: 10px; color: #333;">
-            This meeting is over, cannot be edited.
+        <div class="toast-body">
+            This Meeting is over, cannot be edited.
         </div>
     </div>
 
@@ -124,32 +128,6 @@
     </script>
 
     {{-- script for toggle switch --}}
-    {{-- <script>
-        $(document).ready(function() {
-            $('.switch-input').each(function() {
-                var toggleSwitch = $(this);
-                var id = $(this).data('id');
-                var meetingDate = new Date(toggleSwitch.data('date') + 'T' + toggleSwitch.data('time'));
-                var isChecked = toggleSwitch.prop('checked');
-                console.log(meetingDate);
-                if (meetingDate < new Date() && isChecked) {
-
-                    toggleSwitch.prop('checked', false); // Uncheck the toggle switch
-                    $.ajax({
-                        type: "get",
-                        dataType: "json",
-                        url: toggleSwitch.data('route'),
-                        data: {
-                            '_token': '{{ csrf_token() }}',
-                            'status': '0',
-                            'id': id
-                        }
-                    });
-                }
-                
-            });
-        });
-    </script> --}}
     <script>
         $(document).ready(function() {
             $('.switch-input').each(function() {
@@ -182,12 +160,13 @@
 
 @section('content')
 
+    {{-- Error message using toast --}}
     @if (session('error'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
             <div class="toast-header">
                 <i class="ti ti-bell text-danger ti-xs me-2"></i>
-                <div class="me-auto fw-semibold">Error</div>
+                <div class="me-autofw-semibold">Error</div>
                 <small class="text-muted">
                     <?php
                     date_default_timezone_set('Asia/Kolkata');
@@ -211,6 +190,7 @@
         </script>
     @endif
 
+    {{-- Success message using toast --}}
     @if (session('success'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
@@ -240,13 +220,7 @@
         </script>
     @endif
 
-    @if ($errors && $errors->any())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </div>
-    @endif
+    {{-- Blade file for meeting section --}}
     <div class="row justify-content-center mt-3">
         <div class="col-md-6">
             <form method="GET" action="{{ route('userside-meetings') }}">
@@ -379,9 +353,9 @@
             </tbody>
         </table>
     </div>
+    <!-- Pagination -->
     <div class="row justify-content-center mt-3">
         <div class="col-md-6">
-            <!-- Pagination links -->
             {{ $meetings->links('pagination::bootstrap-5') }}
         </div>
     </div>

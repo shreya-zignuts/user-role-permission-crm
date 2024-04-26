@@ -26,7 +26,7 @@
                         <label for="title" class="form-label">Title</label>
                         <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
                             name="title" value="{{ old('title') }}" autocomplete="title" autofocus
-                            placeholder="title..">
+                            placeholder="Enter meeting ..">
                     </div>
 
                     <div class="mb-3">

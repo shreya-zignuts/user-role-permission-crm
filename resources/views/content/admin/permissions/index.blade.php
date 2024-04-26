@@ -144,12 +144,13 @@
 
 @section('content')
 
+    {{-- Error message using toast --}}
     @if (session('error'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
             <div class="toast-header">
                 <i class="ti ti-bell text-danger ti-xs me-2"></i>
-                <div class="me-auto fw-semibold">Error</div>
+                <div class="me-autofw-semibold">Error</div>
                 <small class="text-muted">
                     <?php
                     date_default_timezone_set('Asia/Kolkata');
@@ -173,6 +174,7 @@
         </script>
     @endif
 
+    {{-- Success message using toast --}}
     @if (session('success'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
@@ -202,6 +204,7 @@
         </script>
     @endif
 
+    {{-- Blade file for permissions section --}}
     <div class="row justify-content-center mt-3">
         <div class="col-md-6">
             <form method="GET" action="{{ route('pages-permissions') }}">
@@ -271,19 +274,20 @@
                                 {{ \Illuminate\Support\Str::limit($permission->description, 20) }}
                             </td>
                             <td>
-                            <form method="get" action="{{ route('per-status', ['id' => $permission->id]) }}">
-                                @csrf
-                                <input type="hidden" name="is_active" value="{{ $permission->is_active ? '0' : '1' }}">
-                                <label class="switch">
-                                    <input data-id="{{ $permission->id }}" class="toggle-class switch-input"
-                                        type="checkbox" name="is_active" data-toggle="toggle" data-onstyle="success"
-                                        {{ $permission->is_active ? 'checked' : '' }}>
-                                    <span class="switch-toggle-slider">
-                                        <span class="switch-on"></span>
-                                        <span class="switch-off"></span>
-                                    </span>
-                                </label>
-                            </form>
+                                <form method="get" action="{{ route('per-status', ['id' => $permission->id]) }}">
+                                    @csrf
+                                    <input type="hidden" name="is_active"
+                                        value="{{ $permission->is_active ? '0' : '1' }}">
+                                    <label class="switch">
+                                        <input data-id="{{ $permission->id }}" class="toggle-class switch-input"
+                                            type="checkbox" name="is_active" data-toggle="toggle" data-onstyle="success"
+                                            {{ $permission->is_active ? 'checked' : '' }}>
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-on"></span>
+                                            <span class="switch-off"></span>
+                                        </span>
+                                    </label>
+                                </form>
                             </td>
                             <td>
                                 <div class="dropdown">

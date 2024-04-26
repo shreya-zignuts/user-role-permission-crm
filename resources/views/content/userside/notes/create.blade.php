@@ -20,7 +20,7 @@
                     <div class="row g-3">
                         <div class="col-md-12">
                             <label for="title" class="form-label">Title</label>
-                            <input id="title" type="text" class="form-control" name="title">
+                            <input id="title" type="text" class="form-control" name="title" placeholder="Enter note..">
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="description">Description</label>

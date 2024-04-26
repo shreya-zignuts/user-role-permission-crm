@@ -22,7 +22,8 @@
                         {{-- @dd($activityLog->name) --}}
                         <div class="col-md-12">
                             <label for="title" class="form-label">Name</label>
-                            <input id="name" type="text" class="form-control" name="name" placeholder="name.. ">
+                            <input id="name" type="text" class="form-control" name="name"
+                                placeholder="Enter company name.. ">
                         </div>
                         <div class="col-md-12">
                             <label for="owner_name" class="form-label">Owner Name</label>

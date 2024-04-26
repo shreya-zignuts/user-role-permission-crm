@@ -161,12 +161,14 @@
 @endsection
 
 @section('content')
+
+    {{-- Error message using toast --}}
     @if (session('error'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
             <div class="toast-header">
                 <i class="ti ti-bell text-danger ti-xs me-2"></i>
-                <div class="me-auto fw-semibold">Error</div>
+                <div class="me-autofw-semibold">Error</div>
                 <small class="text-muted">
                     <?php
                     date_default_timezone_set('Asia/Kolkata');
@@ -190,6 +192,7 @@
         </script>
     @endif
 
+    {{-- Success message using toast --}}
     @if (session('success'))
         <div class="bs-toast toast toast-ex animate__animated animate__tada my-2" role="alert" aria-live="assertive"
             aria-atomic="true" data-bs-delay="2000">
@@ -219,13 +222,7 @@
         </script>
     @endif
 
-    @if ($errors && $errors->any())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </div>
-    @endif
+    {{-- Blade file for people section --}}
     <div class="row justify-content-center mt-3">
         <div class="col-md-6">
             <form method="GET" action="{{ route('userside-people') }}">
@@ -267,7 +264,6 @@
                     <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                 </svg></h5>
             <div class="card-body text-end mt-4">
-                {{-- @dd($permissions) --}}
 
                 @if ($permissionsArray['add'])
                     <a href="{{ route('create-people') }}" class="btn btn-primary">Add People</a>

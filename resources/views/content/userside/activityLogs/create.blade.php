@@ -22,7 +22,8 @@
                         {{-- @dd($activityLog->title) --}}
                         <div class="col-md-12">
                             <label for="title" class="form-label">Title</label>
-                            <input id="title" type="text" class="form-control" name="title">
+                            <input id="title" type="text" class="form-control" name="title"
+                                placeholder="Enter activity log..">
                         </div>
                         <div class="col-md-12">
                             <label class="form-label" for="log">Log</label>

@@ -37,11 +37,11 @@
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Role Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter role..">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description"></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder="Description.."></textarea>
                     </div>
 
                     <div class="mb-3">

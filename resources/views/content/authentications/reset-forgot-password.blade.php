@@ -25,6 +25,8 @@
 @endsection
 
 @section('content')
+
+    {{-- Blade file for reset forgot password form --}}
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">
