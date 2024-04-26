@@ -36,20 +36,5 @@
         },
         'controls': <?php echo json_encode($configData['customizerControls']); ?>,
     });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        $('.toggle-description').click(function() {
-            var fullDescription = $(this).data('full');
-            var textElement = $(this).find('.toggle-icon');
-            if ($(this).hasClass('expanded')) {
-                $(this).removeClass('expanded');
-                $(this).html(fullDescription.substr(0, 30) +
-                    '<span class="toggle-icon">&nbsp;▼</span>');
-            } else {
-                $(this).addClass('expanded');
-                $(this).html(fullDescription + '<span class="toggle-icon">&nbsp;▲</span>');
-            }
-        });
-    });
 </script>
 @endif
