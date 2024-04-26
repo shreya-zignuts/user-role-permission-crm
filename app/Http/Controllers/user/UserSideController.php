@@ -36,19 +36,19 @@ class UserSideController extends Controller
   public function update(Request $request, $id)
   {
     $request->validate([
-      'first_name' => 'required|string|max:64',
-      'last_name' => 'nullable|string|max:64',
-      'phone_number' => 'nullable|string|max:16',
-      'address' => 'nullable|string|max:256',
+      'first_name'    => 'required|string|max:64',
+      'last_name'     => 'nullable|string|max:64',
+      'phone_number'  => 'nullable|string|max:16',
+      'address'       => 'nullable|string|max:256',
     ]);
 
     $user = User::findOrFail($id);
 
     $user->update([
-      'first_name' => $request->first_name,
-      'last_name' => $request->last_name,
-      'phone_number' => $request->phone_number,
-      'address' => $request->address,
+      'first_name'    => $request->first_name,
+      'last_name'     => $request->last_name,
+      'phone_number'  => $request->phone_number,
+      'address'       => $request->address,
     ]);
 
     return redirect()
@@ -62,9 +62,9 @@ class UserSideController extends Controller
   public function resetPassword(Request $request)
   {
     $request->validate([
-      'email' => 'required|email',
-      'current_password' => 'required|string',
-      'password' => 'required|string|min:8|confirmed',
+      'email'             => 'required|email',
+      'current_password'  => 'required|string',
+      'password'          => 'required|string|min:8|confirmed',
     ]);
 
     $email = $request->email;

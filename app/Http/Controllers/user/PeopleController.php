@@ -139,6 +139,6 @@ class PeopleController extends Controller
 
         $people->save();
 
-        return response()->json(['success' => 'User status toggled successfully.']);
+        return response()->json(['success' => 'People status toggled successfully.']);
     }
 }

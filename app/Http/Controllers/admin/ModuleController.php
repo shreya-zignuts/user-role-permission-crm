@@ -79,6 +79,6 @@ class ModuleController extends Controller
             $module->submodules()->update(['is_active' => false]);
         }
 
-        return response()->json(['success' => 'Permission status toggled successfully.']);
+        return response()->json(['success' => 'Module status toggled successfully.']);
     }
 }

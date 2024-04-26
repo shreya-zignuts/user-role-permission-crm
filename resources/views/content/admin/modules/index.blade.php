@@ -142,7 +142,8 @@
         </script>
     @endif
 
-    {{-- Blade file for modules section --}}
+    {{-- Blade file for module section --}}
+
     <div class="row justify-content-center mt-3">
         <div class="col-md-6">
             <form method="GET" action="{{ route('pages-modules') }}">
@@ -275,10 +276,13 @@
                                                         </label>
                                                     </form>
                                                 </td>
-                                                <td><a
+                                                <td>
+                                                    <a
                                                         href="{{ route('edit-module', ['moduleId' => $submodule->code]) }}"><img
                                                             src="https://cdn-icons-png.flaticon.com/512/6543/6543495.png"
-                                                            width="30px" alt=""></a></td>
+                                                            width="30px" alt="">
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
