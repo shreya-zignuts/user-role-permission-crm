@@ -3,7 +3,7 @@
 @section('Title', 'Edit Company')
 
 @section('content')
-    <div class="d-flex justify-content-center mt-3">
+    <div class="d-flex justify-content-center">
         <div class="modal-content p-3 p-md-5 w-75 align-content-center mt-5">
             <div class="modal-body">
                 @if ($errors && $errors->any())

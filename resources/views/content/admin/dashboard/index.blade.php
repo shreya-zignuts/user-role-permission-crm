@@ -85,20 +85,20 @@
     @endif
 
     {{-- Blade file for admin dashboard --}}
-    
+
     <div class="row g-4 mb-4">
         <div class="col-sm-6 col-xl-3">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-start justify-content-between">
                         <div class="content-left">
-                            <span>Active Users</span>
+                            <span>Active Modules</span>
                             <div class="d-flex align-items-end mt-2">
                                 <h3 class="mb-0 me-2">{{ $activeModuleCount }}</h3>
                             </div>
                             {{-- <small>Total Users</small> --}}
                         </div>
-                        <span class="badge bg-label-primary rounded-pill p-2">
+                        <span class="badge bg-label-primary rounded-pill p-2 mb-1">
                             <i class='ti ti-hexagons ti-sm'></i>
                         </span>
                     </div>

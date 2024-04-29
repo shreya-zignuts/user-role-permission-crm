@@ -106,9 +106,7 @@
                                         <div class="col-10">
                                             <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
                                                 class="menu-link toggle-menu">
-                                                @isset($module->icon)
-                                                    <i class="{{ $module->icon }}"></i>
-                                                @endisset
+                                                <i class="menu-icon tf-icons ti ti-hexagons"></i>
                                                 <span>{{ isset($module->name) ? __($module->name) : '' }}</span>
                                             </a>
                                         </div>
@@ -133,11 +131,11 @@
                                                     @if (in_array($submenu->code, $user->modules->pluck('code')->toArray()) && $submenu->parent_code === $module->code)
                                                         <li class="menu-item">
                                                             <a href="{{ isset($submenu->url) ? url($submenu->url) : 'javascript:void(0)' }}"
-                                                                class="menu-link submenu-link pl-3">
-                                                                <img src="https://cdn-icons-png.flaticon.com/128/8265/8265301.png"
-                                                                    width="19px" alt="">
-                                                                <span
-                                                                    class="active">{{ isset($submenu->name) ? __($submenu->name) : '' }}</span>
+                                                                class="menu-link submenu-link">
+                                                                {{-- <img src="https://cdn-icons-png.flaticon.com/128/8265/8265301.png"
+                                                                    width="19px" alt=""> --}}
+                                                                <i class="menu-icon tf-icons ti ti-point me-3"></i>
+                                                                <span>{{ isset($submenu->name) ? __($submenu->name) : '' }}</span>
                                                             </a>
                                                         </li>
                                                     @endif

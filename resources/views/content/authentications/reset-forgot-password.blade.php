@@ -10,10 +10,16 @@
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
 @endsection
 
 @section('page-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -40,7 +46,7 @@
             aria-atomic="true" data-bs-delay="2000">
             <div class="toast-header">
                 <i class="ti ti-bell text-danger ti-xs me-2"></i>
-                <div class="me-autofw-semibold">Error</div>
+                <div class="me-auto fw-semibold">Error</div>
                 <small class="text-muted">
                     <?php
                     date_default_timezone_set('Asia/Kolkata');
