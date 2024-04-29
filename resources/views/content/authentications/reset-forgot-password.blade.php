@@ -20,10 +20,16 @@
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
+
+    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/pages-auth.js') }}"></script>
+
+    <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
 @endsection
 
 @section('content')
@@ -91,13 +97,6 @@
     {{-- Blade file for reset forgot password form --}}
     <div class="authentication-wrapper authentication-cover authentication-bg ">
         <div class="authentication-inner row">
-            @if ($errors->any())
-                <div class="alert alert-danger text-center">
-                    @foreach ($errors->all() as $error)
-                        {{ $error }}
-                    @endforeach
-                </div>
-            @endif
 
             <!-- /Left Text -->
             <div class="d-none d-lg-flex col-lg-7 p-0">

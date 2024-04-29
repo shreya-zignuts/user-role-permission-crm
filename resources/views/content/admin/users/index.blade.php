@@ -5,9 +5,6 @@
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
@@ -17,18 +14,11 @@
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
 @endsection
 
 @section('page-script')
-    <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
-    <script src="{{ asset('assets/js/app-access-roles.js') }}"></script>
-    <script src="{{ asset('assets/js/modal-add-role.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -43,10 +33,9 @@
 
     {{-- script for toggle switch --}}
     <script>
-        $('.switch-input').change(function() {
-
-            var status = $(this).prop('checked') == true ? 1 : 0;
-            var id = $(this).data('id');
+        function handleCheckboxChange(id) {
+            var checkbox = document.getElementById('toggleSwitch' + id);
+            var status = checkbox.checked ? 1 : 0;
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -62,7 +51,6 @@
             }).then(function(result) {
                 if (result.isConfirmed) {
                     $.ajax({
-
                         type: "GET",
                         dataType: "json",
                         url: "/admin/users/change-status/" + id,
@@ -70,14 +58,12 @@
                             'status': status,
                             'id': id
                         },
-
                         success: function(data) {
-                            console.log(data.success)
-
+                            console.log(data.success);
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Changed!',
-                                text: 'Toggle status for user is changed',
+                                text: 'Toggle status for people is changed',
                                 customClass: {
                                     confirmButton: 'btn btn-success'
                                 }
@@ -99,9 +85,18 @@
                     });
                 }
             });
+        }
 
-
-        })
+        document.addEventListener("DOMContentLoaded", function() {
+            @foreach ($users as $user)
+                var toggleSwitch = document.getElementById('toggleSwitch{{ $user->id }}');
+                if (toggleSwitch) {
+                    toggleSwitch.addEventListener('change', function() {
+                        handleCheckboxChange({{ $user->id }});
+                    });
+                }
+            @endforeach
+        });
     </script>
 
     {{-- script for delete sweet alert --}}
@@ -365,7 +360,21 @@
 
                                 </td>
                                 <td>
-                                    <form method="get" action="{{ route('user-status', ['id' => $user->id]) }}">
+                                    <form method="get" id="toggleSwitch{{ $user->id }}"
+                                        action="{{ route('per-status', ['id' => $user->id]) }}">
+                                        @csrf
+                                        <label class="switch">
+                                            <input data-id="{{ $user->id }}" class="toggle-class switch-input"
+                                                type="checkbox" name="is_active" data-toggle="toggle"
+                                                data-onstyle="success" {{ $user->is_active ? 'checked' : '' }}>
+                                            <span class="switch-toggle-slider">
+                                                <span class="switch-on"></span>
+                                                <span class="switch-off"></span>
+                                            </span>
+                                        </label>
+                                    </form>
+                                    {{-- <form method="get" id="toggleSwitch{{ $user->id }}"
+                                        action="{{ route('user-status', ['id' => $user->id]) }}">
                                         @csrf
                                         <label class="switch">
                                             <input data-id="{{ $user->id }}" class="switch-input" type="checkbox"
@@ -376,7 +385,7 @@
                                                 <span class="switch-off"></span>
                                             </span>
                                         </label>
-                                    </form>
+                                    </form> --}}
                                 </td>
                                 <td>
                                     <div class="dropdown">
@@ -402,10 +411,11 @@
                                                 &nbsp;New Password
                                             </a>
 
-                                            <form id="forceLogoutForm"
+                                            <form id="forceLogoutForm{{ $user->id }}"
                                                 action="{{ route('logout.user', ['id' => $user->id]) }}" method="post">
                                                 @csrf
-                                                <button type="button" class="dropdown-item text-left logout-user">
+                                                <button type="button" data-id="{{ $user->id }}"
+                                                    class="dropdown-item text-left logout-user">
                                                     <i class="ti ti-home mb-1"></i>
                                                     &nbsp;Force Logout
                                                 </button>

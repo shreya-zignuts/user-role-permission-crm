@@ -147,7 +147,7 @@
                                     class="btn text-nowrap btn-primary reset-password-btn ms-2"
                                     data-user-email="{{ $user->email }}"
                                     onclick="setUserDetails('{{ $user->id }}', '{{ $user->email }}')">
-                                    <i class='ti ti-edit me-1'></i>Change Password
+                                    <i class='ti ti-lock me-1'></i>Change Password
                                 </a>
                             </div>
                         </div>
@@ -313,7 +313,7 @@
                             <div class="col-md-6">
                                 <label class="form-label" for="email">Email</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="email" id="email" name="email" class="form-control"
+                                    <input type="email" id="EmailReadOnly" name="email" class="form-control"
                                         placeholder="john.doe" aria-label="john.doe" aria-describedby="emailSuffix"
                                         value="{{ $user->email }}" disabled />
                                     <span class="input-group-text" id="emailSuffix">@gmail.com</span>

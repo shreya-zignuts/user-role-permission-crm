@@ -7,9 +7,6 @@
 @section('title', 'Role - Dashboard')
 
 @section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
@@ -17,12 +14,7 @@
 
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/masonry/masonry.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
-
-    <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
 
@@ -37,10 +29,9 @@
 
     {{-- script for toggle switch --}}
     <script>
-        $('.switch-input').change(function() {
-
-            var status = $(this).prop('checked') == true ? 1 : 0;
-            var id = $(this).data('id');
+        function handleCheckboxChange(id) {
+            var checkbox = document.getElementById('toggleSwitch' + id);
+            var status = checkbox.checked ? 1 : 0;
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -56,7 +47,6 @@
             }).then(function(result) {
                 if (result.isConfirmed) {
                     $.ajax({
-
                         type: "GET",
                         dataType: "json",
                         url: "/admin/roles/change-status/" + id,
@@ -64,14 +54,12 @@
                             'status': status,
                             'id': id
                         },
-
                         success: function(data) {
-                            console.log(data.success)
-
+                            console.log(data.success);
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Changed!',
-                                text: 'Toggle status for role is changed',
+                                text: 'Toggle status for people is changed',
                                 customClass: {
                                     confirmButton: 'btn btn-success'
                                 }
@@ -93,9 +81,13 @@
                     });
                 }
             });
+        }
 
-
-        })
+        @foreach ($roles as $role)
+            document.getElementById('toggleSwitch{{ $role->id }}').addEventListener('change', function() {
+                handleCheckboxChange({{ $role->id }});
+            });
+        @endforeach
     </script>
 
     {{-- script for delete sweet alert --}}
@@ -286,7 +278,8 @@
                                 {{ \Illuminate\Support\Str::limit($role->description, 20) }}
                             </td>
                             <td>
-                                <form method="get" action="{{ route('role-status', ['id' => $role->id]) }}">
+                                <form method="get" id="toggleSwitch{{ $role->id }}"
+                                    action="{{ route('role-status', ['id' => $role->id]) }}">
                                     @csrf
                                     <label class="switch">
                                         <input data-id="{{ $role->id }}" class="switch-input" type="checkbox"

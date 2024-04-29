@@ -80,8 +80,10 @@
                     @endisset
                 </li>
             @endif
+
+            {{-- displaying modules at user side --}}
             @if (!isset($navbarFull) && $menu->url === '/userside')
-                <ul class="menu-item">
+                <ul class="menu-item list-unstyled">
                     @foreach ($user->modules as $module)
                         @php
                             $hasSubmodulesWithView = false;
@@ -100,13 +102,21 @@
                         @if ($hasSubmodulesWithView)
                             @if (!isset($module['parent_code']))
                                 <li class="menu-item">
-                                    <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
-                                        class="menu-link toggle-menu">
-                                        @isset($module->icon)
-                                            <i class="{{ $module->icon }}"></i>
-                                        @endisset
-                                        <div>{{ isset($module->name) ? __($module->name) : '' }}</div>
-                                    </a>
+                                    <div class="row align-items-center">
+                                        <div class="col-10">
+                                            <a href="{{ isset($module->url) ? url($module->url) : 'javascript:void(0);' }}"
+                                                class="menu-link toggle-menu">
+                                                @isset($module->icon)
+                                                    <i class="{{ $module->icon }}"></i>
+                                                @endisset
+                                                <span>{{ isset($module->name) ? __($module->name) : '' }}</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            <span class="toggle-btn">&#9660;</span>
+                                            <!-- Down arrow Unicode character -->
+                                        </div>
+                                    </div>
                                     @if (count($module->submodules) > 0)
                                         <ul class="submenu" style="display: none;">
                                             @foreach ($module->submodules as $submenu)
@@ -123,12 +133,11 @@
                                                     @if (in_array($submenu->code, $user->modules->pluck('code')->toArray()) && $submenu->parent_code === $module->code)
                                                         <li class="menu-item">
                                                             <a href="{{ isset($submenu->url) ? url($submenu->url) : 'javascript:void(0)' }}"
-                                                                class="menu-link submenu-link">
+                                                                class="menu-link submenu-link pl-3">
                                                                 <img src="https://cdn-icons-png.flaticon.com/128/8265/8265301.png"
                                                                     width="19px" alt="">
-                                                                <div class="active">
-                                                                    {{ isset($submenu->name) ? __($submenu->name) : '' }}
-                                                                </div>
+                                                                <span
+                                                                    class="active">{{ isset($submenu->name) ? __($submenu->name) : '' }}</span>
                                                             </a>
                                                         </li>
                                                     @endif
@@ -144,13 +153,26 @@
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
                     $(document).ready(function() {
-                        $('.toggle-menu').click(function(e) {
+                        $('.toggle-menu, .toggle-btn').click(function(e) {
                             e.preventDefault();
-                            var $submenu = $(this).next('.submenu');
+                            var $parentItem = $(this).closest('.menu-item');
+                            var $submenu = $parentItem.find('.submenu');
+                            var $toggleBtn = $parentItem.find('.toggle-btn');
+
                             if (!$submenu.is(':visible')) {
                                 $('.submenu').slideUp();
+                                $('.toggle-btn').html('&#9660;');
+                                $toggleBtn.html('&#9650;');
                                 $submenu.slideToggle();
+                            } else {
+                                $toggleBtn.html('&#9660;');
+                                $submenu.slideUp();
                             }
+                        });
+
+                        $('.submenu-link').click(function(e) {
+                            e.stopPropagation(); // Prevent parent toggle event
+                            return true; // Allow default link behavior
                         });
                     });
                 </script>

@@ -13,20 +13,21 @@
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     {{-- script for toggle switch --}}
     <script>
-        $('.switch-input').change(function() {
-
-            var status = $(this).prop('checked') == true ? 1 : 0;
-            var id = $(this).data('id');
+        function handleCheckboxChange(id) {
+            var checkbox = document.getElementById('toggleSwitch' + id);
+            var status = checkbox.checked ? 1 : 0;
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -42,7 +43,6 @@
             }).then(function(result) {
                 if (result.isConfirmed) {
                     $.ajax({
-
                         type: "GET",
                         dataType: "json",
                         url: "/admin/permissions/change-status/" + id,
@@ -50,14 +50,12 @@
                             'status': status,
                             'id': id
                         },
-
                         success: function(data) {
-                            console.log(data.success)
-
+                            console.log(data.success);
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Changed!',
-                                text: 'Toggle status for permission is changed',
+                                text: 'Toggle status for people is changed',
                                 customClass: {
                                     confirmButton: 'btn btn-success'
                                 }
@@ -79,9 +77,13 @@
                     });
                 }
             });
+        }
 
-
-        })
+        @foreach ($permissions as $permission)
+            document.getElementById('toggleSwitch{{ $permission->id }}').addEventListener('change', function() {
+                handleCheckboxChange({{ $permission->id }});
+            });
+        @endforeach
     </script>
 
     {{-- script for delete sweet alert --}}
@@ -274,13 +276,12 @@
                                 {{ \Illuminate\Support\Str::limit($permission->description, 20) }}
                             </td>
                             <td>
-                                <form method="get" action="{{ route('per-status', ['id' => $permission->id]) }}">
+                                <form method="get" id="toggleSwitch{{ $permission->id }}"
+                                    action="{{ route('per-status', ['id' => $permission->id]) }}">
                                     @csrf
-                                    <input type="hidden" name="is_active"
-                                        value="{{ $permission->is_active ? '0' : '1' }}">
-                                    <label class="switch">
-                                        <input data-id="{{ $permission->id }}" class="toggle-class switch-input"
-                                            type="checkbox" name="is_active" data-toggle="toggle" data-onstyle="success"
+                                    <label class="switch" for="is_active">
+                                        <input class="switch-input" type="checkbox" name="is_active" id="is_active"
+                                            data-toggle="toggle" data-onstyle="success"
                                             {{ $permission->is_active ? 'checked' : '' }}>
                                         <span class="switch-toggle-slider">
                                             <span class="switch-on"></span>

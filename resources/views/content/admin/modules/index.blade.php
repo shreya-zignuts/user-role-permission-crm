@@ -214,10 +214,10 @@
                                 {{ \Illuminate\Support\Str::limit($module->description, 20) }}
                             </td>
                             <td>
-                                <form method="POST"
+                                <form method="POST" id="toggleSwitch{{ $module->id }}"
                                     action="{{ route('module-status', ['moduleId' => $module->code]) }}">
                                     @csrf
-                                    <label class="switch">
+                                    <label for="is_active" class="switch">
                                         <input type="checkbox" class="switch-input" name="is_active"
                                             {{ $module->is_active ? 'checked' : '' }}>
                                         <span class="switch-toggle-slider">
@@ -263,7 +263,7 @@
                                                     <form method="get"
                                                         action="{{ route('module-status', ['moduleId' => $submodule->code]) }}">
                                                         @csrf
-                                                        <label class="switch">
+                                                        <label for="is_active" class="switch">
                                                             <input data-id="{{ $submodule->code }}"
                                                                 class="toggle-class switch-input" type="checkbox"
                                                                 name="is_active" data-toggle="toggle"
