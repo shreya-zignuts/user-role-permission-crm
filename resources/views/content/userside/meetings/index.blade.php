@@ -126,7 +126,8 @@
 
                 if (meetingDate < new Date() && isChecked) {
                     // Meeting is past and switch is checked, deactivate it
-                    toggleSwitch.prop('checked', false); // Uncheck the toggle switch
+                    toggleSwitch.prop('checked', false);
+                    toggleSwitch.prop('disabled', true);
                     $.ajax({
                         type: "get",
                         dataType: "json",
@@ -296,7 +297,7 @@
                                         {{ $meeting->is_active ? 'checked' : '' }} data-date="{{ $meeting->date }}"
                                         data-time="{{ $meeting->time }}"
                                         data-route="{{ route('meetings-status', ['id' => $meeting->id]) }}"
-                                        data-toggle="toggle">
+                                        data-toggle="toggle" @if (!$meeting->is_active) disabled @endif>
                                     <span class="switch-toggle-slider">
                                         <span class="meetingDate d-none">{{ $meeting->date }}</span>
                                         <span class="meetingTime d-none">{{ $meeting->time }}</span>

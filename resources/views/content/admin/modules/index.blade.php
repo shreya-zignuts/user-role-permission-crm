@@ -3,17 +3,21 @@
 @section('title', 'Module - Dashboard')
 
 @section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
 @endsection
 
+@section('vendor-script')
+    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
+@endsection
+
 @section('page-script')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
+
+    <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -208,8 +212,7 @@
                                 </button>
                             </td>
                             <td>{{ $module->name }}</td>
-                            <td data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                data-bs-custom-class="tooltip-primary"
+                            <td data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="tooltip-primary"
                                 @if (strlen($module->description) > 20) title="{{ $module->description }}" @endif>
                                 {{ \Illuminate\Support\Str::limit($module->description, 20) }}
                             </td>
@@ -217,7 +220,7 @@
                                 <form method="POST" id="toggleSwitch{{ $module->id }}"
                                     action="{{ route('module-status', ['moduleId' => $module->code]) }}">
                                     @csrf
-                                    <label for="is_active" class="switch">
+                                    <label class="switch">
                                         <input type="checkbox" class="switch-input" name="is_active"
                                             {{ $module->is_active ? 'checked' : '' }}>
                                         <span class="switch-toggle-slider">
@@ -263,7 +266,7 @@
                                                     <form method="get"
                                                         action="{{ route('module-status', ['moduleId' => $submodule->code]) }}">
                                                         @csrf
-                                                        <label for="is_active" class="switch">
+                                                        <label class="switch">
                                                             <input data-id="{{ $submodule->code }}"
                                                                 class="toggle-class switch-input" type="checkbox"
                                                                 name="is_active" data-toggle="toggle"

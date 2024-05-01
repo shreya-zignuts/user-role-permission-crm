@@ -10,6 +10,7 @@
                         src="https://img.icons8.com/?size=80&id=lDBdGQL6CHlJ&format=png" width="27px" class="mb-1"
                         alt=""></h3>
                 @if ($errors->any())
+                    {{-- @dd(session()->all()) --}}
                     <div class="alert alert-danger">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -23,6 +24,9 @@
                         <input type="text" class="form-control" id="name" name="name"
                             placeholder="Enter Permission">
                     </div>
+                    @error('name')
+                        {{ $message }}
+                    @enderror
                     <div class="col-12 mb-4">
                         <label class="form-label" for="description">Description</label>
                         <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description"></textarea>
