@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use App\Models\User;
-use App\Models\Module;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class MenuServiceProvider extends ServiceProvider
@@ -43,8 +41,8 @@ class MenuServiceProvider extends ServiceProvider
         $verticalMenuFile = 'verticalMenu.json';
         $horizontalMenuFile = 'horizontalMenu.json';
 
-        $verticalMenuJson = file_get_contents(base_path('resources/menu/' . $verticalMenuFile));
-        $horizontalMenuJson = file_get_contents(base_path('resources/menu/' . $horizontalMenuFile));
+        $verticalMenuJson = file_get_contents(base_path('resources/menu/'.$verticalMenuFile));
+        $horizontalMenuJson = file_get_contents(base_path('resources/menu/'.$horizontalMenuFile));
 
         return [
             'verticalMenuData' => json_decode($verticalMenuJson),
@@ -60,8 +58,8 @@ class MenuServiceProvider extends ServiceProvider
         $verticalMenuFile = 'userVerticalMenu.json';
         $horizontalMenuFile = 'userHorizontalMenu.json';
 
-        $verticalMenuJson = file_get_contents(base_path('resources/menu/' . $verticalMenuFile));
-        $horizontalMenuJson = file_get_contents(base_path('resources/menu/' . $horizontalMenuFile));
+        $verticalMenuJson = file_get_contents(base_path('resources/menu/'.$verticalMenuFile));
+        $horizontalMenuJson = file_get_contents(base_path('resources/menu/'.$horizontalMenuFile));
 
         return [
             'verticalMenuData' => json_decode($verticalMenuJson),

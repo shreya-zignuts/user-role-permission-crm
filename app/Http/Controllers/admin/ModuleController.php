@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\admin;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use App\Models\Module;
 use Illuminate\Http\Request;
 
@@ -18,8 +18,8 @@ class ModuleController extends Controller
         if ($request->filled('search')) {
             $searchQuery = $request->search;
 
-            $query->Where('name', 'like', '%' . $searchQuery . '%')->orwhereHas('submodules', function ($subquery) use ($searchQuery) {
-                $subquery->where('name', 'like', '%' . $searchQuery . '%');
+            $query->Where('name', 'like', '%'.$searchQuery.'%')->orwhereHas('submodules', function ($subquery) use ($searchQuery) {
+                $subquery->where('name', 'like', '%'.$searchQuery.'%');
             });
         }
 
@@ -46,6 +46,7 @@ class ModuleController extends Controller
     public function edit($moduleId)
     {
         $module = Module::where('code', $moduleId)->firstOrFail();
+
         return view('content.admin.modules.edit-module', compact('module'));
     }
 
@@ -68,14 +69,14 @@ class ModuleController extends Controller
     {
         $module = Module::find($moduleId);
 
-        if (!$module) {
+        if (! $module) {
             return redirect()->back()->with('error', 'module not found');
         }
 
-        $module->is_active = !$module->is_active;
+        $module->is_active = ! $module->is_active;
         $module->save();
 
-        if (!$module->is_active) {
+        if (! $module->is_active) {
             $module->submodules()->update(['is_active' => false]);
         }
 

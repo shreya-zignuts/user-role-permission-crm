@@ -5,8 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response;
-use App\Http\Middleware\AdminCheckMiddleware;
 
 class RedirectIfNotAuthenticated
 {
@@ -26,6 +24,7 @@ class RedirectIfNotAuthenticated
                 return redirect()->route('login')->with('error', 'Forecefully Logout');
             }
         }
+
         return $next($request);
     }
 }

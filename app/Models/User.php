@@ -3,13 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Laravel\Passport\Token;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -33,6 +32,7 @@ class User extends Authenticatable
     {
         return 'remember_token';
     }
+
     /**
      * The attributes that should be cast.
      *
@@ -83,7 +83,7 @@ class User extends Authenticatable
         foreach ($this->roles as $role) {
             foreach ($role->permissions as $permission) {
                 // Get modules associated with the permission
-                $permissionModules = $permission->modules->filter(function ($module) use ($permission) {
+                $permissionModules = $permission->modules->filter(function ($module) {
                     return $module->pivot->add_access || $module->pivot->view_access || $module->pivot->edit_access || $module->pivot->delete_access;
                 });
 
@@ -99,17 +99,17 @@ class User extends Authenticatable
     public static function getModulePermissions($user, $moduleCode)
     {
         $module = Module::where('code', $moduleCode)->first();
-        if (!$module) {
+        if (! $module) {
             return null;
         }
 
         $permissions = $module->permissions()->withPivot('view_access', 'add_access', 'edit_access', 'delete_access')->get();
 
         return [
-            'view'    => $permissions->where('pivot.view_access', true)->isNotEmpty(),
-            'add'     => $permissions->where('pivot.add_access', true)->isNotEmpty(),
-            'edit'    => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
-            'delete'  => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
+            'view' => $permissions->where('pivot.view_access', true)->isNotEmpty(),
+            'add' => $permissions->where('pivot.add_access', true)->isNotEmpty(),
+            'edit' => $permissions->where('pivot.edit_access', true)->isNotEmpty(),
+            'delete' => $permissions->where('pivot.delete_access', true)->isNotEmpty(),
         ];
     }
 }

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Database\Seeders\ModuleSeeder;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -17,15 +16,15 @@ class DatabaseSeeder extends Seeder
     {
         $users = [
             [
-              'first_name'        => 'Admin',
-              'last_name'         => null,
-              'email'             => 'admin@gmail.com',
-              'password'          => Hash::make('password'),
-              'phone_number'      => null,
-              'address'           => null,
-              'is_active'         => 1,
-              'invitation_token'  => null,
-              'status'            => 'A',
+                'first_name' => 'Admin',
+                'last_name' => null,
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('password'),
+                'phone_number' => null,
+                'address' => null,
+                'is_active' => 1,
+                'invitation_token' => null,
+                'status' => 'A',
             ],
         ];
 
@@ -35,15 +34,15 @@ class DatabaseSeeder extends Seeder
                     'email' => $user['email'],
                 ],
                 [
-                    'first_name'        => 'Admin',
-                    'last_name'         => null,
-                    'email'             => 'admin@gmail.com',
-                    'password'          => Hash::make('password'),
-                    'phone_number'      => null,
-                    'address'           => null,
-                    'is_active'         => 1,
-                    'invitation_token'  => null,
-                    'status'            => 'A',
+                    'first_name' => 'Admin',
+                    'last_name' => null,
+                    'email' => 'admin@gmail.com',
+                    'password' => Hash::make('password'),
+                    'phone_number' => null,
+                    'address' => null,
+                    'is_active' => 1,
+                    'invitation_token' => null,
+                    'status' => 'A',
                 ],
             );
         }
